@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body style="background-color: #008FF7;">
+		<!--所有的页面程序必须写在该div里-->
+		<div class="mui-content" style="background-color: transparent; margin: 5%;">
+			<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
+			<h3 style="text-align: center;color: #FFFFFF;margin-top: 20px;">移动办公平台</h3>
+
+			<input type="text" id="username" style="margin-top: 40px;" />
+
+			<input type="password" id="password" style="margin-top: 40px;" />
+
+			<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary" style="background-color: #FF8C30; margin-top: 40px;">登录</button>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			(function($, doc) {
+				var loginBtn = doc.getElementById("loginBtn");
+
+				$.plusReady(function() {
+					loginBtn.addEventListener("tap", function(event) {
+						$.openWindow({
+							url: 'catalog.html',
+							id: 'catalog',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+						})
+					}, false);
+					
+				});
+
+			}(mui, document));
+		</script>
+
+	</body>
+
+</html>
