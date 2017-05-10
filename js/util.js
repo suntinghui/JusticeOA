@@ -1,4 +1,3 @@
-
 //判断输入字符串是否为空或者全部都是空格
 function isNullStr(str) {
 	if(str == "") return true;
@@ -36,4 +35,21 @@ function backAction() {
 		}
 
 	}, false);
+}
+
+function getHttpErrorDesp(type) {
+	var desp = '未知异常,请重试';
+	if(type == 'timeout') {
+		desp = '网络请求超进,请重试';
+	} else if(type == 'error') {
+		desp = '请求出错,请稍候再试';
+	} else if(type == 'abort') {
+		desp = '请求被终止,请重试';
+	} else if(type == 'parsererror') {
+		desp = '服务器返回数据异常,请重试';
+	} else if(type == 'null') {
+		desp = '服务器返回数据为空,请重试';
+	}
+
+	return desp;
 }

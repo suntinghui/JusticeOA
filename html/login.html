@@ -11,8 +11,12 @@
 			.content-div {
 				background-color: #008FF7;
 				padding: 5%;
+				margin-top: 20%;
 				position: absolute;
-				top: 10%;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
 			}
 			
 			#userNameText {
@@ -36,7 +40,7 @@
 
 	<body style="background-color: #008FF7;">
 		<!--所有的页面程序必须写在该div里-->
-		<div class="mui-content">
+		<div class="mui-content" style="position: relative;">
 			<div class="content-div">
 				<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
 				<h3 style="text-align: center;color: #FFFFFF;margin-top: 18px;">移动办公平台</h3>
@@ -52,6 +56,7 @@
 
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
 			var userNameText = document.getElementById("userNameText");
@@ -104,36 +109,39 @@
 								show: {
 									aniShow: 'pop-in'
 								},
+								waiting: {
+									autoShow: true, //自动显示等待框，默认为true
+									title: '正在登录...',
+								}
 							});
 							break;
 
 						case 1:
-							mui.toast("账户不存在");
-							break;
+							mui.alert("账户不存在", "提示", null);
 							break;
 
 						case 2:
-							mui.toast("密码错误");
+							mui.alert("密码错误", "提示", null);
 							break;
 
 						case 3:
-							mui.toast("没有移动办公权限");
+							mui.alert("没有移动办公权限", "提示", null);
 							break;
 
 						case 4:
-							mui.toast("无效的移动端设备");
+							mui.alert("无效的移动端设备", "提示", null);
 							break;
 
 						case 5:
-							mui.toast("设备与账号不匹配");
+							mui.alert("设备与账号不匹配", "提示", null);
 							break;
 
 						case 6:
-							mui.toast("该设备已被禁用");
+							mui.alert("该设备已被禁用", "提示", null);
 							break;
 
 						default:
-							mui.toast("登录失败，未知异常");
+							mui.alert("登录失败，未知异常", "提示", null);
 							break;
 					}
 				});

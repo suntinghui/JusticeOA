@@ -80,6 +80,7 @@
 
 			<script src="../js/mui.min.js"></script>
 			<script type="text/javascript" src="../js/constants.js"></script>
+			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
 				var currentPage = 1; // 当前页码
@@ -132,7 +133,7 @@
 							});
 						},
 						error: function(xhr, type, errorThrown) {
-							mui.toast(type);
+							mui.alert(getHttpErrorDesp(type), "提示", null);
 
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting();
@@ -187,8 +188,22 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
-					var id = this.getAttribute("id");
-					mui.toast('详情开发中，请稍候...');
+					var meetingId = this.getAttribute("id");
+					mui.openWindow({
+						url: 'meeting_detail.html',
+						id: 'meeting_detail',
+						extras: {
+							meetingId: meetingId
+						},
+						show: {
+							autoShow: false,
+							aniShow: 'pop-in'
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+							title: '正在登录...',
+						}
+					});
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {

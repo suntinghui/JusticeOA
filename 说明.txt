@@ -1,6 +1,0 @@
-1、manifest.json,修改为bebug模式。
-
-2、plusready只有在页面初始化的时候才调用，如果被缓存的页面再次进入不调用
-
-3、mui常用方法
-http://www.cnblogs.com/gaodehao/p/6478112.html
