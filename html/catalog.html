@@ -3,108 +3,158 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>顺义司法局</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.img {
+				width: 50%;
+				height: 50%;
+			}
+		</style>
+
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>-->
 			<h1 class="mui-title" style="color: #FFFFFF;">首页</h1>
+			<a id="logout" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;注销&nbsp;&nbsp;</a>
 		</header>
+
 		<div class="mui-content">
 			<ul class="mui-table-view mui-grid-view mui-grid-9">
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="meeting_catalog.html">
-						<span class="mui-icon mui-icon-home"></span>
+					<a href="javascript:void(0)" id="meeting_catalog.html">
+						<img src="../img/icon_1.png" class="img" />
 						<div class="mui-media-body">会议通知</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="todofile_catalog.html">
-						<span class="mui-icon mui-icon-email"><span class="mui-badge">5</span></span>
+					<a href="javascript:void(0)" id="todofile_catalog.html">
+						<img src="../img/icon_2.png" class="img" />
 						<div class="mui-media-body">待办文件</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-chatbubble"></span>
+						<img src="../img/icon_3.png" class="img" />
 						<div class="mui-media-body">待办事宜</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-location"></span>
+						<img src="../img/icon_4.png" class="img" />
 						<div class="mui-media-body">通知公告</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="#">
-						<span class="mui-icon mui-icon-search"></span>
+					<a href="javascript:void(0)" id="todoread_catalog.html">
+						<img src="../img/icon_5.png" class="img" />
 						<div class="mui-media-body">待阅文件</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-phone"></span>
+						<img src="../img/icon_6.png" class="img" />
 						<div class="mui-media-body">工作报表</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-gear"></span>
+						<img src="../img/icon_7.png" class="img" />
 						<div class="mui-media-body">信息刊物</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-info"></span>
+						<img src="../img/icon_8.png" class="img" />
 						<div class="mui-media-body">值班表</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="#">
-						<span class="mui-icon mui-icon-more"></span>
+						<img src="../img/icon_9.png" class="img" />
 						<div class="mui-media-body">通讯录</div>
 					</a>
 				</li>
 			</ul>
 		</div>
-	</body>
-	<script src="../js/mui.min.js"></script>
-	<script>
-		mui.init({
-			swipeBack: false //关闭右滑关闭功能
-		});
 
-		(function($, doc) {
-			$.init({
-				swipeBack: false //关闭右滑关闭功能
-			});
-			$.plusReady(function() {
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
 
-				var wv = plus.webview.currentWebview();
-				// 关闭侧滑返回功能
-				wv.setStyle({
-					'popGesture': 'none'
+		<script>
+			mui.init();
+
+			(function($, doc) {
+				$.plusReady(function() {
+					var wv = plus.webview.currentWebview();
+					// 关闭侧滑返回功能
+					wv.setStyle({
+						'popGesture': 'none'
+					});
 				});
+			}(mui, document));
 
-				var backButtonPress = 0;
-				$.back = function(event) {
-					backButtonPress++;
-					if(backButtonPress > 1) {
-						plus.runtime.quit();
-					} else {
-						plus.nativeUI.toast('再按一次退出应用');
+			var logout = document.getElementById("logout");
+			logout.addEventListener('tap', function(event) {
+				logout();
+			}, false);
+
+			var logout = function() {
+				mui.confirm('您确定要注销登录吗？', '提示', ['取消', '确认'], function(e) {
+					if(e.index == 1) {
+						var tokenKey = window.localStorage.getItem(TokenKey);
+						var url = HOST + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
+						console.log(url);
+						mui.getJSON(url, {}, function(data) {
+							// 没有返回值，默认成功
+							if(mui.os.ios || mui.os.ipad || mui.os.iphone) {
+								// 获取所有Webview窗口
+								var curr = plus.webview.currentWebview();
+								var wvs = plus.webview.all();
+								for(var i = 0, len = wvs.length; i < len; i++) {
+									//关闭除setting页面外的其他页面
+									if(wvs[i].getURL() == curr.getURL())
+										continue;
+									plus.webview.close(wvs[i]);
+								}
+								//打开login页面后再关闭setting页面
+								plus.webview.open('login.html');
+								curr.close();
+
+							} else {
+								plus.runtime.quit();
+							}
+
+							mui.toast("已退出登录");
+						});
 					}
-					setTimeout(function() {
-						backButtonPress = 0;
-					}, 1000);
-					return false;
-				};
+				})
+			};
+
+			// 宫格点击事件
+			mui('.mui-grid-view').on('tap', 'a', function(e) {
+				var id = this.getAttribute("id");
+				if(id == null) {
+					mui.toast("建设中，请稍候...");
+					return;
+				}
+
+				mui.openWindow({
+					url: id,
+					id: id,
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+				});
 			});
-		}(mui, document));
-	</script>
+		</script>
+
 	</body>
 
 </html>

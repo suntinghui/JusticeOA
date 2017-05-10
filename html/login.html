@@ -14,34 +14,101 @@
 			<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
 			<h3 style="text-align: center;color: #FFFFFF;margin-top: 20px;">移动办公平台</h3>
 
-			<input type="text" id="username" style="margin-top: 40px;" />
+			<input type="text" id="userNameText" value="anjianfeng" style="margin-top: 40px;" />
 
-			<input type="password" id="password" style="margin-top: 40px;" />
+			<input type="password" id="passwordText" value="abc" style="margin-top: 40px;" />
 
 			<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary" style="background-color: #FF8C30; margin-top: 40px;">登录</button>
 		</div>
 
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+
 		<script type="text/javascript">
+			var userNameText = document.getElementById("userNameText");
+			var passwordText = document.getElementById("passwordText");
+			var loginBtn = document.getElementById("loginBtn");
+
+			loginBtn.addEventListener("tap", function(event) {
+				if(checkInput()) {
+					loginReq();
+				}
+			}, false);
+
 			mui.init();
+
 			(function($, doc) {
-				var loginBtn = doc.getElementById("loginBtn");
-
 				$.plusReady(function() {
-					loginBtn.addEventListener("tap", function(event) {
-						$.openWindow({
-							url: 'catalog.html',
-							id: 'catalog',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-						})
-					}, false);
-					
-				});
 
+				});
 			}(mui, document));
+
+			var checkInput = function() {
+				if(userNameText.value.length == 0) {
+					mui.toast("请输入用户名");
+					return false;
+				}
+
+				if(passwordText.value.length == 0) {
+					mui.toast("请输入密码");
+					return false;
+				}
+
+				return true;
+			}
+
+			var loginReq = function() {
+				var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + "123456";
+				var url = HOST + "Identity.ashx?Commond=AppLogin" + argus;
+				mui.getJSON(url, {}, function(resp) {
+					console.log('登录响应：' + JSON.stringify(resp));
+
+					switch(resp.LoginResult - 0) {
+						case 0:
+							// 保存用户信息
+							window.localStorage.setItem(TokenKey, resp.TokenKey);
+							
+							mui.openWindow({
+								url: 'catalog.html',
+								id: 'catalog',
+								preload: true,
+								show: {
+									aniShow: 'pop-in'
+								},
+							});
+							break;
+
+						case 1:
+							mui.toast("账户不存在");
+							break;
+							break;
+
+						case 2:
+							mui.toast("密码错误");
+							break;
+
+						case 3:
+							mui.toast("没有移动办公权限");
+							break;
+
+						case 4:
+							mui.toast("无效的移动端设备");
+							break;
+
+						case 5:
+							mui.toast("设备与账号不匹配");
+							break;
+
+						case 6:
+							mui.toast("该设备已被禁用");
+							break;
+
+						default:
+							mui.toast("登录失败，未知异常");
+							break;
+					}
+				});
+			};
 		</script>
 
 	</body>

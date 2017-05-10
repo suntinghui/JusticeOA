@@ -6,6 +6,13 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.img {
+				width: 50%;
+				height: 50%;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -18,14 +25,14 @@
 		<div class="mui-content">
 			<ul class="mui-table-view mui-grid-view mui-grid-9">
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="meeting_lastest_list.html">
-						<span class="mui-icon mui-icon-home"></span>
+					<a href="javascript:void(0)" id="meeting_lastest_list.html">
+						<img src="../img/icon_11.png" class="img" />
 						<div class="mui-media-body">最新会议</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="meeting_more_list.html">
-						<span class="mui-icon mui-icon-email"></span>
+					<a href="javascript:void(0)" id="meeting_more_list.html">
+						<img src="../img/icon_12.png" class="img" />
 						<div class="mui-media-body">更多会议</div>
 					</a>
 				</li>
@@ -35,6 +42,29 @@
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init()
+
+			// 宫格点击事件
+			mui('.mui-table-view-cell').on('tap', 'a', function(e) {
+				var id = this.getAttribute("id");
+				if(id == null) {
+					mui.toast("建设中，请稍候...");
+					return;
+				}
+
+				mui.openWindow({
+					url: id,
+					id: id,
+					show: {
+						autoShow:false,
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						// TODO
+						autoShow: false, //自动显示等待框，默认为true
+						title: '正在加载...', //等待对话框上显示的提示内容
+					}
+				});
+			});
 		</script>
 	</body>
 
