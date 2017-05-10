@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>待办文件</title>
+		<title>已办文件</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 
@@ -14,6 +14,7 @@
 			}
 			
 			.urgentlevel {
+				margin-left: 20px;
 				float: right;
 				color: #555555;
 			}
@@ -43,7 +44,7 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;">待办文件</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;">已办文件</h1>
 		</header>
 
 		<footer class="mui-bar mui-bar-footer">
@@ -135,7 +136,7 @@
 						FEG_30_COL_9994: ""
 					};
 
-					var url = HOST + "DocManager.ashx?Commond=GetHandingList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = HOST + "DocManager.ashx?Commond=GetHisList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					console.log(url);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据

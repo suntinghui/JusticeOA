@@ -25,13 +25,13 @@
 		<div class="mui-content">
 			<ul class="mui-table-view mui-grid-view mui-grid-9">
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="todofile_lastest_list.html">
+					<a href="javascript:void(0)" id="todofile_lastest_list.html">
 						<img src="../img/icon_21.png" class="img" />
 						<div class="mui-media-body">待办文件</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="todolist_history_list.html">
+					<a href="javascript:void(0)" id="todofile_history_list.html">
 						<img src="../img/icon_22.png" class="img" />
 						<div class="mui-media-body">已办文件</div>
 					</a>
@@ -42,6 +42,28 @@
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init()
+
+			// 宫格点击事件
+			mui('.mui-table-view-cell').on('tap', 'a', function(e) {
+				var id = this.getAttribute("id");
+				if(id == null) {
+					mui.toast("建设中，请稍候...");
+					return;
+				}
+
+				mui.openWindow({
+					url: id,
+					id: id,
+					show: {
+						autoShow: false,
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						autoShow: false, //自动显示等待框，默认为true
+						title: '正在加载...',
+					}
+				});
+			});
 		</script>
 	</body>
 

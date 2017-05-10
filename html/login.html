@@ -3,22 +3,51 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>顺义司法局移动办公平台</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.content-div {
+				background-color: #008FF7;
+				padding: 5%;
+				position: absolute;
+				top: 10%;
+			}
+			
+			#userNameText {
+				margin-top: 40px;
+			}
+			
+			#passwordText {
+				margin-top: 10px;
+			}
+			
+			#loginBtn {
+				background-color: orange;
+				margin-top: 30px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				font-size: 17px;
+			}
+		</style>
+
 	</head>
 
 	<body style="background-color: #008FF7;">
 		<!--所有的页面程序必须写在该div里-->
-		<div class="mui-content" style="background-color: transparent; margin: 5%;">
-			<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
-			<h3 style="text-align: center;color: #FFFFFF;margin-top: 20px;">移动办公平台</h3>
+		<div class="mui-content">
+			<div class="content-div">
+				<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
+				<h3 style="text-align: center;color: #FFFFFF;margin-top: 18px;">移动办公平台</h3>
 
-			<input type="text" id="userNameText" value="anjianfeng" style="margin-top: 40px;" />
+				<input type="text" id="userNameText" placeholder="请输入用户名" value="zhouxiaomin" />
 
-			<input type="password" id="passwordText" value="abc" style="margin-top: 40px;" />
+				<input type="password" id="passwordText" placeholder="请输入密码" value="aaaaaa" />
 
-			<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary" style="background-color: #FF8C30; margin-top: 40px;">登录</button>
+				<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary">登&nbsp;&nbsp;&nbsp;录</button>
+
+			</div>
 		</div>
 
 		<script src="../js/mui.min.js"></script>
@@ -67,7 +96,7 @@
 						case 0:
 							// 保存用户信息
 							window.localStorage.setItem(TokenKey, resp.TokenKey);
-							
+
 							mui.openWindow({
 								url: 'catalog.html',
 								id: 'catalog',

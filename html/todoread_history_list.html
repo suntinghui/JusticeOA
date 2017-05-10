@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>已阅文件</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.footer-page {
+				position: relative;
+				bottom: 12px;
+			}
+			
+			.urgentlevel {
+				float: right;
+				color: #555555;
+			}
+			
+			.item-title {
+				color: #333333;
+				font-size: 16px;
+			}
+			
+			.item-time {
+				color: #555555;
+				margin-top: 10px;
+			}
+			
+			.item-address {
+				color: #555555;
+				margin-top: 10px;
+			}
+			
+			.mui-popover {
+				height: 300px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">已阅文件</h1>
+		</header>
+
+		<footer class="mui-bar mui-bar-footer">
+			<div class="mui-content-padded footer-page">
+				<ul class="mui-pager">
+					<li class="mui-previous">
+						<a href="javascript:void(0)" id="prePage">
+							上一页
+						</a>
+					</li>
+					<li class="mui-content-padded">
+						<a href="#selectPagePopover" style="color: #666666;" id="selectPage">
+							1/1
+						</a>
+					</li>
+					<li class="mui-next">
+						<a href="javascript:void(0)" id="nextPage">
+							下一页
+						</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="list">
+			</ul>
+
+			<!-- 选择页码-->
+			<div id="selectPagePopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view" id="selectPageUL">
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<script src="../js/mui.min.js"></script>
+			<script type="text/javascript" src="../js/constants.js"></script>
+
+			<script type="text/javascript">
+				var currentPage = 1; // 当前页码
+				var totalRecord = 0; // 数据总条数
+				var totalPages = 1; // 总页数
+
+				mui.init();
+
+				window.onload = function() {
+					requestList();
+				};
+
+				function requestList() {
+					plus.nativeUI.showWaiting("正在加载...");
+
+					var pageInfo = {
+						CurrentPage: currentPage,
+						PageSize: PAGE_SIZE
+					};
+					var searchInfo = {
+						RecordId: "",
+						InstanceId: "",
+						Instance: {
+							InstanceId: "",
+							FlowTitle: "",
+							DispatchUnit: "",
+							UrgentLevl: "",
+							UrgentLevlName: "",
+							FlowTypeId: "",
+							FlowTypeName: "",
+							CreateDate: "",
+							Leader: "",
+							LeaderName: "",
+							SearchStartDate: "",
+							SearchEndDate: ""
+						},
+						Hander: "",
+						Role: "",
+						FEG_30_COL_30: "",
+						FEG_30_COL_40: "",
+						FEG_30_COL_50: "",
+						FEG_30_COL_90: "",
+						FEG_30_COL_100: "",
+						FEG_30_COL_110: "",
+						FEG_30_COL_125: "",
+						FEG_30_COL_190: "",
+						FEG_30_COL_200: "",
+						FEG_30_COL_9994: ""
+					};
+
+					var url = HOST + "DocManager.ashx?Commond=GetReadedList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					console.log(url);
+					mui.ajax(url, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'get', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							console.log(JSON.stringify(data));
+
+							responseList(data);
+							mui.plusReady(function() {
+								plus.nativeUI.closeWaiting();
+								mui.currentWebview.show();
+							});
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.toast(type);
+
+							mui.plusReady(function() {
+								plus.nativeUI.closeWaiting();
+							});
+						}
+					});
+
+				};
+
+				function responseList(resp) {
+					totalRecord = resp.PageInfo.TotalRecordSize;
+					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
+
+					initSelectPage();
+
+					var list = document.getElementById("list");
+					// 首先清空下面的所有结点
+					while(list.hasChildNodes()) {
+						list.removeChild(list.firstChild);
+					}
+					// 开始添加新的节点
+					var fragment = document.createDocumentFragment();
+					var li;
+					for(var i = 0; i < resp.ListRecord.length; i++) {
+						var record = resp.ListRecord[i];
+						li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = record.MettingId;
+						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>主责领导：' + record.Instance.LeaderName + '</span><span class="urgentlevel">' + record.FEG_30_COL_9994 + '</span></p></div></div>';
+						fragment.appendChild(li);
+					}
+					list.appendChild(fragment);
+				};
+
+				function initSelectPage() {
+					document.getElementById("selectPage").text = currentPage + "/" + totalPages;
+
+					var selectPageUL = document.getElementById("selectPageUL");
+					while(selectPageUL.hasChildNodes()) {
+						selectPageUL.removeChild(selectPageUL.firstChild);
+					}
+
+					var fragment = document.createDocumentFragment();
+					for(var i = 1; i <= totalPages; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.id = i + "";
+						li.innerHTML = '<a href="javascript:void(0)" id="' + i + '">第' + i + '页</a>';
+						fragment.appendChild(li);
+					}
+					selectPageUL.appendChild(fragment);
+				}
+
+				mui('#list').on('tap', 'li', function(e) {
+					var id = this.getAttribute("id");
+					mui.toast('详情开发中，请稍候...');
+				});
+
+				mui('#selectPageUL').on('tap', 'li', function(e) {
+					mui('#selectPagePopover').popover('hide');
+
+					var id = this.getAttribute("id");
+					if(currentPage == id)
+						return;
+
+					currentPage = id;
+					requestList();
+				});
+
+				document.getElementById("prePage").addEventListener('tap', function(event) {
+					if(currentPage == 1) {
+						mui.toast("当前已是首页");
+						return;
+					}
+
+					currentPage--;
+					requestList();
+				});
+
+				document.getElementById("nextPage").addEventListener('tap', function(event) {
+					if(currentPage == totalPages) {
+						mui.toast("当前已是尾页");
+						return;
+					}
+
+					currentPage++;
+					requestList();
+				});
+
+				mui('.mui-scroll-wrapper').scroll();
+			</script>
+	</body>
+
+</html>
