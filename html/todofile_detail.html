@@ -3,9 +3,10 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>会议详情</title>
+		<title>文件详情</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/feedback.css" />
 
 		<style>
 			body {
@@ -35,16 +36,21 @@
 			}
 			
 			.item-div {
-				margin: 20px 20px 15px 10px;
+				margin: 20px 20px 20px 5px;
+				padding-bottom: 20px;
 				display: -webkit-box;
 				-webkit-box-pack: center;
 				-webkit-box-align: center;
+				border-bottom: solid;
+				border-bottom-width: 1px;
+				border-bottom-color: #F2F2F2;
 			}
 			
 			.item-name {
 				width: 30%;
 				color: #666666;
 				font-size: 16px;
+				text-align: center;
 			}
 			
 			.item-value {
@@ -53,6 +59,56 @@
 				color: #333333;
 				font-size: 16px;
 			}
+			
+			#leaderInfo p {
+				line-height: 15px;
+				font-size: 16px;
+				color: #666666;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before {
+				content: '\e413';
+				/*方形框未选中*/
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before {
+				content: '\e443';
+				/*方形框选中状态*/
+			}
+			
+			.mui-checkbox.mui-left input[type=checkbox] {
+				left: 0px;
+				/*该值表示方形框距离左边的距离*/
+			}
+			
+			.mui-radio.mui-left input[type=radio] {
+				left: 0px;
+				/*该值表示方形框距离左边的距离*/
+			}
+			
+			.mui-checkbox.mui-left label,
+			.mui-radio.mui-left label {
+				padding-right: 10px;
+				padding-left: 35px;
+				font-size: 16px;
+				color: #666666;
+			}
+			
+			.checkbox {
+				display: inline-block;
+			}
+			
+			.button-div {
+				margin-bottom: 20px;
+				overflow: hidden;
+				zoom: 1;
+			}
+			
+			.oper-btn {
+				margin: 5px 10px;
+				width: 25%;
+				float: left;
+			}
 		</style>
 	</head>
 
@@ -60,19 +116,44 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;">会议详情</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;">文件详情</h1>
 		</header>
 
 		<div class="mui-content">
+
+			<!-- 常用意见具体内容，记得导入feedback.css-->
+			<div id="popover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="javascript:void(0)">同意</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="javascript:void(0)">不同意</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="javascript:void(0)">内容不明确</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="javascript:void(0)">修改后重新提交</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
 			<div style="padding: 10px 10px;">
 				<div id="segmentedControl" class="mui-segmented-control">
-					<a class="mui-control-item mui-active" href="#item1">会议内容</a>
-					<a class="mui-control-item" href="#item2">参会信息</a>
+					<a class="mui-control-item mui-active" href="#item1">正文</a>
+					<a class="mui-control-item" href="#item2">领导批示</a>
 				</div>
 			</div>
 
 			<div>
-				<!--会议内容-->
+				<!--正文-->
 				<div id="item1" class="mui-control-content mui-active">
 					<div class="mui-scroll-wrapper scroll-content">
 						<div class="mui-scroll left-content" id="meetingContent">
@@ -83,10 +164,142 @@
 					</div>
 				</div>
 
-				<!--参会信息-->
+				<!--领导批示-->
 				<div id="item2" class="mui-control-content">
 					<div class="mui-scroll-wrapper scroll-content">
-						<div class="mui-scroll right-content" id="meetingInfo">
+						<div class="mui-scroll right-content" id="leaderInfo">
+							<div class="item-div">
+								<div class="item-name">主责领导</div>
+								<div class="item-value">
+									<p>张文勇</p>
+									<p>送阅时间：2017-05-07</p>
+									<p>报审时间：2017-05-07</p>
+									<p>批审时间：2017-05-07</p>
+									<p>上网方式：留存&nbsp;&nbsp;不公开</p>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">督办人</div>
+								<div class="item-value">
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>周小民</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>商爽</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>翟月明</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>周伟</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">承办科室</div>
+								<div class="item-value">
+									<div class="mui-input-row mui-radio mui-left checkbox">
+										<label>办公室</label>
+										<input name="radio1" type="radio">
+									</div>
+
+									<div class="mui-input-row mui-radio mui-left checkbox">
+										<label>政工科</label>
+										<input name="radio1" type="radio">
+									</div>
+
+									<div class="mui-input-row mui-radio mui-left checkbox">
+										<label>工会</label>
+										<input name="radio1" type="radio">
+									</div>
+
+									<div class="mui-input-row mui-radio mui-left checkbox">
+										<label>法制科</label>
+										<input name="radio1" type="radio">
+									</div>
+
+									<div class="mui-input-row mui-radio mui-left checkbox">
+										<label>基层科</label>
+										<input name="radio1" type="radio">
+									</div>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">协办科室</div>
+								<div class="item-value">
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>办公室</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>基层科</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>政工科</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>法制科</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+
+									<div class="mui-input-row mui-checkbox mui-left checkbox">
+										<label>督查科</label>
+										<input name="duban" value="zhou" type="checkbox">
+									</div>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">主责领导批示</div>
+								<div class="item-value">
+									<a class="mui-pull-right mui-inline" href="#popover">
+										常用意见
+										<span class="mui-icon mui-icon-arrowdown"></span>
+									</a>
+
+									<textarea id='question' class="mui-input-clear question" rows="4" placeholder="请选择或输入意见"></textarea>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">阅示领导批示</div>
+								<div class="item-value">
+									<p>周建伟 局领导 2017-04-07 09:30</p>
+									<p>周海英 局领导 2017-04-12 10:20</p>
+									<p>胡银全 局领导 2017-04-16 15:00</p>
+									<p>管学文 局领导 2017-05-07 16:40</p>
+								</div>
+							</div>
+
+							<div class="item-div">
+								<div class="item-name">办理情况</div>
+								<div class="item-value">
+									<p>正在流转</p>
+								</div>
+							</div>
+
+							<div class="button-div">
+								<button type="button" class="mui-btn mui-btn-warning oper-btn">保存</button>
+								<button type="button" class="mui-btn mui-btn-warning oper-btn">提交下一步</button>
+								<button type="button" class="mui-btn mui-btn-warning oper-btn">存档</button>
+								<button type="button" class="mui-btn mui-btn-warning oper-btn">退回来源</button>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -101,8 +314,6 @@
 
 		<script>
 			mui.init();
-			
-			var meetingId = window.localStorage.getItem('meetingId');
 
 			window.onload = function() {
 				requestDetail();
@@ -115,105 +326,10 @@
 			})(mui);
 
 			function requestDetail() {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载...");
-				});
 
-				var url = HOST + "Meeting.ashx?Commond=GetMeetingInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&mettingId=" + meetingId;
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						console.log(JSON.stringify(data));
-						responseDetail(data);
-
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting();
-							mui.currentWebview.show();
-						});
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting();
-						});
-					}
-				});
 			};
 
-			function responseDetail(resp) {
-				requestAttList(resp.BusId);
-				//refreshContent(resp);
-				refreshInfo(resp);
-			};
-
-			function refreshContent(resp) {
-				var meetingContent = document.getElementById("meetingContent");
-				// 首先清空下面的所有结点
-				while(meetingContent.hasChildNodes()) {
-					meetingContent.removeChild(meetingContent.firstChild);
-				}
-
-				// 开始添加新的节点
-				var fragment = document.createDocumentFragment();
-				var p = document.createElement('p');
-				p.className = 'meeting-content';
-				p.innerText = resp.ByteContent;
-				fragment.appendChild(p);
-				meetingContent.appendChild(fragment);
-			}
-
-			function refreshInfo(resp) {
-				var meetingInfo = document.getElementById("meetingInfo");
-				// 首先清空下面的所有结点
-				while(meetingInfo.hasChildNodes()) {
-					meetingInfo.removeChild(meetingInfo.firstChild);
-				}
-				// 开始添加新的节点
-				var fragment = document.createDocumentFragment();
-				fragment.appendChild(createInfoItem("会议主题：", resp.MettingTitle));
-				fragment.appendChild(createInfoItem("开始时间：", resp.StartDate));
-				fragment.appendChild(createInfoItem("结束时间：", resp.EndDate));
-				fragment.appendChild(createInfoItem("会议地点：", resp.MettingAddress));
-				fragment.appendChild(createInfoItem("会议类型：", resp.MettingTypeName));
-				fragment.appendChild(createInfoItem("参会人员：", resp.Participant));
-
-				meetingInfo.appendChild(fragment);
-			}
-
-			function createInfoItem(name, value) {
-				var div = document.createElement('div');
-				div.className = "item-div";
-				div.innerHTML = '<div class="item-name">' + name + '</div><div class="item-value">' + value + '</div>';
-				return div;
-			}
-
-			// 查询附件信息
-			function requestAttList(busId) {
-				var url = HOST + "ATTManager.ashx?Commond=GetAttList&busId=" + busId;
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						console.log(JSON.stringify(data));
-						
-						plus.nativeUI.closeWaiting();
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
-
-			}
+			function responseDetail(resp) {};
 		</script>
 	</body>
 

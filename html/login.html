@@ -71,12 +71,6 @@
 
 			mui.init();
 
-			(function($, doc) {
-				$.plusReady(function() {
-
-				});
-			}(mui, document));
-
 			var checkInput = function() {
 				if(userNameText.value.length == 0) {
 					mui.toast("请输入用户名");

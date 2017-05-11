@@ -54,12 +54,12 @@
 				mui.openWindow({
 					url: id,
 					id: id,
+					preload: true,
 					show: {
-						autoShow:false,
 						aniShow: 'pop-in'
 					},
 					waiting: {
-						autoShow: false, //自动显示等待框，默认为true
+						autoShow: true, //自动显示等待框，默认为true
 						title: '正在加载...', 
 					}
 				});

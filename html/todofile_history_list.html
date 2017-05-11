@@ -100,8 +100,10 @@
 				};
 
 				function requestList() {
-					plus.nativeUI.showWaiting("正在加载...");
-
+					mui.plusReady(function() {
+						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+					});
+					
 					var pageInfo = {
 						CurrentPage: currentPage,
 						PageSize: PAGE_SIZE
@@ -147,20 +149,20 @@
 							'Content-Type': 'application/json'
 						},
 						success: function(data) {
+							mui.plusReady(function() {
+								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+							});
+							
 							console.log(JSON.stringify(data));
 
 							responseList(data);
-							mui.plusReady(function() {
-								plus.nativeUI.closeWaiting();
-								mui.currentWebview.show();
-							});
 						},
 						error: function(xhr, type, errorThrown) {
-							mui.alert(getHttpErrorDesp(type), "提示", null);
-
 							mui.plusReady(function() {
-								plus.nativeUI.closeWaiting();
+								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
+							
+							mui.alert(getHttpErrorDesp(type), "提示", null);
 						}
 					});
 
@@ -192,7 +194,7 @@
 				};
 
 				function initSelectPage() {
-					document.getElementById("selectPage").text = currentPage + "/" + totalPages;
+					document.getElementById("selectPage").innerText = currentPage + "/" + totalPages;
 
 					var selectPageUL = document.getElementById("selectPageUL");
 					while(selectPageUL.hasChildNodes()) {
@@ -211,8 +213,10 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
-					var id = this.getAttribute("id");
-					mui.toast('详情开发中，请稍候...');
+					mui.openWindow({
+						url: 'todofile_detail.html',
+						id: 'todofile_detail',
+					});
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {

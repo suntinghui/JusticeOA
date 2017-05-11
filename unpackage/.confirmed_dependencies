@@ -4,7 +4,10 @@
     "resources": [
       "css/mui.min.css",
       "js/mui.min.js",
-      "js/constants.js"
+      "js/constants.js",
+      "js/base64.js",
+      "js/util.js",
+      "fonts/mui.ttf"
     ],
     "refer": [],
     "priority": 0
@@ -15,7 +18,8 @@
       "css/mui.min.css",
       "js/mui.min.js",
       "js/constants.js",
-      "js/util.js"
+      "js/util.js",
+      "fonts/mui.ttf"
     ],
     "refer": [
       "html/meeting_detail.html"
@@ -28,9 +32,12 @@
       "css/mui.min.css",
       "js/mui.min.js",
       "js/constants.js",
-      "js/util.js"
+      "js/util.js",
+      "fonts/mui.ttf"
     ],
-    "refer": [],
+    "refer": [
+      "html/meeting_detail.html"
+    ],
     "priority": 0
   },
   "html/meeting_catalog.html": {
@@ -39,7 +46,8 @@
       "css/mui.min.css",
       "js/mui.min.js",
       "img/icon_11.png",
-      "img/icon_12.png"
+      "img/icon_12.png",
+      "fonts/mui.ttf"
     ],
     "refer": [
       "html/meeting_lastest_list.html",
@@ -55,7 +63,9 @@
       "js/constants.js",
       "js/util.js"
     ],
-    "refer": [],
+    "refer": [
+      "html/todofile_detail.html"
+    ],
     "priority": 0
   },
   "html/todofile_history_list.html": {
@@ -75,7 +85,8 @@
       "css/mui.min.css",
       "js/mui.min.js",
       "img/icon_21.png",
-      "img/icon_22.png"
+      "img/icon_22.png",
+      "fonts/mui.ttf"
     ],
     "refer": [
       "html/todofile_lastest_list.html",
@@ -166,5 +177,16 @@
       "html/catalog.html"
     ],
     "priority": 0
+  },
+  "html/todofile_detail.html": {
+    "resources": [
+      "css/feedback.css",
+      "js/base64.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
   }
 }

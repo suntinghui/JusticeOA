@@ -104,8 +104,8 @@
 	"plus": {
 		"splashscreen": {
 			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
-			"waiting": false,
-			"delay": "1000"
+			"waiting": true,
+			"delay": "2000"
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
@@ -193,7 +193,7 @@
 					"iphone": {
 						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
 						"retina35": "",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "","retina55":"/Users/sth/Desktop/WechatIMG9.png"
+						"retina40": "","retina55":"/Users/sth/Documents/工作文档/联达动力/顺义司法局/设计图/splash_1242.png"
 					},
 					"ipad": {
 						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -211,7 +211,7 @@
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
 					"hdpi": "", /*高分屏启动图片，分辨率：480x762*/
 					"xhdpi": "", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": ""
+					"xxhdpi": "/Users/sth/Documents/工作文档/联达动力/顺义司法局/设计图/splash_1080.png"
 				}
 			},
 			"debug": false
@@ -225,9 +225,12 @@
 					"css/mui.min.css",
 					"fonts/mui.ttf",
 					"js/mui.min.js",
-					"js/constants.js"
+					"js/constants.js",
+					"js/base64.js",
+					"js/util.js"
 				],
-				"priority": 1
+				"priority": 1,
+				"refer": []
 			},
 			"html/meeting_lastest_list.html": {
 				"href": "html/meeting_lastest_list.html",
@@ -252,7 +255,10 @@
 					"js/constants.js",
 					"js/util.js"
 				],
-				"priority": 2
+				"priority": 2,
+				"refer": [
+					"html/meeting_detail.html"
+				]
 			},
 			"html/meeting_catalog.html": {
 				"href": "html/meeting_catalog.html",
@@ -278,7 +284,10 @@
 					"js/constants.js",
 					"js/util.js"
 				],
-				"priority": 2
+				"priority": 2,
+				"refer": [
+					"html/todofile_detail.html"
+				]
 			},
 			"html/todofile_history_list.html": {
 				"href": "html/todofile_history_list.html",
@@ -391,6 +400,19 @@
 				"refer": [
 					"html/catalog.html"
 				],
+				"priority": 0
+			},
+			"html/todofile_detail.html": {
+				"resources": [
+					"css/feedback.css",
+					"js/base64.js",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

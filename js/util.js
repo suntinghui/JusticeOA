@@ -18,25 +18,6 @@ function isPhoneNum(str) {　　
 	};
 }
 
-// 返回事件
-function backAction() {
-	var first = null;
-	plus.key.addEventListener('backbutton', function() {　　 //首次按键，提示‘再按一次退出应用’  
-		if(!first) {　　　　
-			first = new Date().getTime();　　　　
-			mui.toast('再按一次退出应用');　　　　
-			setTimeout(function() {　　　　　　
-				first = null;　　　　　
-			}, 2000);　　
-		} else {　　　　
-			if(new Date().getTime() - first < 2000) {　　　　　　
-				plus.runtime.quit();　　　　
-			}　　
-		}
-
-	}, false);
-}
-
 function getHttpErrorDesp(type) {
 	var desp = '未知异常,请重试';
 	if(type == 'timeout') {

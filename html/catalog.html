@@ -87,17 +87,11 @@
 		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
 
 		<script>
-			mui.init();
-
-			(function($, doc) {
-				$.plusReady(function() {
-					var wv = plus.webview.currentWebview();
-					// 关闭侧滑返回功能
-					wv.setStyle({
-						'popGesture': 'none'
-					});
-				});
-			}(mui, document));
+			mui.init({
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				}
+			});
 
 			var logout = document.getElementById("logout");
 			logout.addEventListener('tap', function(event) {
@@ -111,24 +105,18 @@
 						var url = HOST + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
 						console.log(url);
 						mui.getJSON(url, {}, function(data) {
-							// 没有返回值，默认成功
-							if(mui.os.ios || mui.os.ipad || mui.os.iphone) {
-								// 获取所有Webview窗口
-								var curr = plus.webview.currentWebview();
-								var wvs = plus.webview.all();
-								for(var i = 0, len = wvs.length; i < len; i++) {
-									//关闭除setting页面外的其他页面
-									if(wvs[i].getURL() == curr.getURL())
-										continue;
-									plus.webview.close(wvs[i]);
-								}
-								//打开login页面后再关闭setting页面
-								plus.webview.open('login.html');
-								curr.close();
-
-							} else {
-								plus.runtime.quit();
+							// 获取所有Webview窗口
+							var curr = plus.webview.currentWebview();
+							var wvs = plus.webview.all();
+							for(var i = 0, len = wvs.length; i < len; i++) {
+								//关闭除setting页面外的其他页面
+								if(wvs[i].getURL() == curr.getURL())
+									continue;
+								plus.webview.close(wvs[i]);
 							}
+							//打开login页面后再关闭setting页面
+							plus.webview.open('login.html');
+							curr.close();
 
 							mui.toast("已退出登录");
 						});
