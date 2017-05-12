@@ -63,13 +63,13 @@
 			var passwordText = document.getElementById("passwordText");
 			var loginBtn = document.getElementById("loginBtn");
 
+			mui.init();
+
 			loginBtn.addEventListener("tap", function(event) {
 				if(checkInput()) {
 					loginReq();
 				}
 			}, false);
-
-			mui.init();
 
 			var checkInput = function() {
 				if(userNameText.value.length == 0) {
@@ -86,9 +86,38 @@
 			}
 
 			var loginReq = function() {
+				checkNetwork();
+
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在登录...");
+				});
+
 				var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + "123456";
 				var url = HOST + "Identity.ashx?Commond=AppLogin" + argus;
-				mui.getJSON(url, {}, function(resp) {
+				mui.ajax(url, {
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						responseLogin(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+
+				function responseLogin(resp) {
 					console.log('登录响应：' + JSON.stringify(resp));
 
 					switch(resp.LoginResult - 0) {
@@ -98,7 +127,7 @@
 
 							mui.openWindow({
 								url: 'catalog.html',
-								id: 'catalog',
+								id: Math.random(),
 								preload: true,
 								show: {
 									aniShow: 'pop-in'
@@ -138,7 +167,8 @@
 							mui.alert("登录失败，未知异常", "提示", null);
 							break;
 					}
-				});
+				}
+
 			};
 		</script>
 

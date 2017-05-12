@@ -99,6 +99,8 @@
 				};
 
 				function requestList() {
+					checkNetwork();
+					
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
@@ -214,7 +216,7 @@
 				mui('#list').on('tap', 'li', function(e) {
 					mui.openWindow({
 						url: 'todofile_detail.html',
-						id: 'todofile_detail',
+						id: Math.random(),
 					});
 				});
 

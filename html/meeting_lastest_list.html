@@ -94,6 +94,8 @@
 				};
 
 				function requestList() {
+					checkNetwork();
+					
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
@@ -195,7 +197,7 @@
 
 					mui.openWindow({
 						url: 'meeting_detail.html',
-						id: 'meeting_detail',
+						id: Math.random(),
 						show: {
 							aniShow: 'pop-in'
 						},
