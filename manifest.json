@@ -227,7 +227,11 @@
 					"js/mui.min.js",
 					"js/constants.js",
 					"js/base64.js",
-					"js/util.js"
+					"js/util.js",
+					"img/format_word.png",
+					"img/format_att.png",
+					"img/format_excel.png",
+					"img/format_html.png"
 				],
 				"priority": 1,
 				"refer": []
