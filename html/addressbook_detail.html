@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			li {
+				line-height: 40px;
+				padding: 5px 15px;
+			}
+			
+			.title {
+				vertical-align: middle;
+				color: #666666;
+			}
+			
+			.value {
+				color: #333333;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+			
+			.img {
+				margin-top: 10px;
+				float: right;
+				width: 20px;
+				height: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">详情</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-content">
+				<ul class="mui-table-view" id="ul">
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+							<span class="value" id="name"></span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门：</span>
+							<span class="value" id="dept"></span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">办公电话：</span>
+							<span class="value" id="jobtel"></span>
+							<img class="img" src="../img/img_jobtel.png"></span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">联系电话：</span>
+							<span class="value" id="telphone"></span>
+							<img class="img" src="../img/img_telphone.png"></span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">电子邮箱：</span>
+							<span class="value" id="email"></span>
+							<img class="img" src="../img/img_email.png"></span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="listdiv">
+							<span class="title">传&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;真：</span>
+							<span class="value" id="fax"></span>
+							<img class="img" src="../img/img_fax.png"></span>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init();
+
+			window.onload = function() {
+				requestDetail();
+			};
+
+			function requestDetail() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					var BelongUser = self.BelongUser;
+
+					checkNetwork();
+
+					mui.plusReady(function() {
+						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+					});
+
+					var url = HOST + "AddressBook.ashx?Commond=GetAddressBookInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&belongUser=" + BelongUser;
+					mui.ajax(url, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'get', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							mui.plusReady(function() {
+								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+							});
+
+							console.log(JSON.stringify(data));
+
+							responseDetail(data);
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.plusReady(function() {
+								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+							});
+
+							mui.alert(getHttpErrorDesp(type), "提示", null);
+						}
+					});
+
+				});
+			};
+
+			function responseDetail(resp) {
+				document.getElementById('name').innerText = formatValue(resp.BelongUserName);
+				document.getElementById('dept').innerText = formatValue(resp.BelongDepName);
+				document.getElementById('telphone').innerText = formatValue(resp.ContactNumber);
+				document.getElementById('jobtel').innerText = formatValue(resp.OfficeNum);
+				document.getElementById('fax').innerText = formatValue(resp.FaxNumber);
+				document.getElementById('email').innerText = formatValue(resp.Email);
+
+				document.getElementById('telphone').parentElement.addEventListener('tap', function() {
+					if(resp.ContactNumber == null)
+						return;
+
+					plus.device.dial(resp.ContactNumber, true);
+				}, false);
+
+				document.getElementById('jobtel').parentElement.addEventListener('tap', function() {
+					if(resp.OfficeNum == null)
+						return;
+					plus.device.dial(resp.OfficeNum, true);
+				}, false);
+			}
+
+			function formatValue(value) {
+				if(value == null || value == '') {
+					value = '无';
+				}
+				return value;
+			}
+		</script>
+	</body>
+
+</html>

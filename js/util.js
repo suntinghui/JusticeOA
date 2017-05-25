@@ -19,17 +19,17 @@ function isPhoneNum(str) {　　
 }
 
 function getHttpErrorDesp(type) {
-//	mui.plusReady(function() {
-//		plus.nativeUI.closeWaiting(); 
-//	});
+	//	mui.plusReady(function() {
+	//		plus.nativeUI.closeWaiting(); 
+	//	});
 
 	var desp = '未知异常,请重试';
 	if(type == 'timeout') {
-		desp = '网络请求超进,请重试';
+		desp = '网络请求超时,请重试';
 	} else if(type == 'error') {
 		desp = '请求出错,请稍候再试';
 	} else if(type == 'abort') {
-		desp = '请求被终止,可能是网络连接问题';
+		desp = '请求失败,可能是网络问题或服务器故障';
 	} else if(type == 'parsererror') {
 		desp = '服务器返回数据异常,请重试';
 	} else if(type == 'null') {
@@ -59,6 +59,43 @@ function onNetChange() {
 	}
 
 	return true;
+}
+
+function formatToType(format) {
+	if(format == '.doc' || format == '.docx') {
+		return 1;
+	} else if(format == '.xls' || format == '.xlsx') {
+		return 2;
+	} else if(format == '.pdf') {
+		return 3;
+	} else if(format == '.html') {
+		return 0;
+	}
+
+	return -1;
+}
+
+function getDocumentTypeImage(type) {
+	var img = '../img/format_att.png';
+	switch(type - 0) {
+		case 0:
+			img = '../img/format_html.png';
+			break;
+
+		case 1:
+			img = '../img/format_word.png';
+			break;
+
+		case 2:
+			img = '../img/format_excel.png';
+			break;
+
+		case 3:
+			img = '../img/format_pdf.png';
+			break;
+	}
+
+	return img;
 }
 
 /**

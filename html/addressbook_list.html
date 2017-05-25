@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>通讯录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.mui-navigate-right {
+				line-height: 30px;
+			}
+			
+			.imghead {
+				width: 30px;
+				height: 30px;
+				vertical-align: middle;
+				color: #333333;
+			}
+			
+			.name {
+				margin-left: 20px;
+				vertical-align: middle;
+			}
+			
+			.partment {
+				color: #666666;
+				vertical-align: middle;
+				position: absolute;
+				right: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">通讯录</h1>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view" id="ul">
+			</ul>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			window.onload = function() {
+				requestList();
+			};
+
+			function requestList() {
+				checkNetwork();
+
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var currentPage = 1; // 当前页码
+				var totalRecord = 0; // 数据总条数
+				var totalPages = 1; // 总页数
+
+				var pageInfo = {
+					CurrentPage: currentPage,
+					PageSize: Number.MAX_VALUE
+				};
+				var searchInfo = {
+					AddressBookId: "",
+					BelongUser: "",
+					BelongUserName: "",
+					OfficeNum: "",
+					ContactNumber: "",
+					FaxNumber: "",
+				};
+
+				var url = HOST + "AddressBook.ashx?Commond=GetSysAddressBook&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseList(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			};
+
+			function responseList(resp) {
+				var contentUL = document.getElementById("ul");
+				// 首先清空下面的所有结点
+				while(contentUL.hasChildNodes()) {
+					contentUL.removeChild(contentUL.firstChild);
+				}
+
+				// 如果没有数据。。。
+				if(resp.ListRecord.length == 0) {
+					contentUL.parentElement.innerHTML = '<div style="text-align: center; background:transparent; margin-top: 40px;"><p><img src="../img/nodata.png" /></p><span style="color: #666666;">没有查询到数据</span></div>';
+					contentUL.style.visibility = 'hidden';
+					return;
+				}
+
+				// 开始添加新的节点
+				var fragment = document.createDocumentFragment();
+				for(var i = 0; i < resp.ListRecord.length; i++) {
+					var item = resp.ListRecord[i];
+
+					var li = document.createElement('li');
+					li.id = item.BelongUser;
+					li.className = 'mui-table-view-cell';
+					li.innerHTML = '<div class="mui-navigate-right"><img src="../img/img_head.png" class="imghead" /><span class="name">' + item.BelongUserName + '</span><span class="partment">' + formatDept(item.BelongDepName) + '</span></div>';
+					fragment.appendChild(li);
+				}
+				contentUL.appendChild(fragment);
+			};
+
+			mui("#ul").on('tap', 'li', function() {
+				mui.openWindow({
+					url: 'addressbook_detail.html',
+					id: Math.random(),
+					preload: false,
+					show: {
+						aniShow: 'pop-in'
+					},
+					extras: {
+						BelongUser: this.getAttribute("id")
+					}
+
+				});
+			});
+
+			function formatDept(dept) {
+				if(dept == null) {
+					dept = '';
+				}
+				return dept;
+			}
+		</script>
+	</body>
+
+</html>
