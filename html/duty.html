@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>值班表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+
+		<style>
+			/*#selMonth {
+				font-size: 15px;
+				width: 90%;
+				padding: 10px 0;
+				margin: 0 auto;
+				margin-top: 10px;
+			}*/
+			
+			.chart {
+				width: 95%;
+				height: 520px;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">值班表</h1>
+			<a id="selMonth" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;"></a>
+		</header>
+
+		<div class="mui-content">
+			<!--<button id="selMonth" type="button" class="mui-btn mui-btn-block mui-btn-outlined"></button>-->
+			<div class="chart" id="lineChart"></div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/echarts.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init();
+
+			var linechart = document.getElementById('lineChart');
+
+			var userName = window.localStorage.getItem(UserName);
+
+			var selMonth = document.getElementById('selMonth');
+
+			var year = new Date().getFullYear();
+			var month = new Date().getMonth() + 1;
+
+			var dateArr = new Array();
+
+			window.onload = function() {
+				selMonth.innerHTML = (year + '-' + (month < 10 ? ('0' + month) : month));
+				selMonth.addEventListener('tap', function() {
+					selectMonth();
+				}, false);
+
+				requestData();
+			};
+
+			function requestData() {
+				checkNetwork();
+
+				dateArr = currentMonthParam(year, month);
+
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载...");
+				});
+
+				var url = HOST + "OnDuty.ashx?Commond=GetDutyInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&startDate=" + dateArr[1] + "&endDate=" + dateArr[3];
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						//console.log("详情：" + JSON.stringify(data));
+						responseData(data);
+
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting();
+							mui.currentWebview.show();
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting();
+						});
+					}
+				});
+
+			}; // end requestData
+
+			function responseData(resp) {
+				if(resp.length == 0) {
+					mui.toast('没有查询到数据');
+					linechart.style.visibility = 'hidden';
+					return;
+				} else {
+					linechart.style.visibility = 'visible';
+				}
+
+				var dateList = new Array();
+				var heatmapData = new Array();
+				var isDuty = false;
+
+				for(var i = 0; i < resp.length; i++) {
+					var item = resp[i];
+
+					var arr = new Array();
+					arr.push(item.OnDutyDay);
+					arr.push(1024); //此处需要一个整数，但不知作何用，待察
+					arr.push(item.LeaderName);
+
+					isDuty = (item.LeaderName == userName);
+
+					// 小组成员
+					for(var j = 0; j < item.Members.length; j++) {
+						arr.push(item.Members[j].MemberName);
+						if(!isDuty) {
+							isDuty = (item.Members[j].MemberName == userName);
+						}
+					}
+
+					dateList.push(arr);
+
+					// 首先筛选周末 
+					if(i % 7 == 0 || i % 7 == 6) {
+						heatmapData.push([
+							dateList[i][0],
+							0
+						]);
+					} else {
+						heatmapData.push([
+							dateList[i][0],
+							100
+						]);
+					}
+
+					// 不属于当月则灰显
+					if(i < dateArr[0] || i >= (resp.length - dateArr[2])) {
+						heatmapData.pop();
+						heatmapData.push([
+							dateList[i][0],
+							90
+						]);
+					}
+
+					// 着重显示当天
+					if(getyyyyMMdd(new Date()) == dateList[i][0]) {
+						heatmapData.pop();
+						heatmapData.push([
+							dateList[i][0],
+							50
+						]);
+					}
+
+					// 值班日
+					if(isDuty) {
+						heatmapData.pop();
+						heatmapData.push([
+							dateList[i][0],
+							70
+						]);
+					}
+
+					isDuty = false;
+				} // end for
+
+				option = {
+					visualMap: {
+						show: false,
+						min: 0,
+						max: 100,
+						calculable: true,
+						seriesIndex: [2],
+						orient: 'horizontal',
+						left: 'center',
+						bottom: 20,
+						inRange: {
+							// 0－周六日 50－今天 100－正常  90－其他月 80－值班
+							color: ['#FFCCCC', '#CCFFFF', '#B0C4DE', '#aaaaaa', '#FFFFFF'],
+							symbolSize: [0, 50, 80, 90, 100]
+						},
+
+					},
+
+					calendar: [{
+						left: 'center',
+						top: 'middle',
+						cellSize: 'auto',
+						yearLabel: {
+							show: false
+						},
+						orient: 'vertical',
+						dayLabel: {
+							firstDay: 0,
+							nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+							margin: 10
+						},
+						monthLabel: {
+							show: true
+						},
+						range: [dateArr[1], dateArr[3]]
+					}],
+
+					series: [{
+						type: 'scatter',
+						coordinateSystem: 'calendar',
+						symbolSize: 1,
+						label: {
+							normal: {
+								show: true,
+								formatter: function(params) {
+									var d = echarts.number.parseDate(params.value[0]);
+									return d.getDate();
+								},
+								textStyle: {
+									fontSize: '15',
+									color: '#333'
+								},
+								position: 'top',
+								offset: [0, -10]
+							}
+						},
+						data: dateList
+					}, {
+						type: 'scatter',
+						coordinateSystem: 'calendar',
+						symbolSize: 1,
+						label: {
+							normal: {
+								show: true,
+								formatter: function(params) {
+									var str = '';
+									for(var k = 2; k < params.value.length; k++) {
+										var temp = (params.value[k] || '');
+										str += ('\n' + params.value[k]);
+									}
+									return str;
+								},
+								textStyle: {
+									color: '#000'
+								},
+								position: 'top',
+								offset: [0, 30]
+							}
+						},
+						data: dateList
+					}, {
+						name: '值班表',
+						type: 'heatmap',
+						coordinateSystem: 'calendar',
+						data: heatmapData
+					}]
+				}; // end option
+
+				var lineChart = echarts.init(linechart);
+				lineChart.setOption(option);
+			};
+
+			function selectMonth() {
+				var picker = new mui.DtPicker(JSON.parse('{"type":"month"}'));
+				picker.setSelectedValue(year + '-' + month);
+				picker.show(function(rs) {
+					if(year == rs.y.value && month == rs.m.value) {
+						picker.dispose();
+						return;
+					}
+
+					selMonth.innerHTML = rs.value;
+					year = rs.y.value;
+					month = rs.m.value;
+					picker.dispose();
+
+					requestData();
+				});
+			};
+		</script>
+	</body>
+
+</html>

@@ -3,3 +3,4 @@ var PAGE_SIZE = 10;
 
 // 下面是LocalStorage key
 var TokenKey = "TokenKey";
+var UserName = "UserName";

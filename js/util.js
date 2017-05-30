@@ -8,6 +8,71 @@ function isNullStr(str) {
 	return re.test(str);
 }
 
+// 得到今天日期yyyy-MM-dd
+function getyyyyMMdd(date) {
+	var seperator1 = "-";
+	var seperator2 = ":";
+	var month = date.getMonth() + 1;
+	var strDate = date.getDate();
+	if(month >= 1 && month <= 9) {
+		month = "0" + month;
+	}
+	if(strDate >= 0 && strDate <= 9) {
+		strDate = "0" + strDate;
+	}
+	var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+		" " + date.getHours() + seperator2 + date.getMinutes() +
+		seperator2 + date.getSeconds();
+
+	var currentdate2 = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+	return currentdate2;
+
+}
+
+// 得到某个月的第一天
+function currentMonthParam(year, month) {
+	var firstdate = new Date(year, month - 1, 1);
+	var day = new Date(year, month, 0);
+	var lastdate = new Date(year, month - 1, day.getDate()); //获取当月最后一天日期
+
+	var firstday = firstdate.getDay();
+	var firststr = getyyyyMMdd(addDate(firstdate, 'd', -firstday));
+	var lastday = 6 - lastdate.getDay();
+	var laststr = getyyyyMMdd(addDate(lastdate, 'd', lastday));
+
+	return [firstday, firststr, lastday, laststr];
+}
+
+function addDate(date, part, value) {
+	value *= 1;
+	if(isNaN(value)) {
+		value = 0;
+	}
+	switch(part) {
+		case "y":
+			date.setFullYear(date.getFullYear() + value);
+			break;
+		case "m":
+			date.setMonth(date.getMonth() + value);
+			break;
+		case "d":
+			date.setDate(date.getDate() + value);
+			break;
+		case "h":
+			date.setHours(date.getHours() + value);
+			break;
+		case "n":
+			date.setMinutes(date.getMinutes() + value);
+			break;
+		case "s":
+			date.setSeconds(date.getSeconds() + value);
+			break;
+		default:
+	}
+
+	return date;
+}
+
 //判断是否是手机号
 function isPhoneNum(str) {　　
 	var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;　　

@@ -126,6 +126,7 @@
 						case 0:
 							// 保存用户信息
 							window.localStorage.setItem(TokenKey, resp.TokenKey);
+							window.localStorage.setItem(UserName, resp.UserName);
 
 							mui.openWindow({
 								url: 'catalog.html',

@@ -388,7 +388,9 @@
 					"html/meeting_catalog.html",
 					"html/todofile_catalog.html",
 					"html/test.html",
-					"html/todoread_catalog.html"
+					"html/todoread_catalog.html",
+					"html/duty.html",
+					"html/addressbook_list.html"
 				],
 				"priority": 0
 			},
@@ -415,6 +417,28 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/duty.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/echarts.min.js",
+					"js/echarts.js",
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/addressbook_list.html": {
+				"resources": [
+					"img/img_head.png"
 				],
 				"refer": [],
 				"priority": 0
