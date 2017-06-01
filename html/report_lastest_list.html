@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>待办文件</title>
+		<title>最新报表</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 
@@ -11,11 +11,6 @@
 			.footer-page {
 				position: relative;
 				bottom: 12px;
-			}
-			
-			.urgentlevel {
-				float: right;
-				color: #555555;
 			}
 			
 			.item-title {
@@ -43,7 +38,7 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;">待办文件</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;">最新报表</h1>
 		</header>
 
 		<footer class="mui-bar mui-bar-footer">
@@ -110,38 +105,22 @@
 						PageSize: PAGE_SIZE
 					};
 					var searchInfo = {
-						RecordId: "",
 						InstanceId: "",
-						Instance: {
-							InstanceId: "",
-							FlowTitle: "",
-							DispatchUnit: "",
-							UrgentLevl: "",
-							UrgentLevlName: "",
-							FlowTypeId: "",
-							FlowTypeName: "",
-							CreateDate: "",
-							Leader: "",
-							LeaderName: "",
-							SearchStartDate: "",
-							SearchEndDate: ""
-						},
-						Hander: "",
-						Role: "",
-						FEG_30_COL_30: "",
-						FEG_30_COL_40: "",
-						FEG_30_COL_50: "",
-						FEG_30_COL_90: "",
-						FEG_30_COL_100: "",
-						FEG_30_COL_110: "",
-						FEG_30_COL_125: "",
-						FEG_30_COL_190: "",
-						FEG_30_COL_200: "",
-						FEG_30_COL_9994: ""
+						FlowTitle: "",
+						DispatchUnit: "",
+						UrgentLevl: "",
+						UrgentLevlName: "",
+						FlowTypeId: "",
+						FlowTypeName: "",
+						CreateDate: "",
+						Leader: "",
+						LeaderName: "",
+						FinishDate: "",
+						SearchStartDate: "",
+						SearchEndDate: ""
 					};
 
-					var url = HOST + "DocManager.ashx?Commond=GetHandingList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
-					console.log(url);
+					var url = HOST + "FlowReport.ashx?Commond=GetNewReport&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型
@@ -188,7 +167,7 @@
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						li.id = record.InstanceId;
-						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>发文时间：' + record.FEG_30_COL_9994 + '</span><span class="urgentlevel">' + record.Instance.UrgentLevlName + '</span></p></div></div>';
+						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.DispatchUnit + '</p><p class="mui-ellipsis item-address">发文时间：' + record.CreateDate + '</p></div></div>';
 						fragment.appendChild(li);
 					}
 					list.appendChild(fragment);
@@ -215,7 +194,7 @@
 
 				mui('#list').on('tap', 'li', function(e) {
 					mui.openWindow({
-						url: 'todofile_detail.html',
+						url: 'report_detail.html',
 						id: Math.random(),
 						show: {
 							aniShow: 'pop-in'

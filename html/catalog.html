@@ -18,9 +18,9 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
-			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>-->
+			<a id="logout" href="javascript:void(0)" class="mui-btn mui-btn-danger mui-btn-link mui-pull-left" style="color: #FFFFFF;">&nbsp;注销&nbsp;&nbsp;</a>
 			<h1 class="mui-title" style="color: #FFFFFF;">首页</h1>
-			<a id="logout" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;注销&nbsp;&nbsp;</a>
+			<a id="setting" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;&nbsp;设置&nbsp;</a>
 		</header>
 
 		<div class="mui-content">
@@ -56,7 +56,7 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-					<a href="javascript:void(0)">
+					<a href="javascript:void(0)" id="report_catalog.html">
 						<img src="../img/icon_6.png" class="img" />
 						<div class="mui-media-body">工作报表</div>
 					</a>
@@ -92,13 +92,27 @@
 					backbutton: false //关闭back按键监听
 				}
 			});
-			
-			var logout = document.getElementById("logout");
-			logout.addEventListener('tap', function(event) {
+
+			document.getElementById("logout").addEventListener('tap', function(event) {
 				logout();
 			}, false);
 
-			var logout = function() {
+			document.getElementById('setting').addEventListener('tap', function() {
+				setting();
+			}, false);
+
+			function setting() {
+				mui.openWindow({
+					url: 'setting.html',
+					id: 'setting',
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+				});
+			}; // end setting
+
+			function logout() {
 				mui.confirm('您确定要注销登录吗？', '提示', ['取消', '确认'], function(e) {
 					if(e.index == 1) {
 						var tokenKey = window.localStorage.getItem(TokenKey);
@@ -122,7 +136,7 @@
 						});
 					}
 				})
-			};
+			}; // end logou
 
 			// 宫格点击事件
 			mui('.mui-grid-view').on('tap', 'a', function(e) {

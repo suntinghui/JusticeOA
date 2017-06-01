@@ -100,11 +100,11 @@
 
 				function requestList() {
 					checkNetwork();
-					
+
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
-					
+
 					var pageInfo = {
 						CurrentPage: currentPage,
 						PageSize: PAGE_SIZE
@@ -153,7 +153,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							console.log(JSON.stringify(data));
 
 							responseList(data);
@@ -162,7 +162,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							mui.alert(getHttpErrorDesp(type), "提示", null);
 						}
 					});
@@ -187,7 +187,7 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.MettingId;
+						li.id = record.InstanceId;
 						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>主责领导：' + record.Instance.LeaderName + '</span><span class="urgentlevel">' + record.FEG_30_COL_9994 + '</span></p></div></div>';
 						fragment.appendChild(li);
 					}
@@ -214,8 +214,20 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
-					var id = this.getAttribute("id");
-					mui.toast('详情开发中，请稍候...');
+					mui.openWindow({
+						url: 'todoread_detail.html',
+						id: Math.random(),
+						show: {
+							aniShow: 'pop-in'
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...',
+						},
+						extras: {
+							'InstanceId': this.getAttribute("id")
+						}
+					});
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {

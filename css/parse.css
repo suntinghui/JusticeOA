@@ -1,0 +1,75 @@
+body {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	visibility: visible;
+}
+
+textarea {
+	margin: 0;
+}
+
+input[type="text"] {
+	margin: 0;
+}
+
+.mui-scroll {
+	padding-top: 50px;
+}
+
+.item-div {
+	/*margin: 20px 20px 20px 5px;*/
+	padding: 15px 0 12px 0;
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+	border-bottom: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #F2F2F2;
+}
+
+.item-name {
+	width: 25%;
+	color: #666666;
+	font-size: 15px;
+	text-align: right;
+	margin-right: 20px;
+}
+
+.item-value {
+	width: 60%;
+	color: #333333;
+	font-size: 15px;
+}
+
+.mui-checkbox input[type=checkbox]:before {
+	content: '\e413';
+	/*方形框未选中*/
+}
+
+.mui-checkbox input[type=checkbox]:checked:before {
+	content: '\e443';
+	/*方形框选中状态*/
+}
+
+.mui-checkbox.mui-left input[type=checkbox] {
+	left: 0px;
+	/*该值表示方形框距离左边的距离*/
+}
+
+.mui-radio.mui-left input[type=radio] {
+	left: 0px;
+	/*该值表示方形框距离左边的距离*/
+}
+
+.mui-checkbox.mui-left label,
+.mui-radio.mui-left label {
+	padding-right: 10px;
+	padding-left: 35px;
+	font-size: 16px;
+	color: #666666;
+}
+
+.checkbox {
+	display: inline-block;
+}

@@ -189,7 +189,7 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.RecordId;
+						li.id = record.InstanceId;
 						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>发文时间：' + record.FEG_30_COL_9994 + '</span><span class="urgentlevel">' + record.Instance.UrgentLevlName + '</span></p></div></div>';
 						fragment.appendChild(li);
 					}
@@ -214,11 +214,21 @@
 					}
 					selectPageUL.appendChild(fragment);
 				}
-
+				
 				mui('#list').on('tap', 'li', function(e) {
 					mui.openWindow({
 						url: 'flowmanager_detail.html',
 						id: Math.random(),
+						show: {
+							aniShow: 'pop-in'
+						},
+						waiting: {
+							autoShow: true, //自动显示等待框，默认为true
+							title: '正在加载...',
+						},
+						extras: {
+							'InstanceId': this.getAttribute("id")
+						}
 					});
 				});
 

@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>事宜详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/parse.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">事宜详情</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper scroll-content">
+				<div class="mui-scroll" id="parentdiv">
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/parse.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			(function($) {
+				$('.scroll-content').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui);
+
+			var deptArr = new Array();
+
+			mui.init();
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					var InstanceId = self.InstanceId;
+
+					requestFormHTML(InstanceId);
+				});
+			};
+
+			// 获取科室
+			function requestDepList() {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var depInfo = {
+					DepId: "",
+					DepName: "",
+				};
+
+				var url = HOST + "WorkFlow.ashx?Commond=GetDepList&depInfo=" + JSON.stringify(depInfo);
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseDeptList(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			}; // end requestDeptList
+
+			function responseDeptList(resp) {
+				deptArr = resp;
+
+			}; // end responseDeptList
+
+			// 获取流程实例信息 
+			function requestInstance(instanceId) {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var url = HOST + "WorkFlow.ashx?Commond=GetInstance&instanceId=" + instanceId;
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseInstance(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+
+			} // end requestInstance
+
+			function responseInstance(resp) {
+
+			} // end responseInstance
+
+			//获取流转轨迹列表
+			function requestListFlowRecord(instanceId) {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var url = HOST + "WorkFlow.ashx?Commond=GetListFlowRecord&instanceId=" + instanceId;
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseListFlowRecord(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			} // end requestListFlowRecord
+
+			function responseListFlowRecord() {
+
+			} // end responseListFlowRecord
+
+			function requestFlowRecord(recordId) {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var url = HOST + "WorkFlow.ashx?Commond=GetFlowRecord&recordId=" + recordId;
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseFlowRecord(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			} // requestFlowRecord
+
+			function responseFlowRecord() {
+
+			} // end responseFlowRecord
+
+			function requestFormHTML(instanceId) {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+				});
+
+				var url = HOST + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + instanceId + '&browModel=1&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseFormHTML(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			} // end requestFormHTML
+
+			function responseFormHTML(resp) {
+				var parentdiv = document.getElementById('parentdiv');
+				var fragment = parseForm(resp.Controls);
+				parentdiv.appendChild(fragment);
+
+			} // end responseFormHTML
+		</script>
+	</body>
+
+</html>

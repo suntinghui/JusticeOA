@@ -302,7 +302,10 @@
 					"js/constants.js",
 					"js/util.js"
 				],
-				"priority": 3
+				"priority": 3,
+				"refer": [
+					"html/todofile_detail.html"
+				]
 			},
 			"html/todofile_catalog.html": {
 				"href": "html/todofile_catalog.html",
@@ -337,7 +340,10 @@
 					"js/constants.js",
 					"js/util.js"
 				],
-				"priority": 4
+				"priority": 4,
+				"refer": [
+					"html/report_detail.html"
+				]
 			},
 			"html/todoread_history_list.html": {
 				"href": "html/todoread_history_list.html",
@@ -348,7 +354,10 @@
 					"js/constants.js",
 					"js/util.js"
 				],
-				"priority": 5
+				"priority": 5,
+				"refer": [
+					"html/todoread_detail.html"
+				]
 			},
 			"html/todoread_catalog.html": {
 				"href": "html/todoread_catalog.html",
@@ -390,7 +399,9 @@
 					"html/test.html",
 					"html/todoread_catalog.html",
 					"html/duty.html",
-					"html/addressbook_list.html"
+					"html/addressbook_list.html",
+					"html/report_catalog.html",
+					"html/flowmanager_catalog.html"
 				],
 				"priority": 0
 			},
@@ -416,7 +427,11 @@
 					"js/constants.js",
 					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"css/mui.min.css"
+					"css/mui.min.css",
+					"css/parse.css",
+					"css/mui.picker.min.css",
+					"js/mui.picker.min.js",
+					"js/parse.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -439,6 +454,121 @@
 			"html/addressbook_list.html": {
 				"resources": [
 					"img/img_head.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/report_catalog.html": {
+				"resources": [
+					"img/icon_11.png",
+					"fonts/mui.ttf",
+					"img/icon_12.png",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"html/report_more_list.html",
+					"html/userlist.html",
+					"html/report_lastest_list.html"
+				],
+				"priority": 0
+			},
+			"html/report_more_list.html": {
+				"resources": [],
+				"refer": [
+					"html/report_detail.html"
+				],
+				"priority": 0
+			},
+			"html/userlist.html": {
+				"resources": [
+					"js/pinyin.js",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/mui.indexedlist.css",
+					"js/mui.indexedlist.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/report_detail.html": {
+				"resources": [
+					"css/parse.css",
+					"js/parse.js",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.picker.min.js",
+					"css/mui.picker.min.css"
+				],
+				"refer": [
+					"html/userlist.html"
+				],
+				"priority": 0
+			},
+			"html/report_lastest_list.html": {
+				"resources": [
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"html/report_detail.html"
+				],
+				"priority": 0
+			},
+			"html/flowmanager_catalog.html": {
+				"resources": [
+					"img/icon_21.png",
+					"img/icon_22.png",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"html/flowmanager_history_list.html",
+					"html/flowmanager_lastest_list.html"
+				],
+				"priority": 0
+			},
+			"html/flowmanager_history_list.html": {
+				"resources": [
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/flowmanager_lastest_list.html": {
+				"resources": [
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/todoread_detail.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"css/parse.css",
+					"css/mui.picker.min.css",
+					"js/parse.js",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
 				],
 				"refer": [],
 				"priority": 0
