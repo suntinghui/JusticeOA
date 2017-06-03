@@ -175,7 +175,11 @@
 			"html/duty.html",
 			"html/addressbook_list.html",
 			"html/report_catalog.html",
-			"html/flowmanager_catalog.html"
+			"html/flowmanager_catalog.html",
+			"html/userlist.html",
+			"html/deptlist.html",
+			"html/setting.html",
+			"html/information_catalog.html"
 		],
 		"priority": 0
 	},
@@ -222,7 +226,8 @@
 	},
 	"html/addressbook_list.html": {
 		"resources": [
-			"img/img_head.png"
+			"img/img_head.png",
+			"fonts/mui.ttf"
 		]
 	},
 	"html/report_catalog.html": {
@@ -242,6 +247,13 @@
 	"html/report_more_list.html": {
 		"refer": [
 			"html/report_detail.html"
+		],
+		"resources": [
+			"js/util.js",
+			"js/constants.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
 		]
 	},
 	"html/userlist.html": {
@@ -254,6 +266,9 @@
 			"css/mui.min.css",
 			"css/mui.indexedlist.css",
 			"js/mui.indexedlist.js"
+		],
+		"refer": [
+			"html/setting.html"
 		]
 	},
 	"html/report_detail.html": {
@@ -311,6 +326,9 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css"
+		],
+		"refer": [
+			"html/flowmanager_detail.html"
 		]
 	},
 	"html/todoread_detail.html": {
@@ -324,6 +342,47 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css"
+		]
+	},
+	"html/deptlist.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/util.js",
+			"js/constants.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/mui.indexedlist.css",
+			"js/mui.indexedlist.js"
+		]
+	},
+	"html/setting.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"html/userlist.html",
+			"html/feedback.html"
+		]
+	},
+	"html/information_catalog.html": {
+		"refer": [
+			"html/information_more_list.html"
+		]
+	},
+	"html/information_more_list.html": {
+		"refer": [
+			"html/information_detail.html"
+		]
+	},
+	"html/feedback.html": {
+		"resources": [
+			"css/feedback.css",
+			"js/feedback.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
 		]
 	}
 }

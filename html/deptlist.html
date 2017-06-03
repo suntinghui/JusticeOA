@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>人员列表</title>
+		<title>部门列表</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.indexedlist.css" />
@@ -29,14 +29,14 @@
 	<body>
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;">人员列表</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;">部门列表</h1>
 			<a id='done' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" style="color: #FFFFFF;">完成</a>
 		</header>
 
 		<div class="mui-content">
 			<div id='list' class="mui-indexed-list">
 				<div class="mui-indexed-list-search mui-input-row mui-search">
-					<input type="search" class="mui-input-speech mui-input-clear mui-indexed-list-search-input" placeholder="搜索姓名">
+					<input type="search" class="mui-input-speech mui-input-clear mui-indexed-list-search-input" placeholder="搜索部门">
 				</div>
 				<div class="mui-indexed-list-bar" style="visibility: hidden;">
 					<a>A</a>
@@ -88,10 +88,6 @@
 			var webviewId = '';
 			var divid = '';
 
-			var currentPage = 1; // 当前页码
-			var totalRecord = 0; // 数据总条数
-			var totalPages = 1; // 总页数
-
 			window.onload = function() {
 				mui.plusReady(function() {
 					var self = plus.webview.currentWebview();
@@ -101,40 +97,24 @@
 					webviewId = self.webviewId;
 					divid = self.divid;
 
-					requestUserList();
+					requestDepList();
 				});
 			};
 
-			// 获取职员
-			function requestUserList() {
+			// 获取科室
+			function requestDepList() {
 				checkNetwork();
 
 				mui.plusReady(function() {
 					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 				});
 
-				var pageInfo = {
-					CurrentPage: currentPage,
-					PageSize: MAX_PAGE_SIZE
-				};
-
-				var userInfo = {
-					UserId: "",
-					UserName: "",
-					LoginName: "",
+				var depInfo = {
 					DepId: "",
-					DepCode: "",
 					DepName: "",
-					PostId: "",
-					PostCode: "",
-					PostName: "",
-					LevlId: "",
-					LevlName: "",
-					LoginResult: "",
-					ExceptionMes: ""
 				};
 
-				var url = HOST + "WorkFlow.ashx?Commond=GetUserList&userInfo=" + JSON.stringify(userInfo) + '&pageInfo=' + JSON.stringify(pageInfo);
+				var url = HOST + "WorkFlow.ashx?Commond=GetDepList&depInfo=" + JSON.stringify(depInfo);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -149,7 +129,7 @@
 
 						console.log(JSON.stringify(data));
 
-						responseUserList(data);
+						responseDeptList(data);
 					},
 					error: function(xhr, type, errorThrown) {
 						mui.plusReady(function() {
@@ -159,9 +139,9 @@
 						mui.alert(getHttpErrorDesp(type), "提示", null);
 					}
 				});
-			} // end requestUserList
+			} // end requestDeptList
 
-			function responseUserList(resp) {
+			function responseDeptList(resp) {
 				var ul = document.getElementById('ul');
 				// 首先清空下面的所有结点
 				while(ul.hasChildNodes()) {
@@ -175,7 +155,7 @@
 
 				var selectedIdArrs = new Array();
 				for(var i = 0; i < selectedUsers.length; i++) {
-					selectedIdArrs.push(selectedUsers[i].UserId);
+					selectedIdArrs.push(selectedUsers[i].DepId);
 				}
 
 				for(var i = 0; i < resp.length; i++) {
@@ -184,8 +164,8 @@
 					li.classList.add(radioType ? 'mui-radio' : 'mui-checkbox');
 
 					var type = (radioType ? "radio" : "checkbox");
-					var checked = (contains(selectedIdArrs, resp[i].UserId) ? ' checked ' : ' ');
-					li.innerHTML = '<input name="radio1" value=' + resp[i].UserId + ' type=' + type + checked + ' />' + resp[i].UserName;
+					var checked = (contains(selectedIdArrs, resp[i].DepId) ? ' checked ' : ' ');
+					li.innerHTML = '<input name="radio1" value=' + resp[i].DepId + ' type=' + type + checked + ' />' + resp[i].DepName;
 					fragment.appendChild(li);
 				}
 				ul.appendChild(fragment);

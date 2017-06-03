@@ -2,7 +2,6 @@ body {
 	width: 100%;
 	height: 100%;
 	background-color: white;
-	visibility: visible;
 }
 
 textarea {
@@ -43,12 +42,12 @@ input[type="text"] {
 }
 
 .mui-checkbox input[type=checkbox]:before {
-	content: '\e413';
+	/*	content: '\e413';*/
 	/*方形框未选中*/
 }
 
 .mui-checkbox input[type=checkbox]:checked:before {
-	content: '\e443';
+	/*content: '\e443';*/
 	/*方形框选中状态*/
 }
 

@@ -15,25 +15,78 @@
 		</header>
 
 		<div class="mui-content">
-			
-			<!--
-				
-			系统更新
-			http://ask.dcloud.net.cn/article/431
-			
-			关于意见反馈
-			
-			关于系统
-			
-			清空附件内存
-			
-			-->
+
+			<ul class="mui-card mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a id="help" href="javascript:void(0)" class="mui-navigate-right">帮助</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="clear" href="javascript:void(0)" class="mui-navigate-right">清空缓存</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="update" href="javascript:void(0)" class="mui-navigate-right"><i class="mui-pull-right update">V1.0.0</i>检查更新</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="feedback" href="javascript:void(0)" class="mui-navigate-right">意见反馈</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="contact" href="javascript:void(0)" class="mui-navigate-right">联系我们</a>
+				</li>
+			</ul>
+
+			<ul class="mui-card mui-table-view mui-table-view-chevron" style="margin-top: 20px; visibility: hidden;>
+				<li class=" mui-table-view-cell ">
+					<a id="about " href="javascript:void(0) " class="mui-navigate-right ">关于系统</a>
+				</li>
+			</ul>
 
 		</div>
 
-		<script src="../js/mui.min.js"></script>
-		<script type="text/javascript">
-			mui.init()
+		<script src="../js/mui.min.js "></script>
+		<script type="text/javascript ">
+			var help = document.getElementById('help');
+			var clear = document.getElementById('clear');
+			var update = document.getElementById('update');
+			var feedback = document.getElementById('feedback');
+			var about = document.getElementById('about');
+			var contact = document.getElementById('contact');
+
+			help.addEventListener('tap', function() {
+				mui.toast('整理中...');
+			}, false);
+
+			clear.addEventListener('tap', function() {
+				mui.plusReady(function() {
+					plus.cache.clear(function() {
+						mui.toast('缓存已清空');
+					});
+				});
+			}, false);
+
+			update.addEventListener('tap', function() {
+				mui.toast('当前已是最新版本');
+			}, false);
+
+			feedback.addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'feedback.html',
+					id: Math.random(),
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+				});
+			}, false);
+
+			contact.addEventListener('tap', function() {
+				mui.plusReady(function() {
+					plus.device.dial("18500972879 ", true);
+				});
+			}, false);
+
+			about.addEventListener('tap', function() {
+				mui.toast('开发中');
+			}, false);
 		</script>
 	</body>
 

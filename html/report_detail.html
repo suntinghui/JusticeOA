@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/parse.css" />
-		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
 	</head>
 
 	<body>
@@ -18,7 +18,7 @@
 
 		<div class="mui-content">
 			<div class="mui-scroll-wrapper scroll-content">
-				<div class="mui-scroll" id="parentdiv" >
+				<div class="mui-scroll" id="parentdiv">
 				</div>
 			</div>
 		</div>
@@ -37,8 +37,6 @@
 			})(mui);
 
 			var deptArr = new Array();
-
-			mui.init();
 
 			window.onload = function() {
 				mui.plusReady(function() {
@@ -64,7 +62,7 @@
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
+					timeout: TIMEOUT, //超时时间设置为10秒；
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -102,7 +100,7 @@
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
+					timeout: TIMEOUT, //超时时间设置为10秒；
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -140,7 +138,7 @@
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
+					timeout: TIMEOUT, //超时时间设置为10秒；
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -176,7 +174,7 @@
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
+					timeout: TIMEOUT, //超时时间设置为10秒；
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -212,7 +210,7 @@
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
-					timeout: 10000, //超时时间设置为10秒；
+					timeout: TIMEOUT, //超时时间设置为10秒；
 					headers: {
 						'Content-Type': 'application/json'
 					},
@@ -239,6 +237,8 @@
 				var parentdiv = document.getElementById('parentdiv');
 				var fragment = parseForm(resp.Controls);
 				parentdiv.appendChild(fragment);
+
+				var keyValue = getFormValue(resp.Controls);
 
 			} // end responseFormHTML
 		</script>

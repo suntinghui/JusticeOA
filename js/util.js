@@ -8,6 +8,13 @@ function isNullStr(str) {
 	return re.test(str);
 }
 
+function exReturnSpace(str) {
+	if(isNullStr(str))
+		return '';
+
+	return str;
+}
+
 // 得到今天日期yyyy-MM-dd
 function getyyyyMMdd(date) {
 	var seperator1 = "-";
@@ -124,6 +131,30 @@ function onNetChange() {
 	}
 
 	return true;
+}
+
+// 判断对象是否在数组中
+function contains(arr, obj) {
+	var i = arr.length;
+	while(i--) {
+		if(arr[i] === obj) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function array2Str(arr) {
+	var str = '';
+	for(var i = 0; i < arr.length; i++) {
+		str += (arr[i] + ',');
+	}
+
+	if(str.length > 1)
+		return str.substring(0, str.length - 1);
+
+	return str;
+
 }
 
 function formatToType(format) {
