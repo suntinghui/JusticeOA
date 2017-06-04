@@ -23,6 +23,8 @@
        复选框=23 
  **/
 /**
+ * 控件EditModel
+ 
 显示只读=0,
 显示可更新=1,
 显示可更新必填=2,
@@ -30,7 +32,15 @@
 显示用默认值更新=4
 **/
 
-function parseForm(Controls) {
+/**
+ * 表单BrowModel
+ 
+	浏览模式 1：浏览模式，0：编辑模式
+	
+**/
+
+function parseForm(resp) {
+	var Controls = resp.Controls;
 	console.log('一共' + Controls.length + '个元素');
 
 	var fragment = document.createDocumentFragment();
@@ -90,6 +100,11 @@ function parseForm(Controls) {
 				console.log('未解析类型:' + item.ControlType + '--' + item.CaptionName);
 				break;
 		}
+	} // end Control
+
+	// 浏览模式 1：浏览模式，0：编辑模式
+	if(resp.BrowModel == '0') {
+		fragment.appendChild(createOperBtn(resp));
 	}
 
 	return fragment;
@@ -133,7 +148,7 @@ function createTextarea(Control) {
 		if(Control.ControlType == '4') {
 			textarea.rows = 4;
 		} else {
-			textarea.rows = 1;
+			textarea.rows = Math.ceil(textarea.length / 10);
 		}
 
 		textarea.maxLength = Control.Length;
@@ -557,6 +572,54 @@ function createCheckBoxList(Control) {
 	return div;
 }
 
+function createOperBtn(resp) {
+	var div = createDiv('button-div');
+	var save = createBtn('save', '保存', 'mui-btn mui-btn-warning oper-btn');
+	save.addEventListener('tap', function() {
+		mui.confirm('您确定要保存吗？', '提示', ['取消', '确认'], function(e) {
+			if(e.index == 1) {
+				saveOper(resp);
+			}
+		});
+
+	}, false);
+	div.appendChild(save);
+
+	var next = createBtn('next', '提交下一步', 'mui-btn mui-btn-warning oper-btn')
+	next.addEventListener('tap', function() {
+		mui.confirm('您确定要提交下一步吗？', '提示', ['取消', '确认'], function(e) {
+			if(e.index == 1) {
+				nextOper(resp);
+			}
+		});
+
+	}, false);
+	div.appendChild(next);
+
+	var hold = createBtn('hold', '存档', 'mui-btn mui-btn-warning oper-btn');
+	hold.addEventListener('tap', function() {
+		mui.confirm('您确定要存档吗？', '提示', ['取消', '确认'], function(e) {
+			if(e.index == 1) {
+				holdOper(resp);
+			}
+		});
+
+	}, false);
+	div.appendChild(hold);
+
+	var back = createBtn('back', '退回来源', 'mui-btn mui-btn-warning oper-btn');
+	back.addEventListener('tap', function() {
+		mui.confirm('您确定要退回来源吗？', '提示', ['取消', '确认'], function(e) {
+			if(e.index == 1) {
+				backOper(resp);
+			}
+		});
+	}, false);
+	div.appendChild(back);
+
+	return div;
+}
+
 /**************************************/
 
 function getDefaultValue06(Options) {
@@ -724,7 +787,7 @@ function event13(valuediv, Control) {
 			}
 		});
 	})
-}
+};
 
 mui.plusReady(function() {
 	window.addEventListener('event10', function(event) {
@@ -771,6 +834,121 @@ function createTextDiv(value, editModel) {
 	return textdiv;
 }
 
+function createBtn(id, text, classname) {
+	var btn = document.createElement('button');
+	btn.type = 'button';
+	btn.id = id;
+	btn.className = classname;
+	btn.innerText = text;
+	return btn;
+} // end
+
+// 注意界面中的InstanceId
+function saveOper(resp) {
+	// TODO childRecordId
+	var childRecordId = '';
+
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+	});
+
+	var url = HOST + 'WorkFlow.ashx?Commond=SaveFormData&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&childRecordId=' + childRecordId + '&PhyDataTable=' + resp.PhyDataTable + '&formData=' + JSON.stringify(getFormValue(resp.Controls));
+	mui.ajax(url, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		timeout: TIMEOUT, //超时时间设置为10秒；
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			console.log(JSON.stringify(data));
+
+			mui.alert('操作成功');
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			mui.alert(getHttpErrorDesp(type), "提示", null);
+		}
+	});
+}
+
+function nextOper(resp) {
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+	});
+
+	var url = HOST + 'WorkFlow.ashx?Commond=FlowNext&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&flowAttr=' + resp.FlowAttr;
+	mui.ajax(url, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		timeout: TIMEOUT, //超时时间设置为10秒；
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			console.log(JSON.stringify(data));
+
+			mui.alert('操作成功');
+
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			mui.alert(getHttpErrorDesp(type), "提示", null);
+		}
+	});
+}
+
+function holdOper(resp) {
+	console.log("hold");
+}
+
+function backOper(resp) {
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+	});
+
+	var url = HOST + 'WorkFlow.ashx?Commond=GoBack&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId);
+	mui.ajax(url, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		timeout: TIMEOUT, //超时时间设置为10秒；
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			console.log(JSON.stringify(data));
+
+			mui.alert('操作成功');
+
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			mui.alert(getHttpErrorDesp(type), "提示", null);
+		}
+	});
+}
+
 // 得到各字段的值
 function getFormValue(Controls) {
 	var keyValue = new Object();
@@ -779,7 +957,7 @@ function getFormValue(Controls) {
 		var item = Controls[i];
 		// 如果是不可见，则不解析至界面，直接取值。
 		if(item.EditModel == '3') {
-			keyValue[item.DataField] = item.Value;
+			keyValue[item.DataField] = exReturnSpace(item.Value);
 			continue;
 		}
 
@@ -807,13 +985,13 @@ function getFormValue(Controls) {
 								checkedValues.push(box.value);
 								document.getElementById(item.DataField).value = checkedValues;
 
-								keyValue[item.DataField] = checkedValues;
+								keyValue[item.DataField] = exReturnSpace(checkedValues);
 							}
 						});
 					} else {
 						// 10 11 12 13 在其他情况下已经赋值
 						var value = document.getElementById(item.DataField).value;
-						keyValue[item.DataField] = value;
+						keyValue[item.DataField] = exReturnSpace(value);
 					}
 				}
 				break;
@@ -831,7 +1009,7 @@ function getFormValue(Controls) {
 								checkedValues.substring(0, checkedValues.length - 1);
 							}
 							document.getElementById(item.DataField).value = checkedValues;
-							keyValue[item.DataField] = checkedValues;
+							keyValue[item.DataField] = exReturnSpace(checkedValues);
 						}
 					});
 				}
@@ -840,7 +1018,7 @@ function getFormValue(Controls) {
 			default:
 				{
 					var value = document.getElementById(item.DataField).value;
-					keyValue[item.DataField] = value;
+					keyValue[item.DataField] = exReturnSpace(value);
 				}
 
 				break;
@@ -850,9 +1028,10 @@ function getFormValue(Controls) {
 	console.log("得到的KeyValue为：");
 	var count = 0;
 	for(var key in keyValue) {
-		console.log(key + '- ' + keyValue[key]);
+		console.log(key + '-' + keyValue[key]);
 		count++;
 	}
+	JSON.stringify(keyValue);
 	console.log("共：" + count);
 
 	return keyValue;

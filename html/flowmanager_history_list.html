@@ -48,7 +48,7 @@
 			<h1 class="mui-title" style="color: #FFFFFF;">已办事宜</h1>
 		</header>
 
-		<footer class="mui-bar mui-bar-footer">
+		<footer class="mui-bar mui-bar-footer" id="pager">
 			<div class="mui-content-padded footer-page">
 				<ul class="mui-pager">
 					<li class="mui-previous">
@@ -102,11 +102,11 @@
 
 				function requestList() {
 					checkNetwork();
-					
+
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
-					
+
 					var pageInfo = {
 						CurrentPage: currentPage,
 						PageSize: PAGE_SIZE
@@ -155,7 +155,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							console.log(JSON.stringify(data));
 
 							responseList(data);
@@ -164,7 +164,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							mui.alert(getHttpErrorDesp(type), "提示", null);
 						}
 					});
@@ -172,8 +172,15 @@
 				};
 
 				function responseList(resp) {
+					if(resp.ListRecord.length == 0) {
+						mui.toast('没有查询到数据');
+					}
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
+					if(totalRecord == 0) {
+						document.getElementById('pager').style.display = 'none';
+					}
 
 					initSelectPage();
 
@@ -214,7 +221,7 @@
 					}
 					selectPageUL.appendChild(fragment);
 				}
-				
+
 				mui('#list').on('tap', 'li', function(e) {
 					mui.openWindow({
 						url: 'flowmanager_detail.html',

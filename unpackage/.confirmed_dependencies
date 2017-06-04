@@ -118,7 +118,8 @@
 			"js/util.js"
 		],
 		"refer": [
-			"html/report_detail.html"
+			"html/report_detail.html",
+			"html/todoread_detail.html"
 		],
 		"priority": 0
 	},
@@ -179,7 +180,8 @@
 			"html/userlist.html",
 			"html/deptlist.html",
 			"html/setting.html",
-			"html/information_catalog.html"
+			"html/information_catalog.html",
+			"html/notice_catalog.html"
 		],
 		"priority": 0
 	},
@@ -208,7 +210,8 @@
 			"css/parse.css",
 			"css/mui.picker.min.css",
 			"js/mui.picker.min.js",
-			"js/parse.js"
+			"js/parse.js",
+			"img/format_word.png"
 		]
 	},
 	"html/duty.html": {
@@ -368,7 +371,8 @@
 	},
 	"html/information_catalog.html": {
 		"refer": [
-			"html/information_more_list.html"
+			"html/information_more_list.html",
+			"html/information_lastest_list.html"
 		]
 	},
 	"html/information_more_list.html": {
@@ -383,6 +387,45 @@
 			"js/mui.min.js",
 			"css/mui.min.css",
 			"fonts/mui.ttf"
+		]
+	},
+	"html/flowmanager_detail.html": {
+		"resources": [
+			"js/mui.picker.min.js",
+			"js/util.js",
+			"js/constants.js",
+			"js/mui.min.js",
+			"css/parse.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mui.picker.min.css",
+			"js/parse.js"
+		]
+	},
+	"html/notice_catalog.html": {
+		"refer": [
+			"html/notice_more_list.html",
+			"html/notice_lastest_list.html"
+		]
+	},
+	"html/notice_more_list.html": {
+		"refer": [
+			"html/notice_detail.html"
+		]
+	},
+	"html/notice_detail.html": {
+		"resources": [
+			"img/format_pdf.png",
+			"js/util.js",
+			"js/constants.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"html/notice_lastest_list.html": {
+		"refer": [
+			"html/notice_detail.html"
 		]
 	}
 }

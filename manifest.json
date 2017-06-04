@@ -317,7 +317,8 @@
 				],
 				"priority": 4,
 				"refer": [
-					"html/report_detail.html"
+					"html/report_detail.html",
+					"html/todoread_detail.html"
 				]
 			},
 			"html/todoread_history_list.html": {
@@ -380,7 +381,8 @@
 					"html/userlist.html",
 					"html/deptlist.html",
 					"html/setting.html",
-					"html/information_catalog.html"
+					"html/information_catalog.html",
+					"html/notice_catalog.html"
 				],
 				"priority": 0
 			},
@@ -410,7 +412,8 @@
 					"css/parse.css",
 					"css/mui.picker.min.css",
 					"js/mui.picker.min.js",
-					"js/parse.js"
+					"js/parse.js",
+					"img/format_word.png"
 				],
 				"refer": [],
 				"priority": 0
@@ -591,7 +594,8 @@
 			"html/information_catalog.html": {
 				"resources": [],
 				"refer": [
-					"html/information_more_list.html"
+					"html/information_more_list.html",
+					"html/information_lastest_list.html"
 				],
 				"priority": 0
 			},
@@ -611,6 +615,55 @@
 					"fonts/mui.ttf"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"html/flowmanager_detail.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"css/parse.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/mui.picker.min.css",
+					"js/parse.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/notice_catalog.html": {
+				"resources": [],
+				"refer": [
+					"html/notice_more_list.html",
+					"html/notice_lastest_list.html"
+				],
+				"priority": 0
+			},
+			"html/notice_more_list.html": {
+				"resources": [],
+				"refer": [
+					"html/notice_detail.html"
+				],
+				"priority": 0
+			},
+			"html/notice_detail.html": {
+				"resources": [
+					"img/format_pdf.png",
+					"js/util.js",
+					"js/constants.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/notice_lastest_list.html": {
+				"resources": [],
+				"refer": [
+					"html/notice_detail.html"
+				],
 				"priority": 0
 			}
 		},

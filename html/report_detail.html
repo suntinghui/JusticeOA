@@ -8,6 +8,32 @@
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/parse.css" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+
+		<style>
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: white;
+			}
+			
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			
+			.mui-scroll {
+				padding-top: 1px;
+			}
+			
+			.mui-control-content {
+				position: absolute;
+				margin-top: 110px;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			}
+		</style>
+
 	</head>
 
 	<body>
@@ -17,9 +43,39 @@
 		</header>
 
 		<div class="mui-content">
-			<div class="mui-scroll-wrapper scroll-content">
-				<div class="mui-scroll" id="parentdiv">
+			<div style="padding: 10px 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">正文</a>
+					<a class="mui-control-item" href="#item2">领导批示</a>
 				</div>
+			</div>
+
+			<div>
+				<!--正文-->
+				<div id="item1" class="mui-control-content mui-active">
+					<div class="mui-scroll-wrapper scroll-content">
+						<div class="mui-scroll left-content" id="meetingContent">
+							<h5 class="mui-content-padded">正文</h5>
+							<span id="nodoc" class="mui-content-padded" style="display: none;">没有正文数据</span>
+							<ul class="mui-table-view" id="docul" style="display: none;">
+							</ul>
+
+							<h5 class="mui-content-padded" style="margin-top: 40px;">附件</h5>
+							<span id="noatt" class="mui-content-padded" style="display: none;">没有附件数据</span>
+							<ul class="mui-table-view" id="attul" style="display: none;">
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!--领导批示-->
+				<div id="item2" class="mui-control-content">
+					<div class="mui-scroll-wrapper scroll-content">
+						<div class="mui-scroll right-content" id="leaderInfo">
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 
@@ -30,183 +86,34 @@
 		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
+			mui.init();
+
 			(function($) {
 				$('.scroll-content').scroll({
 					indicators: true //是否显示滚动条
 				});
 			})(mui);
 
-			var deptArr = new Array();
+			var InstanceId = '';
 
 			window.onload = function() {
 				mui.plusReady(function() {
 					var self = plus.webview.currentWebview();
-					var InstanceId = self.InstanceId;
+					InstanceId = self.InstanceId;
 
-					requestFormHTML(InstanceId);
+					requestFormHTML();
+
+					requestDocData();
+					requestAtt();
 				});
 			};
 
-			// 获取科室
-			function requestDepList() {
+			function requestFormHTML() {
 				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var depInfo = {
-					DepId: "",
-					DepName: "",
-				};
-
-				var url = HOST + "WorkFlow.ashx?Commond=GetDepList&depInfo=" + JSON.stringify(depInfo);
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: TIMEOUT, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						console.log(JSON.stringify(data));
-
-						responseDeptList(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
-			}; // end requestDeptList
-
-			function responseDeptList(resp) {
-				deptArr = resp;
-
-			}; // end responseDeptList
-
-			// 获取流程实例信息 
-			function requestInstance(instanceId) {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
-				});
-
-				var url = HOST + "WorkFlow.ashx?Commond=GetInstance&instanceId=" + instanceId;
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: TIMEOUT, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						console.log(JSON.stringify(data));
-
-						responseInstance(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
-
-			} // end requestInstance
-
-			function responseInstance(resp) {
-
-			} // end responseInstance
-
-			//获取流转轨迹列表
-			function requestListFlowRecord(instanceId) {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
-				});
-
-				var url = HOST + "WorkFlow.ashx?Commond=GetListFlowRecord&instanceId=" + instanceId;
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: TIMEOUT, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						console.log(JSON.stringify(data));
-
-						responseListFlowRecord(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
-			} // end requestListFlowRecord
-
-			function responseListFlowRecord() {
-
-			} // end responseListFlowRecord
-
-			function requestFlowRecord(recordId) {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
-				});
-
-				var url = HOST + "WorkFlow.ashx?Commond=GetFlowRecord&recordId=" + recordId;
-				mui.ajax(url, {
-					dataType: 'json', //服务器返回json格式数据
-					type: 'get', //HTTP请求类型
-					timeout: TIMEOUT, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						console.log(JSON.stringify(data));
-
-						responseFlowRecord(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
-			} // requestFlowRecord
-
-			function responseFlowRecord() {
-
-			} // end responseFlowRecord
-
-			function requestFormHTML(instanceId) {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
-				});
-
-				var url = HOST + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + instanceId + '&browModel=1&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
+				var url = HOST + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + InstanceId + '&browModel=1&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -234,13 +141,144 @@
 			} // end requestFormHTML
 
 			function responseFormHTML(resp) {
-				var parentdiv = document.getElementById('parentdiv');
-				var fragment = parseForm(resp.Controls);
+				var parentdiv = document.getElementById('leaderInfo');
+				var fragment = parseForm(resp);
 				parentdiv.appendChild(fragment);
 
-				var keyValue = getFormValue(resp.Controls);
-
 			} // end responseFormHTML
+
+			function requestDocData() {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载...");
+				});
+
+				var url = HOST + 'WorkFlow.ashx?Commond=GetDocData&instanceId=' + InstanceId;
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: TIMEOUT, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseDocData(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			}
+
+			function responseDocData(resp) {
+				var nodoc = document.getElementById('nodoc');
+				var docul = document.getElementById('docul');
+
+				if(isNullStr(resp)) {
+					nodoc.style.display = 'inline';
+					docul.style.display = 'none';
+
+				} else {
+					nodoc.style.display = 'none';
+					docul.style.display = 'inline';
+
+					// 首先清空下面的所有结点
+					while(docul.hasChildNodes()) {
+						docul.removeChild(docul.firstChild);
+					}
+
+					// 开始添加新的节点
+					var fragment = document.createDocumentFragment();
+					var li = document.createElement('li');
+					li.className = "mui-table-view-cell mui-media";
+					li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(resp.ContentType) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + '点击查看正文' + '</p></div></a>';
+					li.addEventListener('tap', function(event) {
+						openContent(resp.DownLoadUrl);
+					}, false);
+					fragment.appendChild(li);
+					docul.appendChild(fragment);
+
+				}
+			}
+
+			function requestAtt() {
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载...");
+				});
+
+				var url = HOST + 'WorkFlow.ashx?Commond=GetAttList&busId=' + InstanceId;
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: TIMEOUT, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						console.log(JSON.stringify(data));
+
+						responseAtt(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			}
+
+			function responseAtt(resp) {
+				var noatt = document.getElementById('noatt');
+				var attul = document.getElementById('attul');
+
+				if(isNullStr(resp)) {
+					noatt.style.display = 'inline';
+					attul.style.display = 'none';
+
+				} else {
+					noatt.style.display = 'none';
+					attul.style.display = 'inline';
+
+					// 首先清空下面的所有结点
+					while(attul.hasChildNodes()) {
+						attul.removeChild(attul.firstChild);
+					}
+
+					// 开始添加新的节点
+					var fragment = document.createDocumentFragment();
+					for(var i = 0; i < data.length; i++) {
+						var li = document.createElement('li');
+						li.className = "mui-table-view-cell mui-media";
+						li.id = ("attItem" + i);
+						li.name = data[i].DownLoadUrl;
+						li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(formatToType(data[i].AttSuffix)) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + data[i].AttName + '</p></div></a>';
+
+						li.addEventListener('tap', function(event) {
+							openContent(li.name);
+						}, false);
+
+						fragment.appendChild(li);
+					}
+
+					attul.appendChild(fragment);
+
+				}
+			}
 		</script>
 	</body>
 

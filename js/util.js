@@ -194,6 +194,57 @@ function getDocumentTypeImage(type) {
 	return img;
 }
 
+function getDocumentTypeImage(type) {
+	var img = '../img/format_att.png';
+	switch(type - 0) {
+		case 0:
+			img = '../img/format_html.png';
+			break;
+
+		case 1:
+			img = '../img/format_word.png';
+			break;
+
+		case 2:
+			img = '../img/format_excel.png';
+			break;
+
+		case 3:
+			img = '../img/format_pdf.png';
+			break;
+	}
+
+	return img;
+}
+
+// 下载文件并自动打开
+function openContent(url) {
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在下载...");
+	});
+
+	var dtask = plus.downloader.createDownload(url, {
+		filename: '_doc/oa' + Math.random() + '.doc',
+		timeout: 30, // 默认值为120s,超时时间为服务器响应请求的时间（不是下载任务完成的总时间）
+		retry: 3, // 默认为重试3次
+		retryInterval: 30 // 默认值为30s。
+
+	}, function(download, status) {
+		mui.plusReady(function() {
+			plus.nativeUI.closeWaiting();
+		});
+
+		if(status == 200) {
+			console.log("Download success: " + download.getFileName());
+			plus.runtime.openFile(download.filename);
+		} else {
+			mui.toast('下载失败：' + status);
+		}
+	});
+	//dtask.addEventListener("statechanged", onStateChanged, false);
+	dtask.start();
+}
+
 /**
 //获取当前网络类型
 function onNetChange() {

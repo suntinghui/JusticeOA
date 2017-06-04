@@ -41,7 +41,7 @@
 			<h1 class="mui-title" style="color: #FFFFFF;">最新会议</h1>
 		</header>
 
-		<footer class="mui-bar mui-bar-footer">
+		<footer class="mui-bar mui-bar-footer" id="pager">
 			<div class="mui-content-padded footer-page">
 				<ul class="mui-pager">
 					<li class="mui-previous">
@@ -148,8 +148,15 @@
 				};
 
 				function responseList(resp) {
+					if (resp.ListRecord.length == 0) {
+						mui.toast('没有查询到数据');
+					}
+					
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
+					if(totalRecord == 0) {
+						document.getElementById('pager').style.display = 'none';
+					}
 
 					initSelectPage();
 

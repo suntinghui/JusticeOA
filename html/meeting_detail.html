@@ -174,7 +174,7 @@
 			function responseDetail(resp) {
 				refreshContent(resp);
 				refreshInfo(resp);
-				requestAttList(resp.BusId);
+				requestAttList(resp.MettingId);
 			};
 
 			function refreshContent(resp) {
@@ -228,29 +228,6 @@
 				}
 
 				return -1;
-			}
-
-			function getDocumentTypeImage(type) {
-				var img = '../img/format_att.png';
-				switch(type - 0) {
-					case 0:
-						img = '../img/format_html.png';
-						break;
-
-					case 1:
-						img = '../img/format_word.png';
-						break;
-
-					case 2:
-						img = '../img/format_excel.png';
-						break;
-
-					case 3:
-						img = '../img/format_pdf.png';
-						break;
-				}
-
-				return img;
 			}
 
 			function createInfoItem(name, value) {
