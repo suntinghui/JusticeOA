@@ -90,6 +90,8 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				var ListRecord = null;
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
@@ -142,7 +144,7 @@
 						FEG_30_COL_9994: ""
 					};
 
-					var url = HOST + "FlowManager.ashx?Commond=GetHisList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "FlowManager.ashx?Commond=GetHisList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					console.log(url);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
@@ -176,6 +178,8 @@
 						mui.toast('没有查询到数据');
 					}
 
+					ListRecord = resp.ListRecord;
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -196,8 +200,8 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.InstanceId;
-						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>发文时间：' + record.FEG_30_COL_9994 + '</span><span class="urgentlevel">' + record.Instance.UrgentLevlName + '</span></p></div></div>';
+						li.id = i + "";
+						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">事项名称：' + record.Instance.FlowTypeName + '</p><p class="mui-ellipsis item-address"><span>发布时间：' + record.FEG_30_COL_9994 + '</span><span class="urgentlevel">' + record.Instance.UrgentLevlName + '</span></p></div></div>';
 						fragment.appendChild(li);
 					}
 					list.appendChild(fragment);
@@ -234,7 +238,10 @@
 							title: '正在加载...',
 						},
 						extras: {
-							'InstanceId': this.getAttribute("id")
+							'Title':ListRecord[this.getAttribute('id')].Instance.FlowTitle,
+							'RecordId': ListRecord[this.getAttribute('id')].RecordId,
+							'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
+							'browModel': '1'
 						}
 					});
 				});

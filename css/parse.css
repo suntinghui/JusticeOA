@@ -33,7 +33,7 @@ input[type="text"] {
 	width: 25%;
 	color: #666666;
 	font-size: 15px;
-	text-align: right;
+	text-align:center;
 	margin-right: 20px;
 }
 
@@ -41,6 +41,23 @@ input[type="text"] {
 	width: 60%;
 	color: #333333;
 	font-size: 15px;
+}
+
+.item-bsrq {
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+}
+
+.item-bsrq-left {
+	float: left;
+	width: 30%;
+	color: #666666;
+	font-size: 15px;
+}
+.item-bsrq-right {
+	float: right;
+	width: 70%;
 }
 
 .mui-checkbox input[type=checkbox]:before {
@@ -82,5 +99,5 @@ input[type="text"] {
 }
 
 .oper-btn {
-	margin: 5px 5px;
+	margin: 5px 15px;
 }

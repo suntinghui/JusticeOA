@@ -83,6 +83,8 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				var ListRecord = null;
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
@@ -120,7 +122,7 @@
 						SearchEndDate: ""
 					};
 
-					var url = HOST + "FlowReport.ashx?Commond=GetMoreReport&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "FlowReport.ashx?Commond=GetMoreReport&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型
@@ -149,10 +151,12 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
+
+					ListRecord = resp.ListRecord;
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -173,7 +177,7 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.InstanceId;
+						li.id = i + '';
 						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.FlowTitle + '</p><p class="mui-ellipsis item-time">事务类型：' + record.FlowTypeName + '</p><p class="mui-ellipsis item-address">办毕时间：' + record.FinishDate + '</p></div></div>';
 						fragment.appendChild(li);
 					}
@@ -211,7 +215,9 @@
 							title: '正在加载...',
 						},
 						extras: {
-							'InstanceId': this.getAttribute("id")
+							'Title': ListRecord[this.getAttribute('id')].FlowTitle,
+							'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
+							'browModel': '1'
 						}
 					});
 				});

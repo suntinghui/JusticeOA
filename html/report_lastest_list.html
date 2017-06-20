@@ -83,6 +83,8 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				var ListRecord = null;
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
@@ -120,7 +122,7 @@
 						SearchEndDate: ""
 					};
 
-					var url = HOST + "FlowReport.ashx?Commond=GetNewReport&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "FlowReport.ashx?Commond=GetNewReport&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型
@@ -149,10 +151,12 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
+
+					ListRecord = resp.ListRecord;
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -173,7 +177,7 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.InstanceId;
+						li.id = i + '';
 						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.DispatchUnit + '</p><p class="mui-ellipsis item-address">发文时间：' + record.CreateDate + '</p></div></div>';
 						fragment.appendChild(li);
 					}
@@ -200,20 +204,28 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
-					mui.openWindow({
-						url: 'report_detail.html',
-						id: Math.random(),
-						show: {
-							aniShow: 'pop-in'
-						},
-						waiting: {
-							autoShow: true, //自动显示等待框，默认为true
-							title: '正在加载...',
-						},
-						extras: {
-							'InstanceId': this.getAttribute("id")
-						}
-					});
+					mui.plusReady(function() {
+						var page = plus.webview.currentWebview();
+
+						mui.openWindow({
+							url: 'report_detail.html',
+							id: Math.random(),
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: '正在加载...',
+							},
+							extras: {
+								'Title': ListRecord[this.getAttribute('id')].FlowTitle,
+								'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
+								'browModel': '0',
+								'listWebViewId': page.id
+							}
+						});
+
+					})
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {
@@ -248,6 +260,17 @@
 				});
 
 				mui('.mui-scroll-wrapper').scroll();
+
+				mui.plusReady(function() {
+					window.addEventListener('refresh', function(event) {
+						//获得事件参数
+						var refresh = event.detail.refresh;
+						if(refresh) {
+							requestList();
+						}
+					});
+
+				}); // end
 			</script>
 	</body>
 

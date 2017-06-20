@@ -60,8 +60,7 @@
 							<ul class="mui-table-view" id="docul" style="display: none;">
 							</ul>
 
-							<h5 class="mui-content-padded" style="margin-top: 40px;">附件</h5>
-							<span id="noatt" class="mui-content-padded" style="display: none;">没有附件数据</span>
+							<h5 id="noatt" class="mui-content-padded" style="margin-top: 40px; display: none;">附件</h5>
 							<ul class="mui-table-view" id="attul" style="display: none;">
 							</ul>
 						</div>
@@ -94,12 +93,16 @@
 				});
 			})(mui);
 
+			var Title = '';
 			var InstanceId = '';
+			var browModel = '';
 
 			window.onload = function() {
 				mui.plusReady(function() {
 					var self = plus.webview.currentWebview();
+					Title = self.Title;
 					InstanceId = self.InstanceId;
+					browModel = self.browModel;
 
 					requestFormHTML();
 
@@ -113,7 +116,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = HOST + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + InstanceId + '&browModel=1&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
+				var url = getHost() + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + InstanceId + '&browModel='+browModel+'&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -142,7 +145,7 @@
 
 			function responseFormHTML(resp) {
 				var parentdiv = document.getElementById('leaderInfo');
-				var fragment = parseForm(resp);
+				var fragment = parseForm(resp, '00');
 				parentdiv.appendChild(fragment);
 
 			} // end responseFormHTML
@@ -152,7 +155,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = HOST + 'WorkFlow.ashx?Commond=GetDocData&instanceId=' + InstanceId;
+				var url = getHost() + 'WorkFlow.ashx?Commond=GetDocData&instanceId=' + InstanceId;
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -184,11 +187,11 @@
 				var docul = document.getElementById('docul');
 
 				if(isNullStr(resp)) {
-					nodoc.style.display = 'inline';
+					nodoc.style.display = 'none';
 					docul.style.display = 'none';
 
 				} else {
-					nodoc.style.display = 'none';
+					nodoc.style.display = 'inline';
 					docul.style.display = 'inline';
 
 					// 首先清空下面的所有结点
@@ -200,9 +203,9 @@
 					var fragment = document.createDocumentFragment();
 					var li = document.createElement('li');
 					li.className = "mui-table-view-cell mui-media";
-					li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(resp.ContentType) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + '点击查看正文' + '</p></div></a>';
+					li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(resp.ContentType) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + Title + '</p></div></a>';
 					li.addEventListener('tap', function(event) {
-						openContent(resp.DownLoadUrl);
+						openContent(resp.DownLoadUrl, resp.ContentType, resp.HtmlContent);
 					}, false);
 					fragment.appendChild(li);
 					docul.appendChild(fragment);
@@ -215,7 +218,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = HOST + 'WorkFlow.ashx?Commond=GetAttList&busId=' + InstanceId;
+				var url = getHost() + 'WorkFlow.ashx?Commond=GetAttList&busId=' + InstanceId;
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -264,12 +267,12 @@
 					for(var i = 0; i < data.length; i++) {
 						var li = document.createElement('li');
 						li.className = "mui-table-view-cell mui-media";
-						li.id = ("attItem" + i);
+						li.id = i;
 						li.name = data[i].DownLoadUrl;
 						li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(formatToType(data[i].AttSuffix)) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + data[i].AttName + '</p></div></a>';
 
 						li.addEventListener('tap', function(event) {
-							openContent(li.name);
+							openContent(data[this.id].DownLoadUrl, data[this.id].ContentType, data[this.id].HtmlContent);
 						}, false);
 
 						fragment.appendChild(li);

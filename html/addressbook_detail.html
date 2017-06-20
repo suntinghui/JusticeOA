@@ -108,7 +108,7 @@
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
 
-					var url = HOST + "AddressBook.ashx?Commond=GetAddressBookInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&belongUser=" + BelongUser;
+					var url = getHost() + "AddressBook.ashx?Commond=GetAddressBookInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&belongUser=" + BelongUser;
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型

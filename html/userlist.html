@@ -78,7 +78,6 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="../js/pinyin.js" type="text/javascript" charset="utf-8"></script>-->
 		<script src="../js/mui.indexedlist.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
@@ -134,7 +133,7 @@
 					ExceptionMes: ""
 				};
 
-				var url = HOST + "WorkFlow.ashx?Commond=GetUserList&userInfo=" + JSON.stringify(userInfo) + '&pageInfo=' + JSON.stringify(pageInfo);
+				var url = getHost() + "WorkFlow.ashx?Commond=GetUserList&userInfo=" + JSON.stringify(userInfo) + '&pageInfo=' + JSON.stringify(pageInfo);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型

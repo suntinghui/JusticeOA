@@ -75,7 +75,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = HOST + "OnDuty.ashx?Commond=GetDutyInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&startDate=" + dateArr[1] + "&endDate=" + dateArr[3];
+				var url = getHost() + "OnDuty.ashx?Commond=GetDutyInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&startDate=" + dateArr[1] + "&endDate=" + dateArr[3];
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -191,7 +191,7 @@
 						bottom: 20,
 						inRange: {
 							// 0－周六日 50－今天 100－正常  90－其他月 80－值班
-							color: ['#FFCCCC', '#CCFFFF', '#B0C4DE', '#aaaaaa', '#FFFFFF'],
+							color: ['#FFCCCC', '#CCFFFF', '#B0C4DE', '#AAAAAA', '#FFFFFF'],
 							symbolSize: [0, 50, 80, 90, 100]
 						},
 
@@ -232,7 +232,7 @@
 									color: '#333'
 								},
 								position: 'top',
-								offset: [0, -10]
+								offset: [0, -20]
 							}
 						},
 						data: dateList
@@ -246,16 +246,16 @@
 								formatter: function(params) {
 									var str = '';
 									for(var k = 2; k < params.value.length; k++) {
-										var temp = (params.value[k] || '');
+										//var temp = (params.value[k] || '');
 										str += ('\n' + params.value[k]);
 									}
 									return str;
 								},
 								textStyle: {
-									color: '#000'
+									color: '#000000'
 								},
 								position: 'top',
-								offset: [0, 30]
+								offset: [0, 26]
 							}
 						},
 						data: dateList

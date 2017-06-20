@@ -117,7 +117,7 @@
 						SearchEndDate: "",
 					};
 
-					var url = HOST + "NoticeManager.ashx?Commond=GetNewNoticeList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "NoticeManager.ashx?Commond=GetNewNoticeList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型

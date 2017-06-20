@@ -39,7 +39,7 @@
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;">更多通知</h1>
-			<a id="search" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;搜索&nbsp;&nbsp;</a>
+			<a id="search" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF; visibility: hidden;">&nbsp;搜索&nbsp;&nbsp;</a>
 		</header>
 
 		<footer class="mui-bar mui-bar-footer" id="pager">
@@ -118,7 +118,7 @@
 						SearchEndDate: "",
 					};
 
-					var url = HOST + "NoticeManager.ashx?Commond=GetMoreNoticeList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "NoticeManager.ashx?Commond=GetMoreNoticeList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
 						type: 'get', //HTTP请求类型

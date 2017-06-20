@@ -115,8 +115,10 @@
 			function logout() {
 				mui.confirm('您确定要注销登录吗？', '提示', ['取消', '确认'], function(e) {
 					if(e.index == 1) {
+						window.localStorage.setItem(CheckAutoLogin, false);
+						
 						var tokenKey = window.localStorage.getItem(TokenKey);
-						var url = HOST + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
+						var url = getHost() + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
 						console.log(url);
 						mui.getJSON(url, {}, function(data) {
 							// 获取所有Webview窗口
@@ -128,7 +130,7 @@
 									continue;
 								plus.webview.close(wvs[i]);
 							}
-							//打开login页面后再关闭setting页面
+							//打开login页面后再关闭
 							plus.webview.open('login.html');
 							curr.close();
 

@@ -1,431 +1,504 @@
 {
-	"html/meeting_detail.html": {
-		"href": "html/meeting_detail.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/base64.js",
-			"js/util.js",
-			"fonts/mui.ttf",
-			"img/format_word.png",
-			"img/format_att.png",
-			"img/format_excel.png",
-			"img/format_html.png"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"html/meeting_lastest_list.html": {
-		"href": "html/meeting_lastest_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"html/meeting_detail.html"
-		],
-		"priority": 0
-	},
-	"html/meeting_more_list.html": {
-		"href": "html/meeting_more_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"html/meeting_detail.html"
-		],
-		"priority": 0
-	},
-	"html/meeting_catalog.html": {
-		"href": "html/meeting_catalog.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"img/icon_11.png",
-			"img/icon_12.png",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"html/meeting_lastest_list.html",
-			"html/meeting_more_list.html"
-		],
-		"priority": 0
-	},
-	"html/todofile_lastest_list.html": {
-		"href": "html/todofile_lastest_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js"
-		],
-		"refer": [
-			"html/todofile_detail.html"
-		],
-		"priority": 0
-	},
-	"html/todofile_history_list.html": {
-		"href": "html/todofile_history_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js"
-		],
-		"refer": [
-			"html/todofile_detail.html"
-		],
-		"priority": 0
-	},
-	"html/todofile_catalog.html": {
-		"href": "html/todofile_catalog.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"img/icon_21.png",
-			"img/icon_22.png",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"html/todofile_lastest_list.html",
-			"html/todofile_history_list.html"
-		],
-		"priority": 0
-	},
-	"html/test.html": {
-		"href": "html/test.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"html/todoread_lastest_list.html": {
-		"href": "html/todoread_lastest_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js"
-		],
-		"refer": [
-			"html/report_detail.html",
-			"html/todoread_detail.html"
-		],
-		"priority": 0
-	},
-	"html/todoread_history_list.html": {
-		"href": "html/todoread_history_list.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js"
-		],
-		"refer": [
-			"html/todoread_detail.html"
-		],
-		"priority": 0
-	},
-	"html/todoread_catalog.html": {
-		"href": "html/todoread_catalog.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"img/icon_51.png",
-			"img/icon_52.png"
-		],
-		"refer": [
-			"html/todoread_lastest_list.html",
-			"html/todoread_history_list.html"
-		],
-		"priority": 0
-	},
-	"html/catalog.html": {
-		"href": "html/catalog.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/util.js",
-			"js/constants.js",
-			"img/icon_1.png",
-			"img/icon_2.png",
-			"img/icon_3.png",
-			"img/icon_4.png",
-			"img/icon_5.png",
-			"img/icon_6.png",
-			"img/icon_7.png",
-			"img/icon_8.png",
-			"img/icon_9.png"
-		],
-		"refer": [
-			"html/login.html",
-			"html/meeting_catalog.html",
-			"html/todofile_catalog.html",
-			"html/test.html",
-			"html/todoread_catalog.html",
-			"html/duty.html",
-			"html/addressbook_list.html",
-			"html/report_catalog.html",
-			"html/flowmanager_catalog.html",
-			"html/userlist.html",
-			"html/deptlist.html",
-			"html/setting.html",
-			"html/information_catalog.html",
-			"html/notice_catalog.html"
-		],
-		"priority": 0
-	},
-	"html/login.html": {
-		"href": "html/login.html",
-		"resources": [
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"js/constants.js",
-			"js/util.js"
-		],
-		"refer": [
-			"html/catalog.html"
-		],
-		"priority": 0
-	},
-	"html/todofile_detail.html": {
-		"resources": [
-			"css/feedback.css",
-			"js/base64.js",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/parse.css",
-			"css/mui.picker.min.css",
-			"js/mui.picker.min.js",
-			"js/parse.js",
-			"img/format_word.png"
-		]
-	},
-	"html/duty.html": {
-		"resources": [
-			"fonts/mui.ttf",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"js/echarts.min.js",
-			"js/echarts.js",
-			"js/mui.picker.min.js",
-			"css/mui.picker.min.css"
-		]
-	},
-	"html/addressbook_list.html": {
-		"resources": [
-			"img/img_head.png",
-			"fonts/mui.ttf"
-		]
-	},
-	"html/report_catalog.html": {
-		"resources": [
-			"img/icon_11.png",
-			"fonts/mui.ttf",
-			"img/icon_12.png",
-			"js/mui.min.js",
-			"css/mui.min.css"
-		],
-		"refer": [
-			"html/report_more_list.html",
-			"html/userlist.html",
-			"html/report_lastest_list.html"
-		]
-	},
-	"html/report_more_list.html": {
-		"refer": [
-			"html/report_detail.html"
-		],
-		"resources": [
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"fonts/mui.ttf"
-		]
-	},
-	"html/userlist.html": {
-		"resources": [
-			"js/pinyin.js",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/mui.indexedlist.css",
-			"js/mui.indexedlist.js"
-		],
-		"refer": [
-			"html/setting.html"
-		]
-	},
-	"html/report_detail.html": {
-		"resources": [
-			"css/parse.css",
-			"js/parse.js",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"js/mui.picker.min.js",
-			"css/mui.picker.min.css"
-		],
-		"refer": [
-			"html/userlist.html"
-		]
-	},
-	"html/report_lastest_list.html": {
-		"refer": [
-			"html/report_detail.html"
-		],
-		"resources": [
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"html/flowmanager_catalog.html": {
-		"refer": [
-			"html/flowmanager_history_list.html",
-			"html/flowmanager_lastest_list.html"
-		],
-		"resources": [
-			"img/icon_21.png",
-			"img/icon_22.png",
-			"fonts/mui.ttf"
-		]
-	},
-	"html/flowmanager_history_list.html": {
-		"resources": [
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"html/flowmanager_lastest_list.html": {
-		"resources": [
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		],
-		"refer": [
-			"html/flowmanager_detail.html"
-		]
-	},
-	"html/todoread_detail.html": {
-		"resources": [
-			"js/mui.picker.min.js",
-			"css/parse.css",
-			"css/mui.picker.min.css",
-			"js/parse.js",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"html/deptlist.html": {
-		"resources": [
-			"fonts/mui.ttf",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"css/mui.indexedlist.css",
-			"js/mui.indexedlist.js"
-		]
-	},
-	"html/setting.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		],
-		"refer": [
-			"html/userlist.html",
-			"html/feedback.html"
-		]
-	},
-	"html/information_catalog.html": {
-		"refer": [
-			"html/information_more_list.html",
-			"html/information_lastest_list.html"
-		]
-	},
-	"html/information_more_list.html": {
-		"refer": [
-			"html/information_detail.html"
-		]
-	},
-	"html/feedback.html": {
-		"resources": [
-			"css/feedback.css",
-			"js/feedback.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"fonts/mui.ttf"
-		]
-	},
-	"html/flowmanager_detail.html": {
-		"resources": [
-			"js/mui.picker.min.js",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"css/parse.css",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/mui.picker.min.css",
-			"js/parse.js"
-		]
-	},
-	"html/notice_catalog.html": {
-		"refer": [
-			"html/notice_more_list.html",
-			"html/notice_lastest_list.html"
-		]
-	},
-	"html/notice_more_list.html": {
-		"refer": [
-			"html/notice_detail.html"
-		]
-	},
-	"html/notice_detail.html": {
-		"resources": [
-			"img/format_pdf.png",
-			"js/util.js",
-			"js/constants.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"html/notice_lastest_list.html": {
-		"refer": [
-			"html/notice_detail.html"
-		]
-	}
+  "html/meeting_detail.html": {
+    "href": "html/meeting_detail.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/base64.js",
+      "js/util.js",
+      "fonts/mui.ttf",
+      "img/format_word.png",
+      "img/format_att.png",
+      "img/format_excel.png",
+      "img/format_html.png"
+    ],
+    "refer": [
+      "html/showHTML.html"
+    ],
+    "priority": 0
+  },
+  "html/meeting_lastest_list.html": {
+    "href": "html/meeting_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/meeting_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/meeting_more_list.html": {
+    "href": "html/meeting_more_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/meeting_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/meeting_catalog.html": {
+    "href": "html/meeting_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "img/icon_11.png",
+      "img/icon_12.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/meeting_lastest_list.html",
+      "html/meeting_more_list.html"
+    ],
+    "priority": 0
+  },
+  "html/todofile_lastest_list.html": {
+    "href": "html/todofile_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/todofile_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/todofile_history_list.html": {
+    "href": "html/todofile_history_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/todofile_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/todofile_catalog.html": {
+    "href": "html/todofile_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "img/icon_21.png",
+      "img/icon_22.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/todofile_lastest_list.html",
+      "html/todofile_history_list.html"
+    ],
+    "priority": 0
+  },
+  "html/test.html": {
+    "href": "html/test.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/todoread_lastest_list.html": {
+    "href": "html/todoread_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/report_detail.html",
+      "html/todoread_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/todoread_history_list.html": {
+    "href": "html/todoread_history_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/todoread_detail.html"
+    ],
+    "priority": 0
+  },
+  "html/todoread_catalog.html": {
+    "href": "html/todoread_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "img/icon_51.png",
+      "img/icon_52.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/todoread_lastest_list.html",
+      "html/todoread_history_list.html"
+    ],
+    "priority": 0
+  },
+  "html/catalog.html": {
+    "href": "html/catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/util.js",
+      "js/constants.js",
+      "img/icon_1.png",
+      "img/icon_2.png",
+      "img/icon_3.png",
+      "img/icon_4.png",
+      "img/icon_5.png",
+      "img/icon_6.png",
+      "img/icon_7.png",
+      "img/icon_8.png",
+      "img/icon_9.png"
+    ],
+    "refer": [
+      "html/login.html",
+      "html/meeting_catalog.html",
+      "html/todofile_catalog.html",
+      "html/test.html",
+      "html/todoread_catalog.html",
+      "html/duty.html",
+      "html/addressbook_list.html",
+      "html/report_catalog.html",
+      "html/flowmanager_catalog.html",
+      "html/userlist.html",
+      "html/deptlist.html",
+      "html/setting.html",
+      "html/information_catalog.html",
+      "html/notice_catalog.html"
+    ],
+    "priority": 0
+  },
+  "html/login.html": {
+    "href": "html/login.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "img/ip.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 0
+  },
+  "html/todofile_detail.html": {
+    "resources": [
+      "css/feedback.css",
+      "js/base64.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/parse.css",
+      "css/mui.picker.min.css",
+      "js/mui.picker.min.js",
+      "js/parse.js",
+      "img/format_word.png",
+      "img/format_pdf.png"
+    ],
+    "refer": [
+      "html/userlist.html"
+    ]
+  },
+  "html/duty.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/echarts.min.js",
+      "js/echarts.js",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css"
+    ],
+    "refer": []
+  },
+  "html/addressbook_list.html": {
+    "resources": [
+      "img/img_head.png",
+      "fonts/mui.ttf",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js"
+    ],
+    "refer": [
+      "html/addressbook_detail.html"
+    ]
+  },
+  "html/report_catalog.html": {
+    "resources": [
+      "img/icon_11.png",
+      "fonts/mui.ttf",
+      "img/icon_12.png",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "html/report_more_list.html",
+      "html/userlist.html",
+      "html/report_lastest_list.html"
+    ]
+  },
+  "html/report_more_list.html": {
+    "refer": [
+      "html/report_detail.html"
+    ],
+    "resources": [
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ]
+  },
+  "html/userlist.html": {
+    "resources": [
+      "js/pinyin.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js"
+    ],
+    "refer": [
+      "html/setting.html"
+    ]
+  },
+  "html/report_detail.html": {
+    "resources": [
+      "css/parse.css",
+      "js/parse.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css",
+      "img/format_word.png"
+    ],
+    "refer": [
+      "html/userlist.html"
+    ]
+  },
+  "html/report_lastest_list.html": {
+    "refer": [
+      "html/report_detail.html"
+    ],
+    "resources": [
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "html/flowmanager_catalog.html": {
+    "refer": [
+      "html/flowmanager_history_list.html",
+      "html/flowmanager_lastest_list.html"
+    ],
+    "resources": [
+      "img/icon_21.png",
+      "img/icon_22.png",
+      "fonts/mui.ttf"
+    ]
+  },
+  "html/flowmanager_history_list.html": {
+    "resources": [
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "html/flowmanager_detail.html"
+    ]
+  },
+  "html/flowmanager_lastest_list.html": {
+    "resources": [
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "html/flowmanager_detail.html"
+    ]
+  },
+  "html/todoread_detail.html": {
+    "resources": [
+      "js/mui.picker.min.js",
+      "css/parse.css",
+      "css/mui.picker.min.css",
+      "js/parse.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "img/format_word.png"
+    ],
+    "refer": [
+      "html/userlist.html"
+    ]
+  },
+  "html/deptlist.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js"
+    ],
+    "refer": []
+  },
+  "html/setting.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "html/userlist.html",
+      "html/feedback.html"
+    ]
+  },
+  "html/information_catalog.html": {
+    "refer": [
+      "html/information_more_list.html",
+      "html/information_lastest_list.html"
+    ],
+    "resources": [
+      "img/icon_11.png",
+      "img/icon_12.png"
+    ]
+  },
+  "html/information_more_list.html": {
+    "refer": [
+      "html/information_detail.html"
+    ],
+    "resources": [
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "html/feedback.html": {
+    "resources": [
+      "css/feedback.css",
+      "js/feedback.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "html/flowmanager_detail.html": {
+    "resources": [
+      "js/mui.picker.min.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "css/parse.css",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mui.picker.min.css",
+      "js/parse.js"
+    ],
+    "refer": []
+  },
+  "html/notice_catalog.html": {
+    "refer": [
+      "html/notice_more_list.html",
+      "html/notice_lastest_list.html"
+    ],
+    "resources": [
+      "img/icon_11.png",
+      "img/icon_12.png"
+    ]
+  },
+  "html/notice_more_list.html": {
+    "refer": [
+      "html/notice_detail.html"
+    ],
+    "resources": []
+  },
+  "html/notice_detail.html": {
+    "resources": [
+      "img/format_pdf.png",
+      "js/util.js",
+      "js/constants.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "html/notice_lastest_list.html": {
+    "refer": [
+      "html/notice_detail.html"
+    ],
+    "resources": []
+  },
+  "html/addressbook_detail.html": {
+    "resources": [
+      "img/img_jobtel.png",
+      "img/img_email.png",
+      "img/img_telphone.png",
+      "img/img_fax.png"
+    ],
+    "refer": []
+  },
+  "html/information_detail.html": {
+    "resources": [
+      "img/format_pdf.png"
+    ],
+    "refer": []
+  },
+  "html/showHTML.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  }
 }

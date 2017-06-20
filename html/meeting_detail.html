@@ -144,7 +144,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = HOST + "Meeting.ashx?Commond=GetMeetingInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&mettingId=" + meetingId;
+				var url = getHost() + "Meeting.ashx?Commond=GetMeetingInfo&tokenKey=" + window.localStorage.getItem(TokenKey) + "&mettingId=" + meetingId;
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -194,7 +194,7 @@
 				contentUL.appendChild(fragment);
 
 				document.getElementById('contentItem').addEventListener('tap', function(event) {
-					openContent(resp.DownLoadUrl);
+					openContent(resp.DownLoadUrl, resp.ContentType, resp.HtmlContent);
 				}, false);
 			}
 
@@ -239,7 +239,7 @@
 
 			// 查询附件信息
 			function requestAttList(busId) {
-				var url = HOST + "ATTManager.ashx?Commond=GetAttList&busId=" + busId;
+				var url = getHost() + "ATTManager.ashx?Commond=GetAttList&busId=" + busId;
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -280,12 +280,12 @@
 					for(var i = 0; i < data.length; i++) {
 						var li = document.createElement('li');
 						li.className = "mui-table-view-cell mui-media";
-						li.id = ("attItem" + i);
+						li.id = i;
 						li.name = data[i].DownLoadUrl;
 						li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(formatToType(data[i].AttSuffix)) + '"><div class="mui-media-body"><p class="mui-ellipsis content-title">' + data[i].AttName + '</p></div></a>';
 
 						li.addEventListener('tap', function(event) {
-							openContent(li.name);
+							openContent(data[this.id].DownLoadUrl, data[this.id].ContentType, data[this.id].HtmlContent);
 						}, false);
 
 						fragment.appendChild(li);
@@ -294,33 +294,6 @@
 					attUL.appendChild(fragment);
 				}
 
-			}
-
-			function openContent(url) {
-				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在下载...");
-				});
-
-				var dtask = plus.downloader.createDownload(url, {
-					filename: '_doc/oa' + Math.random() + '.doc',
-					timeout: 30, // 默认值为120s,超时时间为服务器响应请求的时间（不是下载任务完成的总时间）
-					retry: 3, // 默认为重试3次
-					retryInterval: 30 // 默认值为30s。
-
-				}, function(download, status) {
-					mui.plusReady(function() {
-						plus.nativeUI.closeWaiting();
-					});
-
-					if(status == 200) {
-						console.log("Download success: " + download.getFileName());
-						plus.runtime.openFile(download.filename);
-					} else {
-						mui.toast('下载失败：' + status);
-					}
-				});
-				//dtask.addEventListener("statechanged", onStateChanged, false);
-				dtask.start();
 			}
 		</script>
 	</body>

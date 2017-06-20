@@ -114,7 +114,7 @@
 					DepName: "",
 				};
 
-				var url = HOST + "WorkFlow.ashx?Commond=GetDepList&depInfo=" + JSON.stringify(depInfo);
+				var url = getHost() + "WorkFlow.ashx?Commond=GetDepList&depInfo=" + JSON.stringify(depInfo);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型

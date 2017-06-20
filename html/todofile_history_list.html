@@ -89,6 +89,8 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				var ListRecord = null;
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
@@ -101,11 +103,11 @@
 
 				function requestList() {
 					checkNetwork();
-					
+
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
-					
+
 					var pageInfo = {
 						CurrentPage: currentPage,
 						PageSize: PAGE_SIZE
@@ -141,7 +143,7 @@
 						FEG_30_COL_9994: ""
 					};
 
-					var url = HOST + "DocManager.ashx?Commond=GetHisList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
+					var url = getHost() + "DocManager.ashx?Commond=GetHisList&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
 					console.log(url);
 					mui.ajax(url, {
 						dataType: 'json', //服务器返回json格式数据
@@ -154,7 +156,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							console.log(JSON.stringify(data));
 
 							responseList(data);
@@ -163,7 +165,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							mui.alert(getHttpErrorDesp(type), "提示", null);
 						}
 					});
@@ -171,10 +173,12 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
+
+					ListRecord = resp.ListRecord;
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -195,7 +199,7 @@
 						var record = resp.ListRecord[i];
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.id = record.InstanceId;
+						li.id = i + "";
 						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.Instance.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.Instance.DispatchUnit + '</p><p class="mui-ellipsis item-address"><span>发文时间：' + record.FEG_30_COL_9994 + '</span><span class="urgentlevel">' + record.Instance.UrgentLevlName + '</span></p></div></div>';
 						fragment.appendChild(li);
 					}
@@ -233,7 +237,10 @@
 							title: '正在加载...',
 						},
 						extras: {
-							'InstanceId': this.getAttribute("id")
+							'Title': ListRecord[this.getAttribute('id')].Instance.FlowTitle,
+							'RecordId': ListRecord[this.getAttribute('id')].RecordId,
+							'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
+							'browModel': '1'
 						}
 					});
 				});

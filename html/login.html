@@ -8,6 +8,14 @@
 		<link href="../css/mui.min.css" rel="stylesheet" />
 
 		<style>
+			.ip {
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				right: 20px;
+				top: 20px;
+			}
+			
 			.content-div {
 				background-color: #008FF7;
 				padding: 5%;
@@ -39,17 +47,34 @@
 	</head>
 
 	<body style="background-color: #008FF7;">
+
 		<!--所有的页面程序必须写在该div里-->
 		<div class="mui-content" style="position: relative;">
+
+			<img src="../img/ip.png" class="ip" id="setIp" />
+
 			<div class="content-div">
-				<h1 style="text-align: center; color: #FFFFFF; ">顺义司法局</h1>
+
+				<h1 style="text-align: center; color: #FFFFFF; ">顺义区司法局</h1>
 				<h3 style="text-align: center;color: #FFFFFF;margin-top: 18px;">移动办公平台</h3>
 				<!--zhouxiaomin-->
 				<!--anjianfeng-->
-				<input type="text" id="userNameText" placeholder="请输入用户名" value="zhouxiaomin" />
+				<input type="text" id="userNameText" placeholder="请输入用户名" value="" />
 				<!--aaaaaa-->
 				<!--abc-->
-				<input type="password" id="passwordText" placeholder="请输入密码" value="aaaaaa" />
+				<input type="password" id="passwordText" placeholder="请输入密码" value="" />
+
+				<div style="padding-bottom: 20px;">
+					<div class="mui-checkbox mui-left" style=" float: left;" id="savepwdDiv">
+						<label style="color: white; margin-top: 5px;">记住密码</label>
+						<input name="savepwd" value="savepwd" type="checkbox" id="savepwd">
+					</div>
+
+					<div class="mui-checkbox mui-left" style="float: right;" id="autologinDiv">
+						<label style="color: white; margin-top: 5px;">自动登录</label>
+						<input name="autologin" value="autologin" type="checkbox" id="autologin">
+					</div>
+				</div>
 
 				<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary">登&nbsp;&nbsp;&nbsp;录</button>
 
@@ -61,16 +86,48 @@
 		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
-			var userNameText = document.getElementById("userNameText");
-			var passwordText = document.getElementById("passwordText");
-			var loginBtn = document.getElementById("loginBtn");
-
 			mui.init();
 
-			loginBtn.addEventListener("tap", function(event) {
-				if(checkInput()) {
-					loginReq();
+			var setIp = document.getElementById('setIp');
+			var userNameText = document.getElementById("userNameText");
+			var passwordText = document.getElementById("passwordText");
+			var savepwdDiv = document.getElementById('savepwdDiv');
+			var savepwd = document.getElementById('savepwd');
+			var autologinDiv = document.getElementById('autologinDiv');
+			var autologin = document.getElementById('autologin');
+			var loginBtn = document.getElementById("loginBtn");
+
+			// 初始化参数 
+			userNameText.value = window.localStorage.getItem(SaveUserName);
+			passwordText.value = window.localStorage.getItem(SavePwd);
+			autoLoginCheck(window.localStorage.getItem(CheckAutoLogin) == 'true');
+			savepwd.checked = (window.localStorage.getItem(CheckSavePwd) == 'true');
+
+			window.onload = function() {
+				if(window.localStorage.getItem(CheckAutoLogin) == 'true') {
+					window.setTimeout(loginReq, 2000);
 				}
+			};
+
+			setIp.addEventListener('tap', function(e) {
+				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+
+				var btnArray = ['取消', '确定'];
+				mui.prompt('严格按照格式103.43.185.166:8066', '当前地址为:' + getLocalStoreageHost(), '慎重修改服务地址', btnArray, function(e) {
+					if(e.index == 1) {
+						if(isNullStr(e.value)) {
+							mui.toast('请输入地址');
+
+						} else {
+							window.localStorage.setItem(SET_HOST, e.value);
+							mui.toast('设置成功，当前地址为：' + e.value);
+						}
+					}
+				})
+			}, false);
+
+			loginBtn.addEventListener("tap", function(event) {
+				loginReq();
 			}, false);
 
 			var checkInput = function() {
@@ -90,12 +147,15 @@
 			var loginReq = function() {
 				checkNetwork();
 
+				if(!checkInput())
+					return;
+
 				mui.plusReady(function() {
 					plus.nativeUI.showWaiting("正在登录...");
 				});
 
 				var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + "123456";
-				var url = HOST + "Identity.ashx?Commond=AppLogin" + argus;
+				var url = getHost() + "Identity.ashx?Commond=AppLogin" + argus;
 				mui.ajax(url, {
 					dataType: 'json',
 					type: 'get',
@@ -127,6 +187,16 @@
 							// 保存用户信息
 							window.localStorage.setItem(TokenKey, resp.TokenKey);
 							window.localStorage.setItem(UserName, resp.UserName);
+
+							// 保存登录用户名
+							window.localStorage.setItem(SaveUserName, userNameText.value);
+							window.localStorage.setItem(CheckSavePwd, savepwd.checked);
+							window.localStorage.setItem(CheckAutoLogin, autologin.checked);
+							if(savepwd.checked) {
+								window.localStorage.setItem(SavePwd, passwordText.value);
+							} else {
+								window.localStorage.setItem(SavePwd, '');
+							}
 
 							mui.openWindow({
 								url: 'catalog.html',
@@ -173,6 +243,23 @@
 				}
 
 			};
+
+			mui('#autologinDiv').on('change', 'input', function() {
+				autoLoginCheck(this.checked);
+			});
+
+			function autoLoginCheck(checked) {
+				savepwd.checked = checked;
+				autologin.checked = checked;
+
+				if(checked) {
+					savepwd.disabled = 'disabled';
+					savepwdDiv.classList.add('mui-disabled');
+				} else {
+					savepwd.disabled = '';
+					savepwdDiv.classList.remove('mui-disabled');
+				}
+			}
 		</script>
 
 	</body>

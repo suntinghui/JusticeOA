@@ -135,6 +135,9 @@ function onNetChange() {
 
 // 判断对象是否在数组中
 function contains(arr, obj) {
+	if(isNullStr(arr))
+		return false;
+
 	var i = arr.length;
 	while(i--) {
 		if(arr[i] === obj) {
@@ -145,6 +148,9 @@ function contains(arr, obj) {
 }
 
 function array2Str(arr) {
+	if(!(arr instanceof Array))
+		return arr;
+
 	var str = '';
 	for(var i = 0; i < arr.length; i++) {
 		str += (arr[i] + ',');
@@ -194,37 +200,53 @@ function getDocumentTypeImage(type) {
 	return img;
 }
 
-function getDocumentTypeImage(type) {
-	var img = '../img/format_att.png';
+function getDocumentType(type) {
+	var end = '.doc';
 	switch(type - 0) {
 		case 0:
-			img = '../img/format_html.png';
+			end = '.html';
 			break;
 
 		case 1:
-			img = '../img/format_word.png';
+			end = '.doc';
 			break;
 
 		case 2:
-			img = '../img/format_excel.png';
+			end = '.xls';
 			break;
 
 		case 3:
-			img = '../img/format_pdf.png';
+			end = '.pdf';
 			break;
 	}
 
-	return img;
+	return end;
 }
 
 // 下载文件并自动打开
-function openContent(url) {
+function openContent(url, type, html) {
+	if(type == '0') {
+		mui.openWindow({
+			url: 'showHTML.html',
+			id: Math.random(),
+			preload: false,
+			show: {
+				aniShow: 'pop-in'
+			},
+			extras: {
+				content: html
+			}
+
+		});
+		return;
+	}
+
 	mui.plusReady(function() {
 		plus.nativeUI.showWaiting("正在下载...");
 	});
 
 	var dtask = plus.downloader.createDownload(url, {
-		filename: '_doc/oa' + Math.random() + '.doc',
+		filename: '_doc/oa' + Math.random() + getDocumentType(type),
 		timeout: 30, // 默认值为120s,超时时间为服务器响应请求的时间（不是下载任务完成的总时间）
 		retry: 3, // 默认为重试3次
 		retryInterval: 30 // 默认值为30s。

@@ -38,9 +38,14 @@
 	浏览模式 1：浏览模式，0：编辑模式
 	
 **/
+var Controls = null;
+var LeaderData = null;
+var FlowAttr = '00';
 
-function parseForm(resp) {
-	var Controls = resp.Controls;
+function parseForm(resp, flowAttrParam) {
+	FlowAttr = flowAttrParam;
+
+	Controls = resp.Controls;
 	console.log('一共' + Controls.length + '个元素');
 
 	var fragment = document.createDocumentFragment();
@@ -73,7 +78,14 @@ function parseForm(resp) {
 			case 8: // 时间
 			case 9: // 日期时间
 			case 17: // 年月
-				fragment.appendChild(createDateType(item.ControlType - 0, item));
+				{
+					if(item.DataField == 'BSRQ') {
+						fragment.appendChild(createBSRQ(item));
+
+					} else {
+						fragment.appendChild(createDateType(item.ControlType - 0, item));
+					}
+				}
 				break;
 
 			case 10: // 单选人员
@@ -223,6 +235,9 @@ function createComboBox(Control) {
 		valuediv.innerHTML = selectedOption.Text;
 		valuediv.value = selectedOption.Value;
 		valuediv.selectedOption = selectedOption;
+	} else {
+		valuediv.innerHTML = '无';
+		valuediv.value = '';
 	}
 
 	if(Control.EditModel == '0') {
@@ -253,7 +268,12 @@ function createDateType(type, Control) {
 
 	var valuediv = createDiv("item-value");
 	valuediv.id = Control.DataField;
-	valuediv.value = Control.Value;
+
+	if(isNullStr(Control.Value)) {
+		valuediv.value = '无';
+	} else {
+		valuediv.value = Control.Value;
+	}
 
 	if(Control.EditModel == '0') {
 		valuediv.className = 'item-value';
@@ -290,6 +310,158 @@ function createDateType(type, Control) {
 	return div;
 }
 
+/*
+ * 报审日期 特殊复合控件
+ */
+function createBSRQ(Control) {
+	var div = createDiv("item-div mui-table-view-cell");
+
+	// 报审日期
+	div.appendChild(createNameDiv(Control.CaptionName));
+
+	// 复合域
+	var valuediv = createDiv("item-value");
+
+	//送审时间
+	var songshenDiv = createDiv('item-bsrq');
+
+	var songshenName = createLeft('送阅时间');
+	songshenDiv.appendChild(songshenName);
+
+	var songshenValueDiv = createRight('');
+	songshenValueDiv.id = 'SendReadTime';
+	songshenValueDiv.disabled = true;
+	songshenValueDiv.style.border = 'none';
+	songshenDiv.appendChild(songshenValueDiv);
+
+	valuediv.appendChild(songshenDiv);
+
+	//阅批时间
+	var yuepiDiv = createDiv('item-bsrq');
+
+	var yuepiName = createLeft('阅批时间');
+	yuepiDiv.appendChild(yuepiName);
+
+	var yuepiValueDiv = createRight('');
+	yuepiValueDiv.id = 'ReadHandTime';
+	yuepiValueDiv.disabled = true;
+	yuepiValueDiv.style.border = 'none';
+	yuepiDiv.appendChild(yuepiValueDiv);
+
+	valuediv.appendChild(yuepiDiv);
+
+	//批审时间
+	var pishenDiv = createDiv('item-bsrq');
+
+	var pishenName = createLeft('报审时间');
+	pishenDiv.appendChild(pishenName);
+
+	var pishenValueDiv = createRight('');
+	pishenValueDiv.id = 'BSTime';
+	pishenDiv.appendChild(pishenValueDiv);
+
+	valuediv.appendChild(pishenDiv);
+
+	// 上网方式
+	var shangwangDiv = createDiv('item-bsrq');
+
+	var shangwangName = createLeft('上网方式');
+	shangwangName.style.marginTop = '20px';
+	shangwangDiv.appendChild(shangwangName);
+
+	var shangwangValueDiv1 = createDiv('item-bsrq-right');
+	shangwangValueDiv1.classList.add('mui-checkbox', 'mui-left');
+	shangwangValueDiv1.innerHTML = '<label>公告公示</label><input id="ISGG" name="shangwang" value="0" type="checkbox" ' + (Control.EditModel == "0" ? "disabled" : "") + '>';
+	shangwangDiv.appendChild(shangwangValueDiv1);
+
+	var shangwangValueDiv2 = createDiv('item-bsrq-right');
+	shangwangValueDiv2.classList.add('mui-checkbox', 'mui-left');
+	shangwangValueDiv2.innerHTML = '<label>文件发布</label><input id="ISWJFB" name="shangwang" value="0" type="checkbox" ' + (Control.EditModel == "0" ? "disabled" : "") + '>';
+	shangwangDiv.appendChild(shangwangValueDiv2);
+
+	valuediv.appendChild(shangwangDiv);
+
+	// 留存公开
+	var liucunDiv = createDiv('item-bsrq');
+
+	var liucunName = createLeft('留存公开');
+	liucunName.style.marginTop = '30px';
+	liucunDiv.appendChild(liucunName);
+
+	var liucunValueDiv1 = createDiv('item-bsrq-right');
+	liucunValueDiv1.classList.add('mui-checkbox', 'mui-left');
+	liucunValueDiv1.innerHTML = '<label>留存</label><input id="ISLC" name="liucun" value="0" type="checkbox" ' + (Control.EditModel == "0" ? "disabled" : "") + '>';
+	liucunDiv.appendChild(liucunValueDiv1);
+
+	var liucunValueDiv2 = createDiv('item-bsrq-right');
+	liucunValueDiv2.classList.add('mui-checkbox', 'mui-left');
+	liucunValueDiv2.innerHTML = '<label>不公开</label><input id="ISOpen" name="liucun" value="0" type="checkbox" ' + (Control.EditModel == "0" ? "disabled" : "") + '>';
+	liucunDiv.appendChild(liucunValueDiv2);
+
+	valuediv.appendChild(liucunDiv);
+
+	if(Control.EditModel == '0') {
+		pishenValueDiv.disabled = true;
+		pishenValueDiv.style.border = 'none';
+
+		shangwangValueDiv1.classList.add('mui-disabled');
+		shangwangValueDiv2.classList.add('mui-disabled');
+
+		liucunValueDiv1.classList.add('mui-disabled');
+		liucunValueDiv2.classList.add('mui-disabled');
+
+	} else {
+		pishenValueDiv.addEventListener('tap', function() {
+			var picker = new mui.DtPicker(JSON.parse('{}'));
+			picker.show(function(selectItems) {
+				pishenValueDiv.innerHTML = selectItems.text;
+				pishenValueDiv.value = selectItems.value;
+				picker.dispose();
+			});
+		}, false);
+	}
+
+	div.appendChild(valuediv);
+
+	/**
+	// 因为无法通过document得到元素，所有只能外移
+	for(var i = 0; i < Controls.length; i++) {
+		var item = Controls[i];
+		if(item.DataField == 'ZZLD' && item.SelectedUsers.length > 0) {
+			requestRecDocLeader(item.SelectedUsers[0].UserId);
+			break;
+		}
+	}
+	**/
+
+	return div;
+}
+
+function findZZLD() {
+	for(var i = 0; i < Controls.length; i++) {
+		var item = Controls[i];
+		if(item.DataField == 'ZZLD' && item.SelectedUsers.length > 0) {
+			requestRecDocLeader(item.SelectedUsers[0].UserId);
+			break;
+		}
+	}
+}
+
+function createLeft(value) {
+	var textdiv = document.createElement('div');
+	textdiv.className = "item-bsrq-left";
+	textdiv.innerHTML = value;
+	return textdiv;
+}
+
+function createRight(value) {
+	var textarea = document.createElement('textarea');
+	textarea.className = 'item-bsrq-right';
+	textarea.value = value;
+	textarea.rows = 1;
+	return textarea;
+}
+
 /* 
  * 10  单选人员
  * 
@@ -305,20 +477,24 @@ function createRadioPerson(Control) {
 	var valuediv = createDiv("item-value");
 	valuediv.id = Control.DataField;
 
-	if(Control.EditModel == '0') {
-		// 如果是不可编辑状态，则直接取已选中的默认值
-		if(!isNullStr(Control.SelectedUsers) && Control.SelectedUsers.length != 0) {
-			// TODO 无
-			valuediv.innerHTML = Control.SelectedUsers[0].UserName;
-			valuediv.value = Control.SelectedUsers[0].UserId;
-		}
+	if(!isNullStr(Control.SelectedUsers) && Control.SelectedUsers.length != 0) {
+		valuediv.innerHTML = Control.SelectedUsers[0].UserName;
+		valuediv.value = Control.SelectedUsers[0].UserId;
+	} else {
+		valuediv.innerHTML = '无';
+		valuediv.value = '';
+	}
 
+	if(Control.EditModel == '0') {
 		valuediv.className = 'item-value';
 		valuediv.removeEventListener('tap', function() {
 			event10(null, null);
 		}, false);
 
 	} else {
+		valuediv.innerHTML = '';
+		valuediv.value = '';
+
 		// 如果是可编辑状态，则区分是userlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from userlist.html
@@ -362,19 +538,21 @@ function createMultiPerson(Control) {
 	var valuediv = createDiv("item-value");
 	valuediv.id = Control.DataField;
 
-	if(Control.EditModel == '0') {
-		// 如果是不可编辑状态，则直接取已选中的默认值
-		if(!isNullStr(Control.SelectedUsers) && Control.SelectedUsers.length != 0) {
-			var arrName = new Array();
-			var arrId = new Array();
-			for(var i = 0; i < Control.SelectedUsers.length; i++) {
-				arrName.push(Control.SelectedUsers[i].UserName);
-				arrId.push(Control.SelectedUsers[i].UserId);
-			}
-			valuediv.innerHTML = arrName;
-			valuediv.value = arrId;
+	if(!isNullStr(Control.SelectedUsers) && Control.SelectedUsers.length != 0) {
+		var arrName = new Array();
+		var arrId = new Array();
+		for(var i = 0; i < Control.SelectedUsers.length; i++) {
+			arrName.push(Control.SelectedUsers[i].UserName);
+			arrId.push(Control.SelectedUsers[i].UserId);
 		}
+		valuediv.innerHTML = arrName;
+		valuediv.value = arrId;
+	} else {
+		valuediv.innerHTML = '无';
+		valuediv.value = '';
+	}
 
+	if(Control.EditModel == '0') {
 		valuediv.className = 'item-value';
 		valuediv.removeEventListener('tap', function() {
 			event11(null, null);
@@ -390,9 +568,14 @@ function createMultiPerson(Control) {
 			}, false);
 
 		} else {
-			var selectedIdArrs = new Array();
-			for(var i = 0; i < Control.SelectedUsers.length; i++) {
-				selectedIdArrs.push(Control.SelectedUsers[i].UserId);
+			valuediv.innerHTML = '';
+			valuediv.value = '';
+
+			if(!isNullStr(Control.SelectedUsers)) {
+				var selectedIdArrs = new Array();
+				for(var i = 0; i < Control.SelectedUsers.length; i++) {
+					selectedIdArrs.push(Control.SelectedUsers[i].UserId);
+				}
 			}
 
 			// 多选
@@ -413,7 +596,7 @@ function createMultiPerson(Control) {
 	return div;
 }
 
-// 12
+// 12 单选部门
 function createRadioDep(Control) {
 	var div = createDiv("item-div mui-table-view-cell");
 
@@ -422,20 +605,24 @@ function createRadioDep(Control) {
 	var valuediv = createDiv("item-value");
 	valuediv.id = Control.DataField;
 
-	if(Control.EditModel == '0') {
-		// 如果是不可编辑状态，则直接取已选中的默认值
-		if(!isNullStr(Control.SelectedDeps) && Control.SelectedDeps.length != 0) {
-			// TODO 无
-			valuediv.innerHTML = Control.SelectedDeps[0].DepName;
-			valuediv.value = Control.SelectedDeps[0].DepId;
-		}
+	if(!isNullStr(Control.SelectedDeps) && Control.SelectedDeps.length != 0) {
+		valuediv.innerHTML = Control.SelectedDeps[0].DepName;
+		valuediv.value = Control.SelectedDeps[0].DepId;
+	} else {
+		valuediv.innerHTML = '无';
+		valuediv.value = '';
+	}
 
+	if(Control.EditModel == '0') {
 		valuediv.className = 'item-value';
 		valuediv.removeEventListener('tap', function() {
 			event12(null, null);
 		}, false);
 
 	} else {
+		valuediv.innerHTML = '';
+		valuediv.value = '';
+
 		// 如果是可编辑状态，则区分是deptlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from deptlist.html
@@ -468,7 +655,7 @@ function createRadioDep(Control) {
 	return div;
 }
 
-// 13
+// 13 多选部门
 function createMultiDep(Control) {
 	var div = createDiv("item-div mui-table-view-cell");
 
@@ -477,25 +664,30 @@ function createMultiDep(Control) {
 	var valuediv = createDiv("item-value");
 	valuediv.id = Control.DataField;
 
-	if(Control.EditModel == '0') {
-		// 如果是不可编辑状态，则直接取已选中的默认值
-		if(!isNullStr(Control.SelectedDeps) && Control.SelectedDeps.length != 0) {
-			var arrName = new Array();
-			var arrId = new Array();
-			for(var i = 0; i < Control.SelectedDeps.length; i++) {
-				arrName.push(Control.SelectedDeps[i].DepName);
-				arrId.push(Control.SelectedDeps[i].DepId);
-			}
-			valuediv.innerHTML = arrName;
-			valuediv.value = arrId;
+	if(!isNullStr(Control.SelectedDeps) && Control.SelectedDeps.length != 0) {
+		var arrName = new Array();
+		var arrId = new Array();
+		for(var i = 0; i < Control.SelectedDeps.length; i++) {
+			arrName.push(Control.SelectedDeps[i].DepName);
+			arrId.push(Control.SelectedDeps[i].DepId);
 		}
+		valuediv.innerHTML = arrName;
+		valuediv.value = arrId;
+	} else {
+		valuediv.innerHTML = '无';
+		valuediv.value = '';
+	}
 
+	if(Control.EditModel == '0') {
 		valuediv.className = 'item-value';
 		valuediv.removeEventListener('tap', function() {
 			event13(null, null);
 		}, false);
 
 	} else {
+		valuediv.innerHTML = '';
+		valuediv.value = '';
+
 		// 如果是可编辑状态，则区分是deptlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from userlist.html
@@ -578,22 +770,46 @@ function createOperBtn(resp) {
 	save.addEventListener('tap', function() {
 		mui.confirm('您确定要保存吗？', '提示', ['取消', '确认'], function(e) {
 			if(e.index == 1) {
-				saveOper(resp);
+				for(var i = 0; i < Controls.length; i++) {
+					if(Controls[i].DataField == 'BSRQ' && Controls[i].EditModel != '0') {
+						requestSaveLeader(resp, false);
+						return;
+					}
+				}
+
+				saveOper(resp, false);
 			}
 		});
 
 	}, false);
+
 	div.appendChild(save);
 
 	var next = createBtn('next', '提交下一步', 'mui-btn mui-btn-warning oper-btn')
 	next.addEventListener('tap', function() {
 		mui.confirm('您确定要提交下一步吗？', '提示', ['取消', '确认'], function(e) {
 			if(e.index == 1) {
-				nextOper(resp);
+				if(!checkFormInput(getFormValue(Controls)))
+					return;
+
+				for(var i = 0; i < Controls.length; i++) {
+					if(Controls[i].DataField == 'BSRQ' && Controls[i].EditModel != '0') {
+						if(isNullStr(document.getElementById("BSTime").value)) {
+							mui.toast('报审时间不能为空');
+							return;
+						}
+
+						requestSaveLeader(resp, true);
+						return;
+					}
+				}
+
+				saveOper(resp, true);
 			}
 		});
 
 	}, false);
+
 	div.appendChild(next);
 
 	var hold = createBtn('hold', '存档', 'mui-btn mui-btn-warning oper-btn');
@@ -605,7 +821,8 @@ function createOperBtn(resp) {
 		});
 
 	}, false);
-	div.appendChild(hold);
+
+	//div.appendChild(hold);
 
 	var back = createBtn('back', '退回来源', 'mui-btn mui-btn-warning oper-btn');
 	back.addEventListener('tap', function() {
@@ -664,6 +881,7 @@ function event06(valuediv, Control) {
 	var userPicker = new mui.PopPicker();
 	userPicker.setData(data);
 	userPicker.pickers[0].setSelectedValue(valuediv.selectedOption.Value, 1000);
+
 	userPicker.show(function(selectItems) {
 		valuediv.selectedOption = {
 			Value: selectItems[0].value,
@@ -795,7 +1013,7 @@ mui.plusReady(function() {
 		var data = event.detail.data;
 
 		var valuediv = document.getElementById(data.divid);
-		valuediv.value = data.value; // 本身以,分隔
+		valuediv.value = data.value;
 		valuediv.innerHTML = data.text;
 	});
 
@@ -844,50 +1062,83 @@ function createBtn(id, text, classname) {
 } // end
 
 // 注意界面中的InstanceId
-function saveOper(resp) {
-	// TODO childRecordId
+function saveOper(resp, next) {
 	var childRecordId = '';
 
 	mui.plusReady(function() {
 		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 	});
 
-	var url = HOST + 'WorkFlow.ashx?Commond=SaveFormData&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&childRecordId=' + childRecordId + '&PhyDataTable=' + resp.PhyDataTable + '&formData=' + JSON.stringify(getFormValue(resp.Controls));
-	mui.ajax(url, {
-		dataType: 'json', //服务器返回json格式数据
-		type: 'get', //HTTP请求类型
-		timeout: TIMEOUT, //超时时间设置为10秒；
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		success: function(data) {
-			mui.plusReady(function() {
-				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+	mui.post(getHost() + 'WorkFlow.ashx?Commond=SaveFormData', {
+		instanceId: InstanceId,
+		tokenKey: window.localStorage.getItem(TokenKey),
+		recordId: exReturnSpace(resp.RecordId),
+		childRecordId: '',
+		PhyDataTable: resp.PhyDataTable,
+		formData: JSON.stringify(getFormValue(resp.Controls))
+
+	}, function(data) {
+		mui.plusReady(function() {
+			plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+		});
+
+		console.log('保存：' + JSON.stringify(data));
+
+		if(next) {
+			nextOper(resp);
+		} else {
+			mui.alert('保存操作成功', '提示', function() {
+				mui.back();
 			});
-
-			console.log(JSON.stringify(data));
-
-			mui.alert('操作成功');
-		},
-		error: function(xhr, type, errorThrown) {
-			mui.plusReady(function() {
-				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-			});
-
-			mui.alert(getHttpErrorDesp(type), "提示", null);
 		}
-	});
+
+	}, 'json');
+
+	/**
+		var url = getHost() + 'WorkFlow.ashx?Commond=SaveFormData&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&childRecordId=' + childRecordId + '&PhyDataTable=' + resp.PhyDataTable + '&formData=' + JSON.stringify(getFormValue(resp.Controls));
+		mui.ajax(url, {
+			dataType: 'json', //服务器返回json格式数据
+			type: 'POST', //HTTP请求类型
+			timeout: TIMEOUT, //超时时间设置为10秒；
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			success: function(data) {
+				mui.plusReady(function() {
+					plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+				});
+
+				console.log(JSON.stringify(data));
+
+				if(next) {
+					nextOper(resp);
+				} else {
+					mui.alert('保存操作成功', '提示', function() {
+						mui.back();
+					});
+				}
+			},
+			error: function(xhr, type, errorThrown) {
+				mui.plusReady(function() {
+					plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+				});
+
+				mui.alert(getHttpErrorDesp(type), "提示", null);
+			}
+		});
+		**/
 }
 
+// 提交下一步
 function nextOper(resp) {
 	mui.plusReady(function() {
 		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 	});
 
-	var url = HOST + 'WorkFlow.ashx?Commond=FlowNext&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&flowAttr=' + resp.FlowAttr;
+	var url = getHost() + 'WorkFlow.ashx?Commond=FlowNext&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&flowAttr=' + FlowAttr;
 	mui.ajax(url, {
 		dataType: 'json', //服务器返回json格式数据
-		type: 'get', //HTTP请求类型
+		type: 'POST', //HTTP请求类型
 		timeout: TIMEOUT, //超时时间设置为10秒；
 		headers: {
 			'Content-Type': 'application/json'
@@ -899,7 +1150,19 @@ function nextOper(resp) {
 
 			console.log(JSON.stringify(data));
 
-			mui.alert('操作成功');
+			mui.alert('提交操作成功', '提示', function() {
+				/*
+				var prePage = plus.webview.getWebviewById(listWebViewId);
+
+				mui.fire(prePage, 'refresh', {
+					data: {
+						'refresh': '1'
+					}
+				});
+				*/
+
+				mui.back();
+			});
 
 		},
 		error: function(xhr, type, errorThrown) {
@@ -921,7 +1184,7 @@ function backOper(resp) {
 		plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 	});
 
-	var url = HOST + 'WorkFlow.ashx?Commond=GoBack&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId);
+	var url = getHost() + 'WorkFlow.ashx?Commond=GoBack&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId);
 	mui.ajax(url, {
 		dataType: 'json', //服务器返回json格式数据
 		type: 'get', //HTTP请求类型
@@ -936,7 +1199,9 @@ function backOper(resp) {
 
 			console.log(JSON.stringify(data));
 
-			mui.alert('操作成功');
+			mui.alert('退回操作成功', '提示', function() {
+				mui.back();
+			});
 
 		},
 		error: function(xhr, type, errorThrown) {
@@ -951,13 +1216,19 @@ function backOper(resp) {
 
 // 得到各字段的值
 function getFormValue(Controls) {
-	var keyValue = new Object();
+	var arr = new Array();
 
 	for(var i = 0; i < Controls.length; i++) {
 		var item = Controls[i];
+
+		if(item.DataField == 'BSRQ') {
+			arr.push(createKeyValue(item.CaptionName, item.DataField, '', item.ControlType, item.EditModel));
+			continue;
+		}
+
 		// 如果是不可见，则不解析至界面，直接取值。
 		if(item.EditModel == '3') {
-			keyValue[item.DataField] = exReturnSpace(item.Value);
+			arr.push(createKeyValue(item.CaptionName, item.DataField, exReturnSpace(item.Value), item.ControlType, item.EditModel));
 			continue;
 		}
 
@@ -985,13 +1256,13 @@ function getFormValue(Controls) {
 								checkedValues.push(box.value);
 								document.getElementById(item.DataField).value = checkedValues;
 
-								keyValue[item.DataField] = exReturnSpace(checkedValues);
+								arr.push(createKeyValue(item.CaptionName, item.DataField, exReturnSpace(array2Str(checkedValues)), item.ControlType, item.EditModel));
 							}
 						});
 					} else {
 						// 10 11 12 13 在其他情况下已经赋值
 						var value = document.getElementById(item.DataField).value;
-						keyValue[item.DataField] = exReturnSpace(value);
+						arr.push(createKeyValue(item.CaptionName, item.DataField, exReturnSpace(array2Str(value)), item.ControlType, item.EditModel));
 					}
 				}
 				break;
@@ -1009,7 +1280,7 @@ function getFormValue(Controls) {
 								checkedValues.substring(0, checkedValues.length - 1);
 							}
 							document.getElementById(item.DataField).value = checkedValues;
-							keyValue[item.DataField] = exReturnSpace(checkedValues);
+							arr.push(createKeyValue(item.CaptionName, item.DataField, exReturnSpace(array2Str(checkedValues)), item.ControlType, item.EditModel));
 						}
 					});
 				}
@@ -1018,24 +1289,24 @@ function getFormValue(Controls) {
 			default:
 				{
 					var value = document.getElementById(item.DataField).value;
-					keyValue[item.DataField] = exReturnSpace(value);
+					arr.push(createKeyValue(item.CaptionName, item.DataField, exReturnSpace(array2Str(value)), item.ControlType, item.EditModel));
 				}
 
 				break;
 		}
 	}
 
-	console.log("得到的KeyValue为：");
-	var count = 0;
-	for(var key in keyValue) {
-		console.log(key + '-' + keyValue[key]);
-		count++;
-	}
-	JSON.stringify(keyValue);
-	console.log("共：" + count);
+	return arr;
+}
 
+function createKeyValue(CaptionName, DataField, Value, ControlType, EditModel) {
+	var keyValue = new Object();
+	keyValue.CaptionName = CaptionName;
+	keyValue.DataField = DataField;
+	keyValue.Value = Value;
+	keyValue.ControlType = ControlType;
+	keyValue.EditModel = EditModel;
 	return keyValue;
-
 }
 
 /**
@@ -1044,19 +1315,119 @@ function getFormValue(Controls) {
 显示可更新=1,  显示用默认值更新=4（4是1的特殊情况)  显示可更新必填=2且循环遍历检查
 
 **/
-function checkFormInput(Controls, keyValue) {
-	console.log('开始检查必填输入项...' + keyValue.size());
-	for(var i = 0; i < Controls.length; i++) {
-		var item = Controls[i];
+function checkFormInput(arr) {
+	console.log('开始检查必填输入项...' + arr.length);
 
-		if(item.EditModel == '2' && isNullStr(keyValue[item.DataField])) {
+	for(var i = 0; i < arr.length; i++) {
+		var item = arr[i];
+
+		if(item.EditModel == '2' && isNullStr(item.Value)) {
 			mui.toast(item.CaptionName + '为必填项，请检查');
 			return false;
 		}
-
-		// TODO 检查数据合法性
-
 	}
 
 	return true;
+}
+
+// 主责领导
+function requestRecDocLeader(LeaderId) {
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在加载...");
+	});
+
+	var url = getHost() + 'DocManager.ashx?Commond=GetRecDocLeader&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey);
+	mui.ajax(url, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		timeout: TIMEOUT, //超时时间设置为10秒；
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			console.log('主责领导:' + JSON.stringify(data));
+
+			console.log('LeaderId:' + LeaderId);
+
+			for(var i = 0; i < data.length; i++) {
+				if(data[i].LeaderId == LeaderId) {
+					LeaderData = data[i];
+
+					responseRecDocLeader();
+
+					break;
+				}
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			mui.alert(getHttpErrorDesp(type), "提示", null);
+		}
+	});
+} // end requestRecDocLeader
+
+function responseRecDocLeader() {
+	document.getElementById("SendReadTime").value = LeaderData.SendReadTime;
+	document.getElementById("ReadHandTime").value = LeaderData.ReadHandTime;
+	document.getElementById("BSTime").value = LeaderData.BSTime;
+	document.getElementById("ISGG").checked = (LeaderData.ISGG == '0' ? false : true);
+	document.getElementById("ISWJFB").checked = (LeaderData.ISWJFB == '0' ? false : true);
+	document.getElementById("ISLC").checked = (LeaderData.ISLC == '0' ? false : true);
+	document.getElementById("ISOpen").checked = (LeaderData.ISOpen != '0' ? false : true);
+
+} // end responseRecDocLeader
+
+// 保存主责领导从表数据
+function requestSaveLeader(resp, next) {
+	if(LeaderData == null) {
+		mui.toast('数据异常，不能保存主责领导信息');
+		return;
+	}
+
+	LeaderData.BSTime = document.getElementById("BSTime").value;
+	LeaderData.ISGG = (document.getElementById("ISGG").checked ? "1" : "0");
+	LeaderData.ISWJFB = (document.getElementById("ISWJFB").checked ? "1" : "0");
+	LeaderData.ISLC = (document.getElementById("ISLC").checked ? "1" : "0");
+	LeaderData.ISOpen = (!document.getElementById("ISOpen").checked ? "1" : "0");
+
+	mui.plusReady(function() {
+		plus.nativeUI.showWaiting("正在保存...");
+	});
+
+	var url = getHost() + 'DocManager.ashx?Commond=SaveRecDocLeader&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recDocLeader=[' + JSON.stringify(LeaderData) + ']';
+	mui.ajax(url, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		timeout: TIMEOUT, //超时时间设置为10秒；
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			console.log('保存主责领导从表数据:' + JSON.stringify(data));
+
+			responseSaveLeader(resp, next);
+		},
+		error: function(xhr, type, errorThrown) {
+			mui.plusReady(function() {
+				plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+			});
+
+			mui.alert(getHttpErrorDesp(type), "提示", null);
+		}
+	});
+}
+
+function responseSaveLeader(resp, next) {
+	saveOper(resp, next);
 }
