@@ -17,6 +17,11 @@
 				margin-top: 10px;
 			}*/
 			
+			.footer-page {
+				position: relative;
+				bottom: 12px;
+			}
+			
 			.chart {
 				width: 95%;
 				height: 520px;
@@ -31,6 +36,23 @@
 			<h1 class="mui-title" style="color: #FFFFFF;">值班表</h1>
 			<a id="selMonth" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;"></a>
 		</header>
+
+		<footer class="mui-bar mui-bar-footer" id="pager">
+			<div class="mui-content-padded footer-page">
+				<ul class="mui-pager">
+					<li class="mui-previous">
+						<a href="javascript:void(0)" id="preMonth">
+							上月
+						</a>
+					</li>
+					<li class="mui-next">
+						<a href="javascript:void(0)" id="nextMonth">
+							下月
+						</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
 
 		<div class="mui-content">
 			<!--<button id="selMonth" type="button" class="mui-btn mui-btn-block mui-btn-outlined"></button>-->
@@ -232,7 +254,7 @@
 									color: '#333'
 								},
 								position: 'top',
-								offset: [0, -20]
+								offset: [0, -15]
 							}
 						},
 						data: dateList
@@ -246,7 +268,6 @@
 								formatter: function(params) {
 									var str = '';
 									for(var k = 2; k < params.value.length; k++) {
-										//var temp = (params.value[k] || '');
 										str += ('\n' + params.value[k]);
 									}
 									return str;
@@ -254,8 +275,8 @@
 								textStyle: {
 									color: '#000000'
 								},
-								position: 'top',
-								offset: [0, 26]
+								position: 'bottom',
+								offset: [0, -25]
 							}
 						},
 						data: dateList
@@ -273,6 +294,8 @@
 
 			function selectMonth() {
 				var picker = new mui.DtPicker(JSON.parse('{"type":"month"}'));
+				var tempmonth = Number(month);
+				month = ((tempmonth < 10) ? ('0' + tempmonth) : tempmonth);
 				picker.setSelectedValue(year + '-' + month);
 				picker.show(function(rs) {
 					if(year == rs.y.value && month == rs.m.value) {
@@ -288,6 +311,35 @@
 					requestData();
 				});
 			};
+
+			document.getElementById('preMonth').addEventListener('tap', function() {
+				addMonth(-1);
+				selMonth.innerHTML = (year + '-' + (month < 10 ? ('0' + month) : month));
+				requestData();
+			}, false);
+
+			document.getElementById('nextMonth').addEventListener('tap', function() {
+				addMonth(1);
+				selMonth.innerHTML = (year + '-' + (month < 10 ? ('0' + month) : month));
+				requestData();
+			}, false);
+
+			function addMonth(addMonth) {
+				var temp = (month - 0) + addMonth;
+				if(temp == 0) {
+					year--;
+					month = '12';
+					return;
+				}
+				if(temp == 13) {
+					year++;
+					month = '1';
+					return;
+				}
+
+				month = ((month - 0) + addMonth);
+
+			}
 		</script>
 	</body>
 

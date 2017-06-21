@@ -150,7 +150,7 @@
 							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 						});
 
-						console.log(JSON.stringify(data));
+						//console.log(JSON.stringify(data));
 
 						responseList(data);
 					},
@@ -192,6 +192,10 @@
 				contentUL.appendChild(fragment);
 
 				mui("#list").indexedList().findElements();
+
+				mui.plusReady(function() {
+					plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+				});
 			};
 
 			mui("#ul").on('tap', 'li', function() {

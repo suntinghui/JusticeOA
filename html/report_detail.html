@@ -116,7 +116,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = getHost() + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + InstanceId + '&browModel='+browModel+'&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
+				var url = getHost() + 'WorkFlow.ashx?Commond=GetFormObj&instanceId=' + InstanceId + '&browModel=' + browModel + '&flowAttr=00&tokenKey=' + window.localStorage.getItem(TokenKey);
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -187,11 +187,11 @@
 				var docul = document.getElementById('docul');
 
 				if(isNullStr(resp)) {
-					nodoc.style.display = 'none';
+					nodoc.style.display = 'inline';
 					docul.style.display = 'none';
 
 				} else {
-					nodoc.style.display = 'inline';
+					nodoc.style.display = 'none';
 					docul.style.display = 'inline';
 
 					// 首先清空下面的所有结点
@@ -250,11 +250,11 @@
 				var attul = document.getElementById('attul');
 
 				if(isNullStr(resp)) {
-					noatt.style.display = 'inline';
+					noatt.style.display = 'none';
 					attul.style.display = 'none';
 
 				} else {
-					noatt.style.display = 'none';
+					noatt.style.display = 'inline';
 					attul.style.display = 'inline';
 
 					// 首先清空下面的所有结点
