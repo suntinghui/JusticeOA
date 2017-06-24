@@ -56,7 +56,7 @@
 					<div class="mui-scroll-wrapper scroll-content">
 						<div class="mui-scroll left-content" id="meetingContent">
 							<h5 class="mui-content-padded">正文</h5>
-							<span id="nodoc" class="mui-content-padded" style="display: none;">没有正文数据</span>
+							<span id="nodoc" class="mui-content-padded" style="display: none;">无</span>
 							<ul class="mui-table-view" id="docul" style="display: none;">
 							</ul>
 
@@ -209,7 +209,7 @@
 					li.className = "mui-table-view-cell mui-media";
 					li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(resp.ContentType) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + Title + '</p></div></a>';
 					li.addEventListener('tap', function(event) {
-						openContent(resp.DownLoadUrl, resp.ContentType, resp.HtmlContent);
+						openContent(resp.DownLoadUrl, getDocumentType(resp.ContentType), resp.HtmlContent);
 					}, false);
 					fragment.appendChild(li);
 					docul.appendChild(fragment);
@@ -275,7 +275,7 @@
 						li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(formatToType(data[i].AttSuffix)) + '"><div class="mui-media-body"><p class="mui-ellipsis" style="font-size: 16px; color: #333333;margin-top: 10px;">' + data[i].AttName + '</p></div></a>';
 
 						li.addEventListener('tap', function(event) {
-							openContent(data[this.id].DownLoadUrl, data[this.id].ContentType, data[this.id].HtmlContent);
+							openContent(data[this.id].DownLoadUrl, data[this.id].AttSuffix, data[this.id].HtmlContent);
 						}, false);
 
 						fragment.appendChild(li);

@@ -51,13 +51,13 @@ input[type="text"] {
 
 .item-bsrq-left {
 	float: left;
-	width: 30%;
+	width: 32%;
 	color: #666666;
-	font-size: 15px;
+	font-size: 14px;
 }
 .item-bsrq-right {
 	float: right;
-	width: 70%;
+	width: 68%;
 }
 
 .mui-checkbox input[type=checkbox]:before {

@@ -199,7 +199,7 @@
 				contentUL.appendChild(fragment);
 
 				document.getElementById('contentItem').addEventListener('tap', function(event) {
-					openContent(resp.DownLoadUrl, resp.ContentType, resp.HtmlContent);
+					openContent(resp.DownLoadUrl, getDocumentType(resp.ContentType), resp.HtmlContent);
 				}, false);
 			}
 
@@ -288,7 +288,7 @@
 						li.innerHTML = '<a href="javascript:void(0)"><img class="mui-media-object mui-pull-left" src="' + getDocumentTypeImage(formatToType(data[i].AttSuffix)) + '"><div class="mui-media-body"><p class="mui-ellipsis content-title">' + data[i].AttName + '</p></div></a>';
 
 						li.addEventListener('tap', function(event) {
-							openContent(data[this.id].DownLoadUrl, data[this.id].ContentType, data[this.id].HtmlContent);
+							openContent(data[this.id].DownLoadUrl, data[this.id].AttSuffix, data[this.id].HtmlContent);
 						}, false);
 
 						fragment.appendChild(li);

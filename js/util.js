@@ -225,7 +225,7 @@ function getDocumentType(type) {
 
 // 下载文件并自动打开
 function openContent(url, type, html) {
-	if(type == '0') {
+	if(type.toUpperCase() == '.HTML') {
 		mui.openWindow({
 			url: 'showHTML.html',
 			id: Math.random(),
@@ -246,7 +246,7 @@ function openContent(url, type, html) {
 	});
 
 	var dtask = plus.downloader.createDownload(url, {
-		filename: '_doc/oa' + Math.random() + getDocumentType(type),
+		filename: '_doc/oa' + Math.random() + type,
 		timeout: 30, // 默认值为120s,超时时间为服务器响应请求的时间（不是下载任务完成的总时间）
 		retry: 3, // 默认为重试3次
 		retryInterval: 30 // 默认值为30s。

@@ -226,12 +226,13 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
+					var Title = ListRecord[this.getAttribute('id')].Instance.FlowTitle;
 					var RecordId = ListRecord[this.getAttribute('id')].RecordId;
 					var InstanceId = ListRecord[this.getAttribute('id')].InstanceId;
 
 					mui.plusReady(function() {
 						var page = plus.webview.currentWebview();
-						console.log('========='+page.id);
+						console.log('=========' + page.id);
 
 						mui.openWindow({
 							url: 'flowmanager_detail.html',
@@ -244,7 +245,7 @@
 								title: '正在加载...',
 							},
 							extras: {
-								'Title':ListRecord[this.getAttribute('id')].Instance.FlowTitle,
+								'Title': Title,
 								'RecordId': RecordId,
 								'InstanceId': InstanceId,
 								'browModel': '0',

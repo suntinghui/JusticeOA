@@ -40,7 +40,7 @@
 **/
 var Controls = null;
 var LeaderData = null;
-var FlowAttr = '00';
+var FlowAttr = '00'; // 00通用 01公文
 
 function parseForm(resp, flowAttrParam) {
 	FlowAttr = flowAttrParam;
@@ -79,7 +79,7 @@ function parseForm(resp, flowAttrParam) {
 			case 9: // 日期时间
 			case 17: // 年月
 				{
-					if(item.DataField == 'BSRQ') {
+					if(FlowAttr == '01' && item.DataField == 'BSRQ') { // 只有公文特殊处理
 						fragment.appendChild(createBSRQ(item));
 
 					} else {
@@ -492,9 +492,6 @@ function createRadioPerson(Control) {
 		}, false);
 
 	} else {
-		valuediv.innerHTML = '';
-		valuediv.value = '';
-
 		// 如果是可编辑状态，则区分是userlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from userlist.html
@@ -504,6 +501,9 @@ function createRadioPerson(Control) {
 			}, false);
 
 		} else {
+			valuediv.innerHTML = '';
+			valuediv.value = '';
+
 			var selectedIdArrs = new Array();
 			for(var i = 0; i < Control.SelectedUsers.length; i++) {
 				selectedIdArrs.push(Control.SelectedUsers[i].UserId);
@@ -620,9 +620,6 @@ function createRadioDep(Control) {
 		}, false);
 
 	} else {
-		valuediv.innerHTML = '';
-		valuediv.value = '';
-
 		// 如果是可编辑状态，则区分是deptlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from deptlist.html
@@ -632,6 +629,9 @@ function createRadioDep(Control) {
 			}, false);
 
 		} else {
+			valuediv.innerHTML = '';
+			valuediv.value = '';
+
 			var selectedIdArrs = new Array();
 			for(var i = 0; i < Control.SelectedDeps.length; i++) {
 				selectedIdArrs.push(Control.SelectedDeps[i].DepId);
@@ -685,9 +685,6 @@ function createMultiDep(Control) {
 		}, false);
 
 	} else {
-		valuediv.innerHTML = '';
-		valuediv.value = '';
-
 		// 如果是可编辑状态，则区分是deptlist取值还是通过datasource取值。
 		if(isNullStr(Control.DataSource)) {
 			// from userlist.html
@@ -697,6 +694,9 @@ function createMultiDep(Control) {
 			}, false);
 
 		} else {
+			valuediv.innerHTML = '';
+			valuediv.value = '';
+
 			var selectedIdArrs = new Array();
 			for(var i = 0; i < Control.SelectedDeps.length; i++) {
 				selectedIdArrs.push(Control.SelectedDeps[i].DepId);
@@ -1009,6 +1009,7 @@ function event13(valuediv, Control) {
 
 mui.plusReady(function() {
 	window.addEventListener('event10', function(event) {
+		console.log('==========fire');
 		//获得事件参数
 		var data = event.detail.data;
 

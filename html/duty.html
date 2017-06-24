@@ -9,23 +9,10 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
 
 		<style>
-			/*#selMonth {
-				font-size: 15px;
-				width: 90%;
-				padding: 10px 0;
-				margin: 0 auto;
-				margin-top: 10px;
-			}*/
-			
-			.footer-page {
-				position: relative;
-				bottom: 12px;
-			}
-			
 			.chart {
 				width: 95%;
 				height: 520px;
-				margin: 0 auto;
+				margin: 5px auto;
 			}
 		</style>
 	</head>
@@ -37,25 +24,23 @@
 			<a id="selMonth" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;"></a>
 		</header>
 
-		<footer class="mui-bar mui-bar-footer" id="pager">
-			<div class="mui-content-padded footer-page">
+		<div class="mui-content">
+
+			<div style="margin: auto 10px; margin-bottom: -20px;">
 				<ul class="mui-pager">
 					<li class="mui-previous">
 						<a href="javascript:void(0)" id="preMonth">
-							上月
+							上一月
 						</a>
 					</li>
 					<li class="mui-next">
 						<a href="javascript:void(0)" id="nextMonth">
-							下月
+							下一月
 						</a>
 					</li>
 				</ul>
 			</div>
-		</footer>
 
-		<div class="mui-content">
-			<!--<button id="selMonth" type="button" class="mui-btn mui-btn-block mui-btn-outlined"></button>-->
 			<div class="chart" id="lineChart"></div>
 		</div>
 
