@@ -85,7 +85,20 @@
 		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
-			mui.init();
+			var needRefresh = false;
+
+			mui.init({
+				beforeback: function() {
+					var self = plus.webview.currentWebview();
+					var listWebViewId = self.listWebViewId;
+
+					var list = plus.webview.getWebviewById(listWebViewId);
+					mui.fire(list, 'refresh', {
+						needRefresh: needRefresh
+					});
+					return true;
+				}
+			});
 
 			(function($) {
 				$('.scroll-content').scroll({

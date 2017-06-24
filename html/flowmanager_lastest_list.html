@@ -232,11 +232,10 @@
 
 					mui.plusReady(function() {
 						var page = plus.webview.currentWebview();
-						console.log('=========' + page.id);
 
 						mui.openWindow({
 							url: 'flowmanager_detail.html',
-							id: Math.random(),
+							id: Math.random() + "",
 							show: {
 								aniShow: 'pop-in'
 							},
@@ -253,6 +252,14 @@
 							}
 						});
 					})
+				});
+				
+				window.addEventListener('refresh', function(event) {
+					var needRefresh = event.detail.needRefresh;
+					console.log('needRefresh: ' + needRefresh);
+					if (needRefresh) {
+						requestList();
+					}
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {

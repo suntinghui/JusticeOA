@@ -89,7 +89,7 @@
 
 			<script type="text/javascript">
 				var ListRecord = null;
-				
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
@@ -172,12 +172,12 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
+
 					ListRecord = resp.ListRecord;
-					
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -225,9 +225,11 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
+					var page = plus.webview.currentWebview();
+
 					mui.openWindow({
 						url: 'todoread_detail.html',
-						id: Math.random(),
+						id: Math.random() + "",
 						show: {
 							aniShow: 'pop-in'
 						},
@@ -236,10 +238,11 @@
 							title: '正在加载...',
 						},
 						extras: {
+							'listWebId': page.id,
 							'Title': ListRecord[this.getAttribute('id')].Instance.FlowTitle,
 							'RecordId': ListRecord[this.getAttribute('id')].RecordId,
 							'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
-							'browModel':'1'
+							'browModel': '1'
 						}
 					});
 				});

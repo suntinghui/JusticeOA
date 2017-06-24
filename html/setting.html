@@ -17,14 +17,14 @@
 		<div class="mui-content">
 
 			<ul class="mui-card mui-table-view mui-table-view-chevron">
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" style="display: none;">
 					<a id="help" href="javascript:void(0)" class="mui-navigate-right">帮助</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a id="clear" href="javascript:void(0)" class="mui-navigate-right">清空缓存</a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a id="update" href="javascript:void(0)" class="mui-navigate-right"><i class="mui-pull-right update">V1.0.0</i>检查更新</a>
+					<a id="update" href="javascript:void(0)" class="mui-navigate-right"><i id="version" class="mui-pull-right update">V1.0</i>检查更新</a>
 				</li>
 				<li class="mui-table-view-cell">
 					<a id="feedback" href="javascript:void(0)" class="mui-navigate-right">意见反馈</a>
@@ -34,21 +34,25 @@
 				</li>
 			</ul>
 
-			<ul class="mui-card mui-table-view mui-table-view-chevron" style="margin-top: 20px; visibility: hidden;>
+			<ul class="mui-card mui-table-view mui-table-view-chevron" style="margin-top: 20px;">
 				<li class=" mui-table-view-cell ">
-					<a id="about " href="javascript:void(0) " class="mui-navigate-right ">关于系统</a>
+					<a id="logout" href="javascript:void(0) " class="mui-navigate-right ">注销登录</a>
 				</li>
 			</ul>
 
 		</div>
 
 		<script src="../js/mui.min.js "></script>
+		<script type="text/javascript" src="../js/constants.js"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+
 		<script type="text/javascript ">
 			var help = document.getElementById('help');
 			var clear = document.getElementById('clear');
+			var version = document.getElementById('version');
 			var update = document.getElementById('update');
 			var feedback = document.getElementById('feedback');
-			var about = document.getElementById('about');
+			var logout = document.getElementById('logout');
 			var contact = document.getElementById('contact');
 
 			help.addEventListener('tap', function() {
@@ -63,6 +67,8 @@
 				});
 			}, false);
 
+			version.innerHTML = 'V' + VersionName;
+
 			update.addEventListener('tap', function() {
 				mui.toast('当前已是最新版本');
 			}, false);
@@ -70,7 +76,7 @@
 			feedback.addEventListener('tap', function() {
 				mui.openWindow({
 					url: 'feedback.html',
-					id: Math.random(),
+					id: Math.random() + "",
 					preload: true,
 					show: {
 						aniShow: 'pop-in'
@@ -80,13 +86,41 @@
 
 			contact.addEventListener('tap', function() {
 				mui.plusReady(function() {
-					plus.device.dial("18500972879 ", true);
+					plus.device.dial("01069443840", true);
 				});
 			}, false);
 
-			about.addEventListener('tap', function() {
-				mui.toast('开发中');
+			logout.addEventListener('tap', function() {
+				logoutEvent();
 			}, false);
+
+			function logoutEvent() {
+				mui.confirm('您确定要注销登录吗？', '提示', ['取消', '确认'], function(e) {
+					if(e.index == 1) {
+						window.localStorage.setItem(CheckAutoLogin, false);
+
+						var tokenKey = window.localStorage.getItem(TokenKey);
+						var url = getHost() + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
+						console.log(url);
+						mui.getJSON(url, {}, function(data) {
+							// 获取所有Webview窗口
+							var curr = plus.webview.currentWebview();
+							var wvs = plus.webview.all();
+							for(var i = 0, len = wvs.length; i < len; i++) {
+								//关闭除setting页面外的其他页面
+								if(wvs[i].getURL() == curr.getURL())
+									continue;
+								plus.webview.close(wvs[i]);
+							}
+							//打开login页面后再关闭
+							plus.webview.open('login.html');
+							curr.close();
+
+							mui.toast("已退出登录");
+						});
+					}
+				})
+			}; // end logout
 		</script>
 	</body>
 

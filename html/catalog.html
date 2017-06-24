@@ -18,7 +18,7 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
-			<a id="logout" href="javascript:void(0)" class="mui-btn mui-btn-danger mui-btn-link mui-pull-left" style="color: #FFFFFF;">&nbsp;注销&nbsp;&nbsp;</a>
+			<a id="logout" href="javascript:void(0)" class="mui-btn mui-btn-danger mui-btn-link mui-pull-left" style="color: #FFFFFF; display: none;">&nbsp;注销&nbsp;&nbsp;</a>
 			<h1 class="mui-title" style="color: #FFFFFF;">首页</h1>
 			<a id="setting" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;&nbsp;设置&nbsp;</a>
 		</header>
@@ -150,7 +150,7 @@
 
 				mui.openWindow({
 					url: id,
-					id: Math.random(),
+					id: Math.random() + "",
 					preload: true,
 					show: {
 						aniShow: 'pop-in'

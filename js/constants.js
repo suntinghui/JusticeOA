@@ -31,3 +31,6 @@ var SavePwd = 'SavePwd';
 var CheckSavePwd = 'CheckSavePwd';
 var CheckAutoLogin = 'CheckAutoLogin';
 
+var VersionName = '1.5';
+var VersionCode = '15';
+

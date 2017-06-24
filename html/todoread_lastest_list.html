@@ -236,7 +236,7 @@
 
 						mui.openWindow({
 							url: 'todoread_detail.html',
-							id: Math.random(),
+							id: Math.random() + "",
 							show: {
 								aniShow: 'pop-in'
 							},
@@ -245,14 +245,22 @@
 								title: '正在加载...',
 							},
 							extras: {
+								'listWebViewId': page.id,
 								'Title': Title,
 								'RecordId': RecordId,
 								'InstanceId': InstanceId,
-								'browModel': '0',
-								'listWebViewId': page.id
+								'browModel': '0'
 							}
 						});
 					});
+				});
+
+				window.addEventListener('refresh', function(event) {
+					var needRefresh = event.detail.needRefresh;
+					console.log('needRefresh: ' + needRefresh);
+					if (needRefresh) {
+						requestList();
+					}
 				});
 
 				mui('#selectPageUL').on('tap', 'li', function(e) {
@@ -287,18 +295,6 @@
 				});
 
 				mui('.mui-scroll-wrapper').scroll();
-
-				mui.plusReady(function() {
-					window.addEventListener('refresh', function(event) {
-						console.log('fire event refresh...');
-
-						var refresh = event.detail.refresh;
-						if(refresh) {
-							requestList();
-						}
-					});
-
-				}); // end
 			</script>
 	</body>
 

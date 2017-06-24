@@ -1095,39 +1095,6 @@ function saveOper(resp, next) {
 
 	}, 'json');
 
-	/**
-		var url = getHost() + 'WorkFlow.ashx?Commond=SaveFormData&instanceId=' + InstanceId + '&tokenKey=' + window.localStorage.getItem(TokenKey) + '&recordId=' + exReturnSpace(resp.RecordId) + '&childRecordId=' + childRecordId + '&PhyDataTable=' + resp.PhyDataTable + '&formData=' + JSON.stringify(getFormValue(resp.Controls));
-		mui.ajax(url, {
-			dataType: 'json', //服务器返回json格式数据
-			type: 'POST', //HTTP请求类型
-			timeout: TIMEOUT, //超时时间设置为10秒；
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			success: function(data) {
-				mui.plusReady(function() {
-					plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-				});
-
-				console.log(JSON.stringify(data));
-
-				if(next) {
-					nextOper(resp);
-				} else {
-					mui.alert('保存操作成功', '提示', function() {
-						mui.back();
-					});
-				}
-			},
-			error: function(xhr, type, errorThrown) {
-				mui.plusReady(function() {
-					plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-				});
-
-				mui.alert(getHttpErrorDesp(type), "提示", null);
-			}
-		});
-		**/
 }
 
 // 提交下一步
@@ -1152,15 +1119,7 @@ function nextOper(resp) {
 			console.log(JSON.stringify(data));
 
 			mui.alert('提交操作成功', '提示', function() {
-				/*
-				var prePage = plus.webview.getWebviewById(listWebViewId);
-
-				mui.fire(prePage, 'refresh', {
-					data: {
-						'refresh': '1'
-					}
-				});
-				*/
+				needRefresh = true;
 
 				mui.back();
 			});
