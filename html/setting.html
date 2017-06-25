@@ -70,7 +70,7 @@
 			version.innerHTML = 'V' + VersionName;
 
 			update.addEventListener('tap', function() {
-				mui.toast('当前已是最新版本');
+				requestCheckNewVersion();
 			}, false);
 
 			feedback.addEventListener('tap', function() {
@@ -89,6 +89,53 @@
 					plus.device.dial("01069443840", true);
 				});
 			}, false);
+
+			function requestCheckNewVersion() {
+				checkNetwork();
+
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在检查新版本...");
+				});
+
+				var url = getHost() + "Identity.ashx?Commond=CheckNewVer";
+				mui.ajax(url, {
+					dataType: 'json',
+					type: 'get',
+					timeout: TIMEOUT,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						responseCheckNewVersion(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			}
+
+			function responseCheckNewVersion(resp) {
+				try {
+					var newVer = resp.newversion;
+					if((newVer - 0) > (VersionCode - 0)) {
+						plus.runtime.openURL(FIR_LINK);
+
+					} else {
+						mui.toast('当前已是最新版本');
+					}
+				} catch(e) {
+					console.log(e);
+					mui.toast('当前已是最新版本');
+				}
+			}
 
 			logout.addEventListener('tap', function() {
 				logoutEvent();

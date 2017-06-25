@@ -34,3 +34,5 @@ var CheckAutoLogin = 'CheckAutoLogin';
 var VersionName = '1.5';
 var VersionCode = '15';
 
+var FIR_LINK = 'https://fir.im/73zr';
+

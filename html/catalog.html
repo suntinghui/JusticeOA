@@ -93,6 +93,10 @@
 				}
 			});
 
+			window.onload = function() {
+				window.setTimeout(requestCheckNewVersion, 2000);
+			};
+
 			document.getElementById("logout").addEventListener('tap', function(event) {
 				logout();
 			}, false);
@@ -116,7 +120,7 @@
 				mui.confirm('您确定要注销登录吗？', '提示', ['取消', '确认'], function(e) {
 					if(e.index == 1) {
 						window.localStorage.setItem(CheckAutoLogin, false);
-						
+
 						var tokenKey = window.localStorage.getItem(TokenKey);
 						var url = getHost() + 'Identity.ashx?Commond=LoginOff&tokenKey=' + tokenKey;
 						console.log(url);
@@ -157,6 +161,50 @@
 					},
 				});
 			});
+
+			function requestCheckNewVersion() {
+				checkNetwork();
+				/**
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在检查新版本...");
+				});
+				**/
+
+				var url = getHost() + "Identity.ashx?Commond=CheckNewVer";
+				mui.ajax(url, {
+					dataType: 'json',
+					type: 'get',
+					timeout: TIMEOUT,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						responseCheckNewVersion(data);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.plusReady(function() {
+							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
+						});
+
+						mui.alert(getHttpErrorDesp(type), "提示", null);
+					}
+				});
+			}
+
+			function responseCheckNewVersion(resp) {
+				try {
+					var newVer = resp.newversion;
+					if((newVer - 0) > (VersionCode - 0)) {
+						plus.runtime.openURL(FIR_LINK);
+					}
+				} catch(e) {
+					console.log(e);
+				}
+			}
 		</script>
 
 	</body>
