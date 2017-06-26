@@ -39,7 +39,7 @@
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;">更多信息</h1>
-			<a id="search" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF; visibility: hidden;">&nbsp;搜索&nbsp;&nbsp;</a>
+			<a id="search" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;">&nbsp;搜索&nbsp;&nbsp;</a>
 		</header>
 
 		<footer class="mui-bar mui-bar-footer" id="pager">
@@ -84,30 +84,47 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				mui.init();
+				
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
 
-				mui.init();
+				var InfoTitle = "";
+				var SearchStartDate = "";
+				var SearchEndDate = "";
 
 				window.onload = function() {
-					requestList();
+					mui.plusReady(function() {
+						var self = plus.webview.currentWebview();
+						InfoTitle = exReturnSpace(self.InfoTitle);
+						SearchStartDate = exReturnSpace(self.SearchStartDate);
+						SearchEndDate = exReturnSpace(self.SearchEndDate);
+
+						var searchFlag = self.searchFlag;
+						if(!isNullStr(searchFlag)) {
+							document.getElementById('search').style.visibility = 'hidden';
+						}
+
+						requestList();
+					})
+
 				};
 
 				function requestList() {
 					checkNetwork();
-					
+
 					mui.plusReady(function() {
 						plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 					});
-					
+
 					var pageInfo = {
 						CurrentPage: currentPage,
 						PageSize: PAGE_SIZE
 					};
 					var searchInfo = {
 						InfoId: "",
-						InfoTitle: "",
+						InfoTitle: InfoTitle,
 						PublishUnitId: "",
 						PublishUnit: "",
 						InfoColumn: "",
@@ -117,8 +134,8 @@
 						HtmlContent: "",
 						ByteContent: "",
 						HtmlUrl: "",
-						SearchStartDate: "",
-						SearchEndDate: "",
+						SearchStartDate: SearchStartDate,
+						SearchEndDate: SearchEndDate,
 					};
 
 					var url = getHost() + "Information.ashx?Commond=GetMoreInformation&pageInfo=" + JSON.stringify(pageInfo) + "&searchInfo=" + JSON.stringify(searchInfo) + "&tokenKey=" + window.localStorage.getItem(TokenKey);
@@ -133,7 +150,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							console.log(JSON.stringify(data));
 
 							responseList(data);
@@ -142,7 +159,7 @@
 							mui.plusReady(function() {
 								plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
 							});
-							
+
 							mui.alert(getHttpErrorDesp(type), "提示", null);
 						}
 					});
@@ -150,10 +167,10 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
@@ -205,7 +222,7 @@
 						url: 'information_detail.html',
 						id: Math.random() + "",
 						extras: {
-							InfoId:this.getAttribute("id")
+							InfoId: this.getAttribute("id")
 						},
 						show: {
 							aniShow: 'pop-in'
@@ -249,7 +266,13 @@
 				});
 
 				document.getElementById("search").addEventListener('tap', function(event) {
-					mui.toast('开发中...')
+					mui.openWindow({
+						url: 'information_more_search.html',
+						id: Math.random() + "",
+						show: {
+							aniShow: 'pop-in'
+						}
+					});
 				});
 
 				mui('.mui-scroll-wrapper').scroll();

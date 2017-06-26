@@ -40,7 +40,7 @@
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="javascript:void(0)" id="flowmanager_catalog.html">
 						<img src="../img/icon_3.png" class="img" />
-						<div class="mui-media-body">待办事宜</div>
+						<div class="mui-media-body">待办事项</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -199,7 +199,11 @@
 				try {
 					var newVer = resp.newversion;
 					if((newVer - 0) > (VersionCode - 0)) {
-						plus.runtime.openURL(FIR_LINK);
+						mui.confirm('有新版本需要立即更新吗？', '检测到新版本', ['取消', '确认'], function(e) {
+							if(e.index == 1) {
+								plus.runtime.openURL(FIR_LINK);
+							}
+						})
 					}
 				} catch(e) {
 					console.log(e);

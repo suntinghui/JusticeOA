@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>待办事宜</title>
+		<title>待办事项</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 
@@ -44,7 +44,7 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;">待办事宜</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;">待办事项</h1>
 		</header>
 
 		<footer class="mui-bar mui-bar-footer" id="pager">
@@ -299,7 +299,6 @@
 					window.addEventListener('refresh', function(event) {
 						//获得事件参数
 						var refresh = event.detail.refresh;
-						console.log('+++++++++++' + refresh);
 						if(refresh) {
 							requestList();
 						}

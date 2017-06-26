@@ -116,9 +116,16 @@
 			function requestList() {
 				checkNetwork();
 
+				var wait;
+
 				mui.plusReady(function() {
-					plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
+					wait = plus.nativeUI.showWaiting("正在加载..."); //这里是开始显示原生等待框
 				});
+
+				// 鉴于时常报关不掉的问题， 所以设置为3秒后自动关闭 
+				setTimeout(function() {
+					wait.close();
+				}, 3000);
 
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
@@ -146,19 +153,11 @@
 						'Content-Type': 'application/json'
 					},
 					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
 						//console.log(JSON.stringify(data));
 
 						responseList(data);
 					},
 					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
-
 						mui.alert(getHttpErrorDesp(type), "提示", null);
 					}
 				});

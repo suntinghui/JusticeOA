@@ -178,7 +178,7 @@
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						li.id = i + '';
-						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.DispatchUnit + '</p><p class="mui-ellipsis item-address">发文时间：' + record.CreateDate + '</p></div></div>';
+						li.innerHTML = '<div class="mui-table mui-navigate-right "><div class="mui-table-cell mui-col-xs-11"><p class="mui-ellipsis item-title">' + record.FlowTitle + '</p><p class="mui-ellipsis item-time">发文单位：' + record.DispatchUnit + '</p><p class="mui-ellipsis item-address">办毕时间：' + record.FinishDate + '</p></div></div>';
 						fragment.appendChild(li);
 					}
 					list.appendChild(fragment);
@@ -204,6 +204,9 @@
 				}
 
 				mui('#list').on('tap', 'li', function(e) {
+					var Title = ListRecord[this.getAttribute('id')].FlowTitle;
+					var InstanceId = ListRecord[this.getAttribute('id')].InstanceId;
+
 					mui.plusReady(function() {
 						var page = plus.webview.currentWebview();
 
@@ -218,8 +221,8 @@
 								title: '正在加载...',
 							},
 							extras: {
-								'Title': ListRecord[this.getAttribute('id')].FlowTitle,
-								'InstanceId': ListRecord[this.getAttribute('id')].InstanceId,
+								'Title': Title,
+								'InstanceId': InstanceId,
 								'browModel': '0',
 								'listWebViewId': page.id
 							}
@@ -227,11 +230,11 @@
 
 					})
 				});
-				
+
 				window.addEventListener('refresh', function(event) {
 					var needRefresh = event.detail.needRefresh;
 					console.log('needRefresh: ' + needRefresh);
-					if (needRefresh) {
+					if(needRefresh) {
 						requestList();
 					}
 				});

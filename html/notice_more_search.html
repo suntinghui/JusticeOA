@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>通知搜索</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style type="text/css">
+			body {
+				padding: 20px 10px;
+			}
+			
+			#searchBtn {
+				background-color: orange;
+				margin-top: 30px;
+				border: hidden;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				font-size: 17px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">通知搜索</h1>
+		</header>
+
+		<div class="mui-content">
+			<h5 class="mui-plus-visible">标题：</h5>
+			<div class="mui-input-row mui-plus-visible">
+				<input id="titleInput" type="text" class="mui-input-speech mui-input-clear" placeholder="请输入标题关键字">
+			</div>
+
+			<h5 class="mui-plus-visible">开始时间：</h5>
+			<div class="mui-input-row mui-search">
+				<input id="startDateInput" type="date" class="mui-input-clear">
+			</div>
+
+			<h5 class="mui-plus-visible">结束时间：</h5>
+			<div class="mui-input-row mui-search">
+				<input id="endDateInput" type="date" class="mui-input-clear">
+			</div>
+
+			<button id='searchBtn' class="mui-btn mui-btn-block mui-btn-primary">搜&nbsp;&nbsp;&nbsp;索</button>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			var titleInput = document.getElementById('titleInput');
+			var startDateInput = document.getElementById('startDateInput');
+			var endDateInput = document.getElementById('endDateInput');
+			var searchBtn = document.getElementById('searchBtn');
+
+			searchBtn.addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'notice_more_list.html',
+					id: Math.random() + "",
+					extras: {
+						searchFlag: 'search',
+						NoticeTitle: titleInput.value,
+						SearchStartDate: startDateInput.value,
+						SearchEndDate: endDateInput.value
+					},
+					show: {
+						aniShow: 'pop-in'
+					}
+				});
+			}, false);
+		</script>
+	</body>
+
+</html>
