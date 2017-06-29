@@ -83,13 +83,19 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				mui.init({
+					beforeback: function() {
+						var catalog = plus.webview.getWebviewById("report_catalog.html");
+						mui.fire(catalog, 'requestBadge');
+						return true;
+					}
+				});
+				
 				var ListRecord = null;
 
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
-
-				mui.init();
 
 				window.onload = function() {
 					requestList();
@@ -272,16 +278,6 @@
 
 				mui('.mui-scroll-wrapper').scroll();
 
-				mui.plusReady(function() {
-					window.addEventListener('refresh', function(event) {
-						//获得事件参数
-						var refresh = event.detail.refresh;
-						if(refresh) {
-							requestList();
-						}
-					});
-
-				}); // end
 			</script>
 	</body>
 

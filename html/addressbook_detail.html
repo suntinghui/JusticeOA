@@ -49,12 +49,6 @@
 					</li>
 					<li class="mui-table-view-cell">
 						<div class="listdiv">
-							<span class="title">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门：</span>
-							<span class="value" id="dept"></span>
-						</div>
-					</li>
-					<li class="mui-table-view-cell">
-						<div class="listdiv">
 							<span class="title">办公电话：</span>
 							<span class="value" id="jobtel"></span>
 							<img class="img" src="../img/img_jobtel.png"></span>
@@ -139,7 +133,6 @@
 
 			function responseDetail(resp) {
 				document.getElementById('name').innerText = formatValue(resp.BelongUserName);
-				document.getElementById('dept').innerText = formatValue(resp.BelongDepName);
 				document.getElementById('telphone').innerText = formatValue(resp.ContactNumber);
 				document.getElementById('jobtel').innerText = formatValue(resp.OfficeNum);
 				document.getElementById('fax').innerText = formatValue(resp.FaxNumber);

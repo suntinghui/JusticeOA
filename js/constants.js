@@ -31,7 +31,7 @@ var SavePwd = 'SavePwd';
 var CheckSavePwd = 'CheckSavePwd';
 var CheckAutoLogin = 'CheckAutoLogin';
 
-var VersionName = '1.7';
-var VersionCode = '17';
+var VersionName = '1.8';
+var VersionCode = '18';
 
 var FIR_LINK = 'https://fir.im/73zr';

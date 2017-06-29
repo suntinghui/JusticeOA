@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>顺义司法局移动办公平台</title>
+		<title>移动办公平台</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 
@@ -152,97 +152,95 @@
 
 				mui.plusReady(function() {
 					plus.nativeUI.showWaiting("正在登录...");
+
+					var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + plus.device.uuid;
+					var url = getHost() + "Identity.ashx?Commond=AppLogin" + argus;
+					console.log(url);
+
+					mui.ajax(url, {
+						dataType: 'json',
+						type: 'get',
+						timeout: TIMEOUT,
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							plus.nativeUI.closeWaiting();
+
+							responseLogin(data);
+						},
+						error: function(xhr, type, errorThrown) {
+							plus.nativeUI.closeWaiting();
+
+							mui.alert(getHttpErrorDesp(type), "提示", null);
+						}
+					});
 				});
 
-				var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + "123456";
-				var url = getHost() + "Identity.ashx?Commond=AppLogin" + argus;
-				mui.ajax(url, {
-					dataType: 'json',
-					type: 'get',
-					timeout: TIMEOUT,
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
+			} // end loginReq
 
-						responseLogin(data);
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.plusReady(function() {
-							plus.nativeUI.closeWaiting(); //这里监听页面是否加载完毕，完成后关闭等待框
-						});
+			function responseLogin(resp) {
+				console.log('登录响应：' + JSON.stringify(resp));
 
-						mui.alert(getHttpErrorDesp(type), "提示", null);
-					}
-				});
+				switch(resp.LoginResult - 0) {
+					case 0:
+						// 保存用户信息
+						window.localStorage.setItem(TokenKey, resp.TokenKey);
+						window.localStorage.setItem(UserName, resp.UserName);
 
-				function responseLogin(resp) {
-					console.log('登录响应：' + JSON.stringify(resp));
+						// 保存登录用户名
+						window.localStorage.setItem(SaveUserName, userNameText.value);
+						window.localStorage.setItem(CheckSavePwd, savepwd.checked);
+						window.localStorage.setItem(CheckAutoLogin, autologin.checked);
+						if(savepwd.checked) {
+							window.localStorage.setItem(SavePwd, passwordText.value);
+						} else {
+							window.localStorage.setItem(SavePwd, '');
+						}
 
-					switch(resp.LoginResult - 0) {
-						case 0:
-							// 保存用户信息
-							window.localStorage.setItem(TokenKey, resp.TokenKey);
-							window.localStorage.setItem(UserName, resp.UserName);
-
-							// 保存登录用户名
-							window.localStorage.setItem(SaveUserName, userNameText.value);
-							window.localStorage.setItem(CheckSavePwd, savepwd.checked);
-							window.localStorage.setItem(CheckAutoLogin, autologin.checked);
-							if(savepwd.checked) {
-								window.localStorage.setItem(SavePwd, passwordText.value);
-							} else {
-								window.localStorage.setItem(SavePwd, '');
+						mui.openWindow({
+							url: 'catalog.html',
+							id: "catalog.html", // 该id在刷新上有使用，不可更改
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: true, //自动显示等待框，默认为true
+								title: '正在登录...',
 							}
+						});
+						break;
 
-							mui.openWindow({
-								url: 'catalog.html',
-								id: Math.random() + "",
-								preload: true,
-								show: {
-									aniShow: 'pop-in'
-								},
-								waiting: {
-									autoShow: true, //自动显示等待框，默认为true
-									title: '正在登录...',
-								}
-							});
-							break;
+					case 1:
+						mui.alert("账户不存在", "提示", null);
+						break;
 
-						case 1:
-							mui.alert("账户不存在", "提示", null);
-							break;
+					case 2:
+						mui.alert("密码错误", "提示", null);
+						break;
 
-						case 2:
-							mui.alert("密码错误", "提示", null);
-							break;
+					case 3:
+						mui.alert("没有移动办公权限", "提示", null);
+						break;
 
-						case 3:
-							mui.alert("没有移动办公权限", "提示", null);
-							break;
+					case 4:
+						mui.alert("无效的移动端设备", "提示", null);
+						break;
 
-						case 4:
-							mui.alert("无效的移动端设备", "提示", null);
-							break;
+					case 5:
+						mui.alert("设备与账号不匹配", "提示", null);
+						break;
 
-						case 5:
-							mui.alert("设备与账号不匹配", "提示", null);
-							break;
+					case 6:
+						mui.alert("该设备已被禁用", "提示", null);
+						break;
 
-						case 6:
-							mui.alert("该设备已被禁用", "提示", null);
-							break;
-
-						default:
-							mui.alert("登录失败，未知异常", "提示", null);
-							break;
-					}
+					default:
+						mui.alert("登录失败，未知异常", "提示", null);
+						break;
 				}
-
-			};
+			}
 
 			mui('#autologinDiv').on('change', 'input', function() {
 				autoLoginCheck(this.checked);

@@ -83,11 +83,19 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				mui.init({
+				beforeback: function() {
+					var catalog = plus.webview.getWebviewById("meeting_catalog.html");
+					mui.fire(catalog, 'requestBadge');
+					return true;
+				}
+			});
+				
+				
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
 
-				mui.init();
 
 				window.onload = function() {
 					requestList();

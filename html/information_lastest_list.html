@@ -83,11 +83,17 @@
 			<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
 
 			<script type="text/javascript">
+				mui.init({
+					beforeback: function() {
+						var catalog = plus.webview.getWebviewById("information_catalog.html");
+						mui.fire(catalog, 'requestBadge');
+						return true;
+					}
+				});
+
 				var currentPage = 1; // 当前页码
 				var totalRecord = 0; // 数据总条数
 				var totalPages = 1; // 总页数
-
-				mui.init();
 
 				window.onload = function() {
 					requestList();
@@ -149,11 +155,10 @@
 				};
 
 				function responseList(resp) {
-					if (resp.ListRecord.length == 0) {
+					if(resp.ListRecord.length == 0) {
 						mui.toast('没有查询到数据');
 					}
-					
-					
+
 					totalRecord = resp.PageInfo.TotalRecordSize;
 					totalPages = Math.ceil(totalRecord / PAGE_SIZE);
 					if(totalRecord == 0) {
