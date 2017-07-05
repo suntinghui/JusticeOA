@@ -170,7 +170,8 @@
       "img/icon_6.png",
       "img/icon_7.png",
       "img/icon_8.png",
-      "img/icon_9.png"
+      "img/icon_9.png",
+      "js/badge.js"
     ],
     "refer": [
       "html/login.html",

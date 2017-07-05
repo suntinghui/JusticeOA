@@ -16,6 +16,14 @@
 				top: 20px;
 			}
 			
+			.bind {
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				left: 20px;
+				top: 20px;
+			}
+			
 			.content-div {
 				background-color: #008FF7;
 				padding: 5%;
@@ -50,6 +58,8 @@
 
 		<!--所有的页面程序必须写在该div里-->
 		<div class="mui-content" style="position: relative;">
+
+			<img src="../img/bindsetting.png" class="bind" id="bindDevice" />
 
 			<img src="../img/ip.png" class="ip" id="setIp" />
 
@@ -88,6 +98,7 @@
 		<script type="text/javascript">
 			mui.init();
 
+			var bindDevice = document.getElementById('bindDevice');
 			var setIp = document.getElementById('setIp');
 			var userNameText = document.getElementById("userNameText");
 			var passwordText = document.getElementById("passwordText");
@@ -108,6 +119,17 @@
 					window.setTimeout(loginReq, 2000);
 				}
 			};
+
+			bindDevice.addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'bindDevice.html',
+					id: "bindDevice.html",
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					}
+				});
+			}, false);
 
 			setIp.addEventListener('tap', function(e) {
 				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
@@ -153,7 +175,9 @@
 				mui.plusReady(function() {
 					plus.nativeUI.showWaiting("正在登录...");
 
-					var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + plus.device.uuid;
+					var pushInfo = plus.push.getClientInfo();
+
+					var argus = "&loginName=" + userNameText.value + "&loginPwd=" + passwordText.value + "&deviceId=" + plus.device.uuid + "&clientid=" + pushInfo.clientid;
 					var url = getHost() + "Identity.ashx?Commond=AppLogin" + argus;
 					console.log(url);
 
@@ -257,7 +281,7 @@
 					savepwd.disabled = '';
 					savepwdDiv.classList.remove('mui-disabled');
 				}
-			}
+			};
 		</script>
 
 	</body>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>设备绑定</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.text {
+				color: red;
+				margin: 20px 15px;
+				line-height: 20px;
+			}
+			
+			.button {
+				margin-top: 20px;
+				width: 80%;
+			}
+			
+			.respCode {
+				margin-top: 40px;
+				color: red;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #008FF7;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">设备绑定</h1>
+			<a id="selMonth" href="javascript:void(0)" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: #FFFFFF;"></a>
+		</header>
+
+		<div class="mui-content">
+			<h4 class="text">此页面仅供管理员使用！</h4>
+
+			<h5 class="text">管理员点击'绑定设备'按纽后，应用会自动将设备ID发送至服务器，服务器收到请求后会返回6位数字验证码，管理员可根据验证码在后台管理系统中查找该设备的相关信息，以完成设备绑定。</h5>
+			
+			<h5 class="text">验证码有效期为30分钟。</h5>
+
+			<div style="text-align: center;">
+
+				<button id="bindDeviceBtn" type="button" class="mui-btn mui-btn-danger button">
+					绑定设备
+				</button>
+
+				<h2 id="respCode" class="respCode"></h2>
+
+			</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/constants.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			mui.init();
+
+			document.getElementById('bindDeviceBtn').addEventListener('tap', function() {
+				document.getElementById('respCode').innerHTML = '';
+				
+				requestBindDevice();
+			}, false);
+
+			function requestBindDevice() {
+				checkNetwork();
+
+				mui.plusReady(function() {
+					plus.nativeUI.showWaiting("正在加载...");
+
+					var pushInfo = plus.push.getClientInfo();
+					var url = getHost() + "Identity.ashx?Commond=AddDeviceReg&clientid=" + pushInfo.clientid;
+					console.log(url);
+					mui.ajax(url, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'get', //HTTP请求类型
+						timeout: TIMEOUT, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							plus.nativeUI.closeWaiting();
+
+							console.log(JSON.stringify(data));
+
+							responseBindDevice(data);
+						},
+						error: function(xhr, type, errorThrown) {
+							document.getElementById('respCode').innerHTML = '请求失败';
+							
+							plus.nativeUI.closeWaiting();
+
+							mui.alert(getHttpErrorDesp(type), "提示", null);
+						}
+					});
+
+				})
+			};
+
+			function responseBindDevice(resp) {
+				document.getElementById('respCode').innerHTML = resp;
+			};
+		</script>
+	</body>
+
+</html>
