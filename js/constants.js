@@ -1,5 +1,5 @@
-// http://103.43.185.166:8066/MobileOffice/
-var DEFAULT_HOST = '103.43.185.166:8066';
+//var DEFAULT_HOST = '103.43.185.166:8066';
+var DEFAULT_HOST = '218.246.86.126';
 
 function getLocalStoreageHost() {
 	var host = window.localStorage.getItem(SET_HOST);
@@ -31,7 +31,7 @@ var SavePwd = 'SavePwd';
 var CheckSavePwd = 'CheckSavePwd';
 var CheckAutoLogin = 'CheckAutoLogin';
 
-var VersionName = '1.9';
-var VersionCode = '19';
+var VersionName = '1.9.3';
+var VersionCode = '193';
 
 var FIR_LINK = 'https://fir.im/73zr';

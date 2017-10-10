@@ -8,6 +8,7 @@
 		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/parse.css" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" />
 
 		<style>
 			body {
@@ -234,7 +235,7 @@
 					plus.nativeUI.showWaiting("正在加载...");
 				});
 
-				var url = getHost() + 'WorkFlow.ashx?Commond=GetAttList&busId=' + InstanceId;
+				var url = getHost() + 'ATTManager.ashx?Commond=GetAttList&busId=' + InstanceId;
 				mui.ajax(url, {
 					dataType: 'json', //服务器返回json格式数据
 					type: 'get', //HTTP请求类型
@@ -261,11 +262,11 @@
 				});
 			}
 
-			function responseAtt(resp) {
+			function responseAtt(data) {
 				var noatt = document.getElementById('noatt');
 				var attul = document.getElementById('attul');
 
-				if(isNullStr(resp)) {
+				if(isNullStr(data)) {
 					noatt.style.display = 'none';
 					attul.style.display = 'none';
 

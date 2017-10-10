@@ -880,7 +880,7 @@ function event06(valuediv, Control) {
 
 	var userPicker = new mui.PopPicker();
 	userPicker.setData(data);
-	userPicker.pickers[0].setSelectedValue(valuediv.selectedOption.Value, 1000);
+//	userPicker.pickers[0].setSelectedValue(valuediv.selectedOption.Value, 1000);
 
 	userPicker.show(function(selectItems) {
 		valuediv.selectedOption = {

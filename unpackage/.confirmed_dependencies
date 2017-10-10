@@ -28,7 +28,8 @@
       "fonts/mui.ttf"
     ],
     "refer": [
-      "html/meeting_detail.html"
+      "html/meeting_detail.html",
+      "html/meeting_catalog.html"
     ],
     "priority": 0
   },
@@ -42,7 +43,8 @@
       "fonts/mui.ttf"
     ],
     "refer": [
-      "html/meeting_detail.html"
+      "html/meeting_detail.html",
+      "html/meeting_more_search.html"
     ],
     "priority": 0
   },
@@ -53,11 +55,15 @@
       "js/mui.min.js",
       "img/icon_11.png",
       "img/icon_12.png",
-      "fonts/mui.ttf"
+      "fonts/mui.ttf",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ],
     "refer": [
       "html/meeting_lastest_list.html",
-      "html/meeting_more_list.html"
+      "html/meeting_more_list.html",
+      "html/catalog.html"
     ],
     "priority": 0
   },
@@ -71,7 +77,8 @@
       "fonts/mui.ttf"
     ],
     "refer": [
-      "html/todofile_detail.html"
+      "html/todofile_detail.html",
+      "html/todofile_catalog.html"
     ],
     "priority": 0
   },
@@ -85,7 +92,8 @@
       "fonts/mui.ttf"
     ],
     "refer": [
-      "html/todofile_detail.html"
+      "html/todofile_detail.html",
+      "html/todofile_history_search.html"
     ],
     "priority": 0
   },
@@ -96,11 +104,15 @@
       "js/mui.min.js",
       "img/icon_21.png",
       "img/icon_22.png",
-      "fonts/mui.ttf"
+      "fonts/mui.ttf",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ],
     "refer": [
       "html/todofile_lastest_list.html",
-      "html/todofile_history_list.html"
+      "html/todofile_history_list.html",
+      "html/catalog.html"
     ],
     "priority": 0
   },
@@ -123,7 +135,8 @@
     ],
     "refer": [
       "html/report_detail.html",
-      "html/todoread_detail.html"
+      "html/todoread_detail.html",
+      "html/todoread_catalog.html"
     ],
     "priority": 0
   },
@@ -136,7 +149,8 @@
       "js/util.js"
     ],
     "refer": [
-      "html/todoread_detail.html"
+      "html/todoread_detail.html",
+      "html/todoread_history_search.html"
     ],
     "priority": 0
   },
@@ -147,11 +161,15 @@
       "js/mui.min.js",
       "img/icon_51.png",
       "img/icon_52.png",
-      "fonts/mui.ttf"
+      "fonts/mui.ttf",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ],
     "refer": [
       "html/todoread_lastest_list.html",
-      "html/todoread_history_list.html"
+      "html/todoread_history_list.html",
+      "html/catalog.html"
     ],
     "priority": 0
   },
@@ -199,10 +217,18 @@
       "js/constants.js",
       "js/util.js",
       "img/ip.png",
-      "fonts/mui.ttf"
+      "fonts/mui.ttf",
+      "img/bindsetting.png",
+      "img/format_pdf.png",
+      "img/format_html.png",
+      "img/format_att.png",
+      "img/format_excel.png",
+      "img/format_word.png"
     ],
     "refer": [
-      "html/catalog.html"
+      "html/catalog.html",
+      "html/showHTML.html",
+      "html/bindDevice.html"
     ],
     "priority": 0
   },
@@ -220,10 +246,12 @@
       "js/mui.picker.min.js",
       "js/parse.js",
       "img/format_word.png",
-      "img/format_pdf.png"
+      "img/format_pdf.png",
+      "css/mui.poppicker.css"
     ],
     "refer": [
-      "html/userlist.html"
+      "html/userlist.html",
+      "html/deptlist.html"
     ]
   },
   "html/duty.html": {
@@ -236,7 +264,8 @@
       "js/echarts.min.js",
       "js/echarts.js",
       "js/mui.picker.min.js",
-      "css/mui.picker.min.css"
+      "css/mui.picker.min.css",
+      "css/mui.poppicker.css"
     ],
     "refer": []
   },
@@ -249,7 +278,8 @@
       "js/mui.min.js",
       "css/mui.min.css",
       "css/mui.indexedlist.css",
-      "js/mui.indexedlist.js"
+      "js/mui.indexedlist.js",
+      "img/nodata.png"
     ],
     "refer": [
       "html/addressbook_detail.html"
@@ -261,17 +291,22 @@
       "fonts/mui.ttf",
       "img/icon_12.png",
       "js/mui.min.js",
-      "css/mui.min.css"
+      "css/mui.min.css",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ],
     "refer": [
       "html/report_more_list.html",
       "html/userlist.html",
-      "html/report_lastest_list.html"
+      "html/report_lastest_list.html",
+      "html/catalog.html"
     ]
   },
   "html/report_more_list.html": {
     "refer": [
-      "html/report_detail.html"
+      "html/report_detail.html",
+      "html/report_more_search.html"
     ],
     "resources": [
       "js/util.js",
@@ -307,7 +342,8 @@
       "css/mui.min.css",
       "js/mui.picker.min.js",
       "css/mui.picker.min.css",
-      "img/format_word.png"
+      "img/format_word.png",
+      "css/mui.poppicker.css"
     ],
     "refer": [
       "html/userlist.html"
@@ -315,7 +351,8 @@
   },
   "html/report_lastest_list.html": {
     "refer": [
-      "html/report_detail.html"
+      "html/report_detail.html",
+      "html/report_catalog.html"
     ],
     "resources": [
       "js/util.js",
@@ -328,12 +365,18 @@
   "html/flowmanager_catalog.html": {
     "refer": [
       "html/flowmanager_history_list.html",
-      "html/flowmanager_lastest_list.html"
+      "html/flowmanager_lastest_list.html",
+      "html/catalog.html"
     ],
     "resources": [
       "img/icon_21.png",
       "img/icon_22.png",
-      "fonts/mui.ttf"
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/badge.js"
     ]
   },
   "html/flowmanager_history_list.html": {
@@ -345,7 +388,8 @@
       "css/mui.min.css"
     ],
     "refer": [
-      "html/flowmanager_detail.html"
+      "html/flowmanager_detail.html",
+      "html/flowmanager_history_search.html"
     ]
   },
   "html/flowmanager_lastest_list.html": {
@@ -357,7 +401,8 @@
       "css/mui.min.css"
     ],
     "refer": [
-      "html/flowmanager_detail.html"
+      "html/flowmanager_detail.html",
+      "html/flowmanager_catalog.html"
     ]
   },
   "html/todoread_detail.html": {
@@ -371,7 +416,8 @@
       "js/mui.min.js",
       "fonts/mui.ttf",
       "css/mui.min.css",
-      "img/format_word.png"
+      "img/format_word.png",
+      "css/mui.poppicker.css"
     ],
     "refer": [
       "html/userlist.html"
@@ -399,22 +445,30 @@
     ],
     "refer": [
       "html/userlist.html",
-      "html/feedback.html"
+      "html/feedback.html",
+      "html/login.html"
     ]
   },
   "html/information_catalog.html": {
     "refer": [
       "html/information_more_list.html",
-      "html/information_lastest_list.html"
+      "html/information_lastest_list.html",
+      "html/catalog.html"
     ],
     "resources": [
       "img/icon_11.png",
-      "img/icon_12.png"
+      "img/icon_12.png",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ]
   },
   "html/information_more_list.html": {
     "refer": [
-      "html/information_detail.html"
+      "html/information_detail.html",
+      "html/information_more_search.html"
     ],
     "resources": [
       "js/util.js",
@@ -444,25 +498,38 @@
       "fonts/mui.ttf",
       "css/mui.min.css",
       "css/mui.picker.min.css",
-      "js/parse.js"
+      "js/parse.js",
+      "css/mui.poppicker.css"
     ],
     "refer": []
   },
   "html/notice_catalog.html": {
     "refer": [
       "html/notice_more_list.html",
-      "html/notice_lastest_list.html"
+      "html/notice_lastest_list.html",
+      "html/catalog.html"
     ],
     "resources": [
       "img/icon_11.png",
-      "img/icon_12.png"
+      "img/icon_12.png",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
     ]
   },
   "html/notice_more_list.html": {
     "refer": [
-      "html/notice_detail.html"
+      "html/notice_detail.html",
+      "html/notice_more_search.html"
     ],
-    "resources": []
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ]
   },
   "html/notice_detail.html": {
     "resources": [
@@ -477,22 +544,36 @@
   },
   "html/notice_lastest_list.html": {
     "refer": [
-      "html/notice_detail.html"
+      "html/notice_detail.html",
+      "html/notice_catalog.html"
     ],
-    "resources": []
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ]
   },
   "html/addressbook_detail.html": {
     "resources": [
       "img/img_jobtel.png",
       "img/img_email.png",
       "img/img_telphone.png",
-      "img/img_fax.png"
+      "img/img_fax.png",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
     ],
     "refer": []
   },
   "html/information_detail.html": {
     "resources": [
-      "img/format_pdf.png"
+      "img/format_pdf.png",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
     ],
     "refer": []
   },
@@ -503,5 +584,107 @@
       "css/mui.min.css"
     ],
     "refer": []
+  },
+  "html/meeting_more_search.html": {
+    "href": "html/meeting_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/meeting_more_list.html"
+    ],
+    "priority": 0
+  },
+  "html/todofile_history_search.html": {
+    "href": "html/todofile_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/todofile_history_list.html"
+    ],
+    "priority": 0
+  },
+  "html/flowmanager_history_search.html": {
+    "href": "html/flowmanager_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/flowmanager_history_list.html"
+    ],
+    "priority": 0
+  },
+  "html/notice_more_search.html": {
+    "href": "html/notice_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/notice_more_list.html"
+    ],
+    "priority": 0
+  },
+  "html/todoread_history_search.html": {
+    "href": "html/todoread_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/todoread_history_list.html"
+    ],
+    "priority": 0
+  },
+  "html/report_more_search.html": {
+    "href": "html/report_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/report_more_list.html"
+    ],
+    "priority": 0
+  },
+  "html/information_lastest_list.html": {
+    "href": "html/information_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/information_detail.html",
+      "html/information_catalog.html"
+    ],
+    "priority": 0
+  },
+  "html/information_more_search.html": {
+    "href": "html/information_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/information_more_list.html"
+    ],
+    "priority": 0
+  },
+  "html/bindDevice.html": {
+    "href": "html/bindDevice.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [],
+    "priority": 0
   }
 }

@@ -1,1 +1,411 @@
-null
+{
+  "html/setting.html": {
+    "href": "html/setting.html",
+    "resources": [],
+    "refer": [
+      "html/login.html"
+    ],
+    "priority": 2
+  },
+  "html/meeting_lastest_list.html": {
+    "href": "html/meeting_lastest_list.html",
+    "resources": [],
+    "refer": [
+      "html/meeting_catalog.html"
+    ],
+    "priority": 4
+  },
+  "html/meeting_more_search.html": {
+    "href": "html/meeting_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/meeting_more_list.html"
+    ],
+    "priority": 5
+  },
+  "html/meeting_more_list.html": {
+    "href": "html/meeting_more_list.html",
+    "resources": [],
+    "refer": [
+      "html/meeting_more_search.html"
+    ],
+    "priority": 5
+  },
+  "html/meeting_catalog.html": {
+    "href": "html/meeting_catalog.html",
+    "resources": [
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 3
+  },
+  "html/todofile_detail.html": {
+    "href": "html/todofile_detail.html",
+    "resources": [
+      "css/mui.poppicker.css"
+    ],
+    "refer": [
+      "html/deptlist.html"
+    ],
+    "priority": 5
+  },
+  "html/todofile_lastest_list.html": {
+    "href": "html/todofile_lastest_list.html",
+    "resources": [],
+    "refer": [
+      "html/todofile_catalog.html"
+    ],
+    "priority": 5
+  },
+  "html/todofile_history_search.html": {
+    "href": "html/todofile_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/todofile_history_list.html"
+    ],
+    "priority": 7
+  },
+  "html/todofile_history_list.html": {
+    "href": "html/todofile_history_list.html",
+    "resources": [],
+    "refer": [
+      "html/todofile_history_search.html"
+    ],
+    "priority": 6
+  },
+  "html/todofile_catalog.html": {
+    "href": "html/todofile_catalog.html",
+    "resources": [
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 4
+  },
+  "html/flowmanager_detail.html": {
+    "href": "html/flowmanager_detail.html",
+    "resources": [
+      "css/mui.poppicker.css"
+    ],
+    "priority": 7
+  },
+  "html/flowmanager_lastest_list.html": {
+    "href": "html/flowmanager_lastest_list.html",
+    "resources": [],
+    "refer": [
+      "html/flowmanager_catalog.html"
+    ],
+    "priority": 6
+  },
+  "html/flowmanager_history_search.html": {
+    "href": "html/flowmanager_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/flowmanager_history_list.html"
+    ],
+    "priority": 7
+  },
+  "html/flowmanager_history_list.html": {
+    "href": "html/flowmanager_history_list.html",
+    "resources": [],
+    "refer": [
+      "html/flowmanager_history_search.html"
+    ],
+    "priority": 7
+  },
+  "html/flowmanager_catalog.html": {
+    "href": "html/flowmanager_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/util.js",
+      "js/constants.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 5
+  },
+  "html/notice_lastest_list.html": {
+    "href": "html/notice_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/notice_catalog.html"
+    ],
+    "priority": 7
+  },
+  "html/notice_more_search.html": {
+    "href": "html/notice_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/notice_more_list.html"
+    ],
+    "priority": 9
+  },
+  "html/notice_more_list.html": {
+    "href": "html/notice_more_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/notice_more_search.html"
+    ],
+    "priority": 8
+  },
+  "html/notice_catalog.html": {
+    "href": "html/notice_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 6
+  },
+  "html/todoread_detail.html": {
+    "href": "html/todoread_detail.html",
+    "resources": [
+      "css/mui.poppicker.css"
+    ],
+    "priority": 9
+  },
+  "html/todoread_lastest_list.html": {
+    "href": "html/todoread_lastest_list.html",
+    "resources": [],
+    "refer": [
+      "html/todoread_catalog.html"
+    ],
+    "priority": 8
+  },
+  "html/todoread_history_search.html": {
+    "href": "html/todoread_history_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/todoread_history_list.html"
+    ],
+    "priority": 9
+  },
+  "html/todoread_history_list.html": {
+    "href": "html/todoread_history_list.html",
+    "resources": [],
+    "refer": [
+      "html/todoread_history_search.html"
+    ],
+    "priority": 9
+  },
+  "html/todoread_catalog.html": {
+    "href": "html/todoread_catalog.html",
+    "resources": [
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 7
+  },
+  "html/report_detail.html": {
+    "href": "html/report_detail.html",
+    "resources": [
+      "css/mui.poppicker.css"
+    ],
+    "priority": 10
+  },
+  "html/report_lastest_list.html": {
+    "href": "html/report_lastest_list.html",
+    "resources": [],
+    "refer": [
+      "html/report_catalog.html"
+    ],
+    "priority": 9
+  },
+  "html/report_more_search.html": {
+    "href": "html/report_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/report_more_list.html"
+    ],
+    "priority": 10
+  },
+  "html/report_more_list.html": {
+    "href": "html/report_more_list.html",
+    "resources": [],
+    "refer": [
+      "html/report_more_search.html"
+    ],
+    "priority": 10
+  },
+  "html/report_catalog.html": {
+    "href": "html/report_catalog.html",
+    "resources": [
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 8
+  },
+  "html/information_detail.html": {
+    "href": "html/information_detail.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "priority": 10
+  },
+  "html/information_lastest_list.html": {
+    "href": "html/information_lastest_list.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "refer": [
+      "html/information_detail.html",
+      "html/information_catalog.html"
+    ],
+    "priority": 10
+  },
+  "html/information_more_search.html": {
+    "href": "html/information_more_search.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "html/information_more_list.html"
+    ],
+    "priority": 12
+  },
+  "html/information_more_list.html": {
+    "href": "html/information_more_list.html",
+    "resources": [],
+    "refer": [
+      "html/information_more_search.html"
+    ],
+    "priority": 11
+  },
+  "html/information_catalog.html": {
+    "href": "html/information_catalog.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js",
+      "js/badge.js"
+    ],
+    "refer": [
+      "html/catalog.html"
+    ],
+    "priority": 9
+  },
+  "html/duty.html": {
+    "href": "html/duty.html",
+    "resources": [
+      "css/mui.poppicker.css"
+    ],
+    "priority": 10
+  },
+  "html/addressbook_detail.html": {
+    "href": "html/addressbook_detail.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "priority": 11
+  },
+  "html/addressbook_list.html": {
+    "href": "html/addressbook_list.html",
+    "resources": [
+      "img/nodata.png"
+    ],
+    "refer": [],
+    "priority": 11
+  },
+  "html/bindDevice.html": {
+    "href": "html/bindDevice.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "js/constants.js",
+      "js/util.js"
+    ],
+    "priority": 2
+  },
+  "html/login.html": {
+    "href": "html/login.html",
+    "resources": [
+      "img/format_pdf.png",
+      "img/format_html.png",
+      "img/format_att.png",
+      "img/format_excel.png",
+      "img/format_word.png"
+    ],
+    "refer": [
+      "html/showHTML.html",
+      "html/bindDevice.html"
+    ],
+    "priority": 0
+  }
+}
